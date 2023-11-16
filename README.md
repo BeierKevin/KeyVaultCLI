@@ -1,5 +1,3 @@
-Inspirad by: https://github.com/jasontaylordev/CleanArchitecture
-
 # KeyVaultCLI
 
 Key Vault CLI (*kvc*) is a command line interface password manager developed in C#. This open-source project helps you

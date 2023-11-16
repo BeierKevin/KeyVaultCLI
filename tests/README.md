@@ -1,1 +1,3 @@
-﻿Unit Tests and more will be in here
+﻿# Tests
+
+This folder will contain all the tests for the project.
