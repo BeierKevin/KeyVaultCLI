@@ -1,12 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "src\Domain\Domain.csproj", "{F97ED797-EAC6-460F-B8EC-409ACF424CDC}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "src\Application\Application.csproj", "{22B970BC-3540-4928-8AE1-0E9EAF024612}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "src\Infrastructure\Infrastructure.csproj", "{EE3E70D6-7854-48E6-AE7A-15C7BABEF5D0}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CLI", "src\CLI\CLI.csproj", "{D463F014-12E5-4CEE-8B09-46D0AEF7226C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KeyVaultCli", "src\KeyVaultCli\KeyVaultCli.csproj", "{D463F014-12E5-4CEE-8B09-46D0AEF7226C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -18,18 +12,6 @@ Global
 		{CF842220-B59A-4E35-A340-8567E067BCEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CF842220-B59A-4E35-A340-8567E067BCEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CF842220-B59A-4E35-A340-8567E067BCEF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F97ED797-EAC6-460F-B8EC-409ACF424CDC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F97ED797-EAC6-460F-B8EC-409ACF424CDC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F97ED797-EAC6-460F-B8EC-409ACF424CDC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F97ED797-EAC6-460F-B8EC-409ACF424CDC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{22B970BC-3540-4928-8AE1-0E9EAF024612}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{22B970BC-3540-4928-8AE1-0E9EAF024612}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{22B970BC-3540-4928-8AE1-0E9EAF024612}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{22B970BC-3540-4928-8AE1-0E9EAF024612}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EE3E70D6-7854-48E6-AE7A-15C7BABEF5D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EE3E70D6-7854-48E6-AE7A-15C7BABEF5D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EE3E70D6-7854-48E6-AE7A-15C7BABEF5D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EE3E70D6-7854-48E6-AE7A-15C7BABEF5D0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D463F014-12E5-4CEE-8B09-46D0AEF7226C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D463F014-12E5-4CEE-8B09-46D0AEF7226C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D463F014-12E5-4CEE-8B09-46D0AEF7226C}.Release|Any CPU.ActiveCfg = Release|Any CPU
