@@ -71,6 +71,20 @@ dotnet build
 
 *Tbd* (how to run the tests)
 
+### Counting Lines of Code
+
+Count the lines of code using the following command in the root of the project:
+
+```shell
+chmod +x countlines.sh
+```
+
+and then run the script using:
+
+```shell
+./countlines.sh
+```
+
 ## License
 
 Key Vault CLI is open-source software released under the [MIT License](LICENSE). You are free to use, modify, and
