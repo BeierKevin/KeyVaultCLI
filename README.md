@@ -76,13 +76,7 @@ dotnet build
 Count the lines of code using the following command in the root of the project:
 
 ```shell
-chmod +x countlines.sh
-```
-
-and then run the script using:
-
-```shell
-./countlines.sh
+chmod +x countlines.sh && ./countlines.sh
 ```
 
 ## License

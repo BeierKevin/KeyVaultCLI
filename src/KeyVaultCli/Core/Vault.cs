@@ -1,7 +1,7 @@
 using System.Text.Json;
 using KeyVaultCli.Cryptography;
 
-namespace KeyVaultCli;
+namespace KeyVaultCli.Core;
 
 // Could be a Singleton ?
 public class Vault
@@ -71,7 +71,6 @@ public class Vault
     
     public bool DeletePasswordEntry(string serviceName, string accountName)
     {
-        // Check if password entry exists
         var entryExists = _passwordEntries.Any(x => 
             string.Equals(x.ServiceName, serviceName, StringComparison.OrdinalIgnoreCase) &&
             string.Equals(x.AccountName, accountName, StringComparison.OrdinalIgnoreCase));

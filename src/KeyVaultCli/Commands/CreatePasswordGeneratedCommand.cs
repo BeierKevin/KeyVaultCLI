@@ -1,4 +1,5 @@
-﻿using KeyVaultCli.UI;
+﻿using KeyVaultCli.Core;
+using KeyVaultCli.UI;
 
 namespace KeyVaultCli.Commands;
 

@@ -6,6 +6,6 @@ public class ExitCommand : ICommand
 {
     public void Execute()
     {
-        ConsoleHelper.WriteInfo("Exiting application");
+        ConsoleHelper.WriteError("Exiting application");
     }
 }

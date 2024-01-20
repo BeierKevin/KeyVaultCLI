@@ -1,13 +1,19 @@
-﻿namespace KeyVaultCli;
+﻿namespace KeyVaultCli.Core;
 
 // Builder Pattern
 public class PasswordEntryBuilder
 {
-    private readonly PasswordEntry _passwordEntry = new();
+    private readonly PasswordEntry _passwordEntry = new()
+    {
+        EntryId = Guid.NewGuid(),
+        CreationDate = DateTime.UtcNow,
+        LastModifiedDate = DateTime.UtcNow
+    };
 
     public PasswordEntryBuilder SetServiceName(string serviceName)
     {
         _passwordEntry.ServiceName = serviceName;
+        _passwordEntry.LastModifiedDate = DateTime.UtcNow;
         return this;
     }
 

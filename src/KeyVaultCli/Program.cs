@@ -1,4 +1,5 @@
 ﻿using KeyVaultCli.Commands;
+using KeyVaultCli.Core;
 using KeyVaultCli.UI;
 
 namespace KeyVaultCli;
@@ -48,8 +49,6 @@ class Program
             ConsoleHelper.WriteInfo(CommandFlags.DeleteAllPasswords + ". Delete all Passwords");
             ConsoleHelper.WriteText("Enter your choice: ");
             command = Console.ReadLine()?.Trim().ToLower();
-            ConsoleHelper.Clear();
-            Console.SetWindowPosition(0 , 0);
 
             if (commands.TryGetValue(command, out var selectedCommand))
             {

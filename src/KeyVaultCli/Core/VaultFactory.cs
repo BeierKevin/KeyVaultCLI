@@ -1,6 +1,6 @@
 ﻿using KeyVaultCli.UI;
 
-namespace KeyVaultCli;
+namespace KeyVaultCli.Core;
 
 // Factory Pattern
 public static class VaultFactory
