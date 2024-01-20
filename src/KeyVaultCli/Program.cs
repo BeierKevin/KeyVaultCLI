@@ -13,19 +13,9 @@ class Program
     {
         Console.Write("Enter your master password: ");
         var masterPassword = Console.ReadLine();
-        
-        if (masterPassword == null) return;
-        var vault = new Vault(masterPassword);
-        var savedPassword = vault.LoadMasterPassword();
-        if(savedPassword == null)
-        {
-            vault.SaveMasterPassword();
-        }
-        else if(savedPassword != masterPassword)
-        {
-            Console.WriteLine("Invalid master password. Exit.");
-            return;
-        }
+        var vault = VaultFactory.CreateVault(masterPassword);
+
+        if(vault == null) return;  // Check if creation was successful
 
         while (true)
         {

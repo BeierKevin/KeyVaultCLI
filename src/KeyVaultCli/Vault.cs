@@ -6,9 +6,11 @@ using KeyVaultCli.Security.IO;
 
 namespace KeyVaultCli.Core;
 
+// Could be a Singelton ?
 public class Vault
 { 
     private readonly List<PasswordEntry> passwordEntries;
+    // Factory Pattern: Since the Vault needs a master password to initialize, you may have a factory that verifies the master password before returning a new Vault instance.
     private readonly string masterPassword;
     // Saved files will be in the /bin/Debug/netX.X folder
     private readonly string filePath = "vault.dat";
@@ -39,12 +41,13 @@ public class Vault
     public void AddPasswordEntry(string serviceName, string accountName, string password)
     {
         var encryptedPassword = EncryptionHelper.Encrypt(password, masterPassword);
-        var entry = new PasswordEntry
-        {
-            ServiceName = serviceName,
-            AccountName = accountName,
-            EncryptedPassword = encryptedPassword
-        };
+    
+        var entry = new PasswordEntryBuilder()
+            .SetServiceName(serviceName)
+            .SetAccountName(accountName)
+            .SetEncryptedPassword(encryptedPassword)
+            .Build();
+
         passwordEntries.Add(entry);
         SavePasswordEntries();
     }
