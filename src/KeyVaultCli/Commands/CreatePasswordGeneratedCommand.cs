@@ -1,6 +1,6 @@
-﻿using KeyVaultCli.Core;
+﻿using CLI.UI;
 
-namespace KeyVaultCli.Commands;
+namespace CLI.Commands;
 
 public class CreatePasswordGenerateCommand : ICommand
 {
@@ -13,23 +13,18 @@ public class CreatePasswordGenerateCommand : ICommand
 
     public void Execute()
     {
-        Console.Write("Enter service name for the new password: ");
-        var serviceName = Console.ReadLine();
+        var serviceName = ConsoleHelper.GetInput("Enter service name for the new password: ");
+        var accountName = ConsoleHelper.GetInput("Enter account name for the new password: ");
+        var passwordLengthStr = ConsoleHelper.GetInput("Enter the desired password length: ");
 
-        Console.Write("Enter account name for the new password: ");
-        var accountName = Console.ReadLine();
-
-        Console.Write("Enter the desired password length (e.g. 10): ");
-        var passwordLengthInput = Console.ReadLine();
-
-        if (!int.TryParse(passwordLengthInput, out var passwordLength))
+        if (!int.TryParse(passwordLengthStr, out var passwordLength))
         {
-            Console.WriteLine("Invalid input for password length. Ensure you enter a valid number.");
+            ConsoleHelper.WriteError("Invalid input for password length. Ensure you enter a valid number.");
             return;
         }
 
         var password = _vault.GenerateAndAddPasswordEntry(serviceName, accountName, passwordLength);
 
-        Console.WriteLine($"A new password has been generated and stored for {serviceName}, {accountName}, with the value: {password}");
+        ConsoleHelper.WriteSuccess($"A new password has been created and stored for {serviceName}, {accountName}.");
     }
 }

@@ -1,6 +1,6 @@
-﻿using KeyVaultCli.Core;
+﻿using CLI.UI;
 
-namespace KeyVaultCli.Commands;
+namespace CLI.Commands;
 
 public class DeleteAllPasswordsCommand : ICommand
 {
@@ -13,7 +13,15 @@ public class DeleteAllPasswordsCommand : ICommand
 
     public void Execute()
     {
-        _vault.DeleteAllPasswordEntries();
-        Console.WriteLine("All password entries have been deleted.");
+        var confirmation = ConsoleHelper.GetInput("Are you sure you want to delete all passwords? (yes/no): ");
+        if (confirmation.ToLower() == "yes")
+        {
+            _vault.DeleteAllPasswordEntries();
+            ConsoleHelper.WriteSuccess("All passwords have been deleted.");
+        }
+        else
+        {
+            ConsoleHelper.WriteError("Operation cancelled.");
+        }
     }
 }

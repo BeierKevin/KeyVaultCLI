@@ -1,9 +1,11 @@
-﻿namespace KeyVaultCli.Commands;
+﻿using CLI.UI;
+
+namespace CLI.Commands;
 
 public class ExitCommand : ICommand
 {
     public void Execute()
     {
-        Console.WriteLine("Exiting application");
+        ConsoleHelper.WriteInfo("Exiting application");
     }
 }

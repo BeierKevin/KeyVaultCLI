@@ -1,12 +1,15 @@
-﻿namespace KeyVaultCli.Core;
+﻿using CLI.UI;
 
+namespace CLI;
+
+// Factory Pattern
 public static class VaultFactory
 {
     public static Vault? CreateVault(string masterPassword)
     {
         if(string.IsNullOrEmpty(masterPassword))
         {
-            Console.WriteLine("Master password should not be empty");
+            ConsoleHelper.WriteError("Master password should not be empty");
             return null;
         }
 
@@ -18,7 +21,7 @@ public static class VaultFactory
         }
         else if(savedPassword != masterPassword)
         {
-            Console.WriteLine("Invalid master password. Exit.");
+            ConsoleHelper.WriteError("Invalid master password. Exit.");
             return null;
         }
         

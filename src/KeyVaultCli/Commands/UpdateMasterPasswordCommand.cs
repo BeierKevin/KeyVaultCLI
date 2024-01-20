@@ -1,6 +1,6 @@
-﻿using KeyVaultCli.Core;
+﻿using CLI.UI;
 
-namespace KeyVaultCli.Commands;
+namespace CLI.Commands;
 
 public class UpdateMasterPasswordCommand : ICommand
 {
@@ -13,19 +13,16 @@ public class UpdateMasterPasswordCommand : ICommand
 
     public void Execute()
     {
-        Console.Write("Enter current master password: ");
-        var oldPassword = Console.ReadLine();
-
-        Console.Write("Enter new master password: ");
-        var newPassword = Console.ReadLine();
+        var oldPassword = ConsoleHelper.GetInput("Enter current master password: ");
+        var newPassword = ConsoleHelper.GetInput("Enter new master password: ");
 
         if (_vault.UpdateMasterPassword(oldPassword, newPassword))
         {
-            Console.WriteLine("Master password has been updated.");
+            ConsoleHelper.WriteSuccess("Master password has been updated.");
         }
         else
         {
-            Console.WriteLine("Failed to update master password. Ensure the current master password is correct.");
+            ConsoleHelper.WriteError("No need to update you entered the same passwords.");
         }
     }
 }

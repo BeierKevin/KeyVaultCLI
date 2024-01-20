@@ -1,13 +1,15 @@
-﻿using KeyVaultCli.Commands;
-using KeyVaultCli.Core;
+﻿using CLI.Commands;
+using CLI.UI;
 
-namespace KeyVaultCli;
+namespace CLI;
 
 class Program
 {
     private static void Main(string[] args)
     {
-        Console.Write("Enter your master password: ");
+        Console.Title = "KeyVaultCli";
+        ConsoleHelper.WriteInfo("Welcome to KeyVault");
+        ConsoleHelper.WriteInfo("Enter your master password: ");
         var masterPassword = Console.ReadLine();
         var vault = VaultFactory.CreateVault(masterPassword);
 
@@ -32,20 +34,21 @@ class Program
         string command;
         do
         {
-            Console.WriteLine("Enter a command:");
-            Console.WriteLine(CommandFlags.CreatePassword + ". Create password");
-            Console.WriteLine(CommandFlags.CreatePasswordGenerated + ". Generate and add password");
-            Console.WriteLine(CommandFlags.GetPassword + ". Get password");
-            Console.WriteLine(CommandFlags.GetAllPasswords + ". Get all password");
-            Console.WriteLine(CommandFlags.UpdatePassword + ". Update password");
-            Console.WriteLine(CommandFlags.DeletePassword + ". Delete Password");
-            Console.WriteLine(CommandFlags.UpdatePasswordGenerated + ". Update password details with generated password");
-            Console.WriteLine(CommandFlags.SearchPasswordEntries + ". Search password entries");
-            Console.WriteLine(CommandFlags.UpdateMasterPassword + ". Update Master Password");
-            Console.WriteLine(CommandFlags.Exit + ". Exit");
-            Console.WriteLine(CommandFlags.DeleteAllPasswords + ". Delete all Passwords");
-            Console.Write("Enter your choice: ");
-            command = Console.ReadLine()?.ToLower();
+            ConsoleHelper.WriteInfo("Welcome to KeyVault");
+            ConsoleHelper.WriteText("Enter a command:");
+            ConsoleHelper.WriteInfo(CommandFlags.CreatePassword + ". Create password");
+            ConsoleHelper.WriteInfo(CommandFlags.CreatePasswordGenerated + ". Generate and add password");
+            ConsoleHelper.WriteInfo(CommandFlags.GetPassword + ". Get password");
+            ConsoleHelper.WriteInfo(CommandFlags.GetAllPasswords + ". Get all password");
+            ConsoleHelper.WriteInfo(CommandFlags.UpdatePassword + ". Update password");
+            ConsoleHelper.WriteInfo(CommandFlags.DeletePassword + ". Delete Password");
+            ConsoleHelper.WriteInfo(CommandFlags.UpdatePasswordGenerated + ". Update password details with generated password");
+            ConsoleHelper.WriteInfo(CommandFlags.SearchPasswordEntries + ". Search password entries");
+            ConsoleHelper.WriteInfo(CommandFlags.UpdateMasterPassword + ". Update Master Password");
+            ConsoleHelper.WriteInfo(CommandFlags.Exit + ". Exit");
+            ConsoleHelper.WriteInfo(CommandFlags.DeleteAllPasswords + ". Delete all Passwords");
+            ConsoleHelper.WriteText("Enter your choice: ");
+            command = Console.ReadLine()?.Trim().ToLower();
 
             if (commands.TryGetValue(command, out var selectedCommand))
             {
@@ -53,7 +56,7 @@ class Program
             }
             else
             {
-                Console.WriteLine("Invalid command");
+                ConsoleHelper.WriteError("Invalid command");
             }
         } while (command != "0");
     }

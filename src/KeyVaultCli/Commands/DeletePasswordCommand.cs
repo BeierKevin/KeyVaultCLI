@@ -1,6 +1,6 @@
-﻿using KeyVaultCli.Core;
+﻿using CLI.UI;
 
-namespace KeyVaultCli.Commands;
+namespace CLI.Commands;
 
 public class DeletePasswordCommand : ICommand
 {
@@ -13,19 +13,18 @@ public class DeletePasswordCommand : ICommand
 
     public void Execute()
     {
-        Console.Write("Enter the service name: ");
-        var serviceName = Console.ReadLine();
-            
-        Console.Write("Enter the account name: ");
-        var accountName = Console.ReadLine();
+        var serviceName = ConsoleHelper.GetInput("Enter the service name for the password you want to delete: ");
+        var accountName = ConsoleHelper.GetInput("Enter the account name for the password you want to delete: ");
 
-        if (_vault.DeletePasswordEntry(serviceName, accountName))
+        var isDeleted = _vault.DeletePasswordEntry(serviceName, accountName);
+
+        if (isDeleted)
         {
-            Console.WriteLine($"Password for {serviceName}, {accountName} has been deleted.");
+            ConsoleHelper.WriteSuccess("Password entry has been deleted.");
         }
         else
         {
-            Console.WriteLine($"No password found for service {serviceName}, account {accountName}.");
+            ConsoleHelper.WriteError("Failed to delete the password entry. Ensure the service and account names are correct.");
         }
     }
 }

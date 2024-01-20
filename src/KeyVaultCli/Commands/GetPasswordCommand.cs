@@ -1,6 +1,6 @@
-﻿using KeyVaultCli.Core;
+﻿using CLI.UI;
 
-namespace KeyVaultCli.Commands;
+namespace CLI.Commands;
 
 public class GetPasswordCommand : ICommand
 {
@@ -13,21 +13,18 @@ public class GetPasswordCommand : ICommand
 
     public void Execute()
     {
-        Console.Write("Enter the service name: ");
-        var serviceName = Console.ReadLine();
-            
-        Console.Write("Enter the account name: ");
-        var accountName = Console.ReadLine();
+        var serviceName = ConsoleHelper.GetInput("Enter the service name: ");
+        var accountName = ConsoleHelper.GetInput("Enter the account name: ");
 
         var password = _vault.GetPassword(serviceName, accountName);
 
         if (!string.IsNullOrEmpty(password))
         {
-            Console.WriteLine($"Password for {serviceName}, {accountName} is {password}.");
+            ConsoleHelper.WriteInfo($"Password for {serviceName}, {accountName} is {password}.");
         }
         else
         {
-            Console.WriteLine($"No password found for service {serviceName}, account {accountName}.");
+            ConsoleHelper.WriteError($"No password found for service {serviceName}, account {accountName}.");
         }
     }
 }

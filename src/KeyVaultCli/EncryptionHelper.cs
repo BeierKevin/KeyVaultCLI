@@ -1,4 +1,4 @@
-﻿namespace KeyVaultCli.Crypto;
+﻿namespace CLI;
 
 public class EncryptionHelper
 {

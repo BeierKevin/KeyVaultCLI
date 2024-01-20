@@ -1,4 +1,4 @@
-﻿namespace KeyVaultCli.Core;
+﻿namespace CLI;
 
 public static class CommandFlags
 {

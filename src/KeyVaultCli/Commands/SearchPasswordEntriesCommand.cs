@@ -1,6 +1,6 @@
-﻿using KeyVaultCli.Core;
+﻿using CLI.UI;
 
-namespace KeyVaultCli.Commands;
+namespace CLI.Commands;
 
 public class SearchPasswordEntriesCommand : ICommand
 {
@@ -13,22 +13,21 @@ public class SearchPasswordEntriesCommand : ICommand
 
     public void Execute()
     {
-        Console.Write("Enter your search query: ");
-        var query = Console.ReadLine();
+        var query = ConsoleHelper.GetInput("Enter your search query: ");
 
         var matchingEntries = _vault.SearchPasswordEntries(query);
 
         if (matchingEntries.Any())
         {
-            Console.WriteLine("Matching entries:");
+            ConsoleHelper.WriteInfo("Matching entries:");
             foreach (var entry in matchingEntries)
             {
-                Console.WriteLine($"Service: {entry.ServiceName}, Account: {entry.AccountName}");
+                ConsoleHelper.WriteInfo($"Service: {entry.ServiceName}, Account: {entry.AccountName}");
             }
         }
         else
         {
-            Console.WriteLine("No matching entries found.");
+            ConsoleHelper.WriteError("No matching entries found.");
         }
     }
 }

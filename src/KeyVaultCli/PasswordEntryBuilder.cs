@@ -1,4 +1,4 @@
-﻿namespace KeyVaultCli.Core;
+﻿namespace CLI;
 
 // Builder Pattern
 public class PasswordEntryBuilder

@@ -1,10 +1,6 @@
-using System.Runtime.Serialization.Formatters.Binary;
 using System.Text.Json;
-using KeyVaultCli.Crypto;
-using KeyVaultCli.Security.Passwords;
-using KeyVaultCli.Security.IO;
 
-namespace KeyVaultCli.Core;
+namespace CLI;
 
 // Could be a Singelton ?
 public class Vault
@@ -40,14 +36,14 @@ public class Vault
     
     public bool UpdateMasterPassword(string oldPassword, string newPassword)
     {
-        // Verify the old password matches the current master password
-        if (!String.Equals(oldPassword, masterPassword)) // replace with your verification logic if different
+        if (!string.Equals(oldPassword, masterPassword))
         {
             return false;
         }
     
         // Now update the master password
-        masterPassword = newPassword;  // replace with your updating code if different
+        masterPassword = newPassword;
+        SaveMasterPassword();
         return true;
     }
     
@@ -74,11 +70,6 @@ public class Vault
     
     public bool DeletePasswordEntry(string serviceName, string accountName)
     {
-        passwordEntries.RemoveAll(x => 
-            string.Equals(x.ServiceName, serviceName, StringComparison.OrdinalIgnoreCase) &&
-            string.Equals(x.AccountName, accountName, StringComparison.OrdinalIgnoreCase));
-        SavePasswordEntries();
-        
         // Check if password entry exists
         var entryExists = passwordEntries.Any(x => 
             string.Equals(x.ServiceName, serviceName, StringComparison.OrdinalIgnoreCase) &&
@@ -91,10 +82,10 @@ public class Vault
                 string.Equals(x.AccountName, accountName, StringComparison.OrdinalIgnoreCase));
         
             SavePasswordEntries();
+            return true;
         }
 
-        // Return true if an entry was removed, otherwise return false
-        return entryExists;
+        return false;
     }
     
     public void DeleteAllPasswordEntries()

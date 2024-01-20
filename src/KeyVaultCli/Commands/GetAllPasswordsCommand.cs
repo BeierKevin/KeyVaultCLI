@@ -1,6 +1,6 @@
-﻿using KeyVaultCli.Core;
+﻿using CLI.UI;
 
-namespace KeyVaultCli.Commands;
+namespace CLI.Commands;
 
 public class GetAllPasswordsCommand : ICommand
 {
@@ -17,17 +17,22 @@ public class GetAllPasswordsCommand : ICommand
 
         if (allPasswordEntries != null && allPasswordEntries.Any())
         {
-            Console.WriteLine("All password entries: ");
-            foreach (var entry in allPasswordEntries)
-            {
-                Console.WriteLine($"Service: {entry.ServiceName}, Account: {entry.AccountName}, Password: {_vault
-                    .GetPassword(entry.ServiceName, entry.AccountName)}");
-                // if your password entries have additional fields, print them here too
-            }
+            string[] headers = { "Service", "Account", "Password" };
+    
+            // Transform every PasswordEntry into a List of objects
+            List<List<object>> dataRows = allPasswordEntries
+                .Select(entry => new List<object>
+                {
+                    entry.ServiceName, 
+                    entry.AccountName, 
+                    _vault.GetPassword(entry.ServiceName, entry.AccountName)
+                }).ToList();
+
+            ConsoleHelper.WriteTable(headers, dataRows);
         }
         else
         {
-            Console.WriteLine("No password entries found.");
+            ConsoleHelper.WriteError("No password entries found.");
         }
     }
 }

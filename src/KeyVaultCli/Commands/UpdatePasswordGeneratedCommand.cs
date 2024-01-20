@@ -1,6 +1,6 @@
-﻿using KeyVaultCli.Core;
+﻿using CLI.UI;
 
-namespace KeyVaultCli.Commands;
+namespace CLI.Commands;
 
 public class UpdatePasswordGeneratedCommand : ICommand
 {
@@ -13,35 +13,25 @@ public class UpdatePasswordGeneratedCommand : ICommand
 
     public void Execute()
     {
-        Console.Write("Enter old service name: ");
-        var oldServiceName = Console.ReadLine();
+        var oldServiceName = ConsoleHelper.GetInput("Enter old service name: ");
+        var oldAccountName = ConsoleHelper.GetInput("Enter old account name: ");
+        var newServiceName = ConsoleHelper.GetInput("Enter new service name: ");
+        var newAccountName = ConsoleHelper.GetInput("Enter new account name: ");
+        var passwordLengthInput = ConsoleHelper.GetInput("Enter the number of characters for the new password (e.g. 10): ");
 
-        Console.Write("Enter old account name: ");
-        var oldAccountName = Console.ReadLine();
-
-        Console.Write("Enter new service name: ");
-        var newServiceName = Console.ReadLine();
-
-        Console.Write("Enter new account name: ");
-        var newAccountName = Console.ReadLine();
-
-        Console.Write("Enter the number of characters for the new password (e.g. 10): ");
-        var passwordLengthInput = Console.ReadLine();
-
-        if (!int.TryParse(passwordLengthInput, out int passwordLength))
+        if (!int.TryParse(passwordLengthInput, out var passwordLength))
         {
-            Console.WriteLine("Invalid input for password length. Ensure you enter a valid number.");
+            ConsoleHelper.WriteError("Invalid input for password length. Ensure you enter a valid number.");
             return;
         }
 
-        if (_vault.UpdatePasswordEntry(oldServiceName, oldAccountName, newServiceName, newAccountName, 
-            int.Parse(passwordLengthInput)))
+        if (_vault.UpdatePasswordEntry(oldServiceName, oldAccountName, newServiceName, newAccountName, passwordLength))
         {
-            Console.WriteLine($"Password entry for {oldServiceName}, {oldAccountName} has been updated with new details.");
+            ConsoleHelper.WriteSuccess($"Password entry for {oldServiceName}, {oldAccountName} has been updated with new details.");
         }
         else
         {
-            Console.WriteLine("Failed to update the password entry. Ensure the old service and account names are correct.");
+            ConsoleHelper.WriteError("Failed to update the password entry. Ensure the old service and account names are correct.");
         }
     }
 }
