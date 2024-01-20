@@ -4,63 +4,26 @@ using System.Text;
 
 namespace KeyVaultCli.Security.Passwords;
 
-public class PasswordGenerator
+public static class PasswordGenerator
 {
-    private const string NumericChars = "0123456789";
-    private const string LetterChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-    private const string SpecialChars = "!@#$%^&*()-=_+[]{}|;:'\",.<>/?";
+    private static readonly char[] allowableCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890".ToCharArray();
 
-    public static string GeneratePassword(int length, bool includeNumeric, bool includeLetters,
-        bool includeSpecialSymbols)
+    public static string GeneratePassword(int length)
     {
-        if (length <= 0)
+        var bytes = new byte[length * 8];
+        using (var cryptoProvider = new RNGCryptoServiceProvider())
         {
-            throw new ArgumentException("Password length must be greater than 0.", nameof(length));
+            cryptoProvider.GetBytes(bytes);
+        }
+        
+        var result = new char[length];
+        for (var i = 0; i < length; ++i)
+        {
+            var value = BitConverter.ToUInt64(bytes, i * 8);
+            var characterIndex = (int)(allowableCharacters.Length * (value / (1.0 + ulong.MaxValue)));
+            result[i] = allowableCharacters[characterIndex];
         }
 
-        if (!includeNumeric && !includeLetters && !includeSpecialSymbols)
-        {
-            throw new ArgumentException(
-                "At least one character set (numeric, letters, special symbols) must be included.",
-                nameof(includeNumeric));
-        }
-
-        StringBuilder password = new StringBuilder();
-        string charSet = GetCharSet(includeNumeric, includeLetters, includeSpecialSymbols);
-
-        using (RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider())
-        {
-            byte[] randomBytes = new byte[length];
-            rng.GetBytes(randomBytes);
-
-            foreach (byte b in randomBytes)
-            {
-                password.Append(charSet[b % charSet.Length]);
-            }
-        }
-
-        return password.ToString();
-    }
-
-    private static string GetCharSet(bool includeNumeric, bool includeLetters, bool includeSpecialSymbols)
-    {
-        StringBuilder charSet = new StringBuilder();
-
-        if (includeNumeric)
-        {
-            charSet.Append(NumericChars);
-        }
-
-        if (includeLetters)
-        {
-            charSet.Append(LetterChars);
-        }
-
-        if (includeSpecialSymbols)
-        {
-            charSet.Append(SpecialChars);
-        }
-
-        return charSet.ToString();
+        return new string(result);
     }
 }

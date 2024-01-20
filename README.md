@@ -11,13 +11,13 @@ Key Vault CLI comes with a variety of features to help you manage your passwords
 list of features, marked with checkmarks (✔), crosses (❌) to indicate the status of each feature, and Work in Progress (
 🚧) to indicate features that are currently being developed or planned for future releases:
 
-- ❌ **Master Password**: Secure your Vault with a master password.
-- ❌ **CRUD Operations**: Create, read, update, and delete password entries.
-- ❌ **Password Generation**: Generate strong, random passwords.
-- ❌ **Password Storage**: Safely store your passwords and sensitive information.
-- ❌ **Encryption**: Passwords are securely encrypted before storage.
-- ❌ **Search and Retrieval**: Easily search and retrieve stored passwords.
-- ❌ **Multi-Platform Support**: Key Vault CLI can be installed and used on all the major platforms (Windows, MacOS and
+- ✔ **Master Password**: Secure your Vault with a master password.
+- ✔ **CRUD Operations**: Create, read, update, and delete password entries.
+- ✔ **Password Generation**: Generate strong, random passwords.
+- 🚧 **Password Storage**: Safely store your passwords and sensitive information.
+- 🚧 **Encryption**: Passwords are securely encrypted before storage.
+- ✔ **Search and Retrieval**: Easily search and retrieve stored passwords.
+- ✔ **Multi-Platform Support**: Key Vault CLI can be installed and used on all the major platforms (Windows, MacOS and
   Linux).
 - ❌ **Backup and Restore**: Backup and restore your password database.
 - ❌ **Category Organization**: Organize your passwords into categories for better management.

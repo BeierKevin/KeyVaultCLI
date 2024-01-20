@@ -1,6 +1,9 @@
-﻿using KeyVaultCli.Crypto;
+﻿using System.Runtime.Serialization.Formatters.Binary;
+using KeyVaultCli.Crypto;
 using KeyVaultCli.Security.IO;
 using KeyVaultCli.Security.Passwords;
+using System.Text;
+using KeyVaultCli.Core;
 
 namespace KeyVaultCli;
 
@@ -8,260 +11,159 @@ class Program
 {
     private static void Main(string[] args)
     {
-        var config = new Configuration();
-        var fileHandler = new FileHandler(config.VaultFilePath);
-        var passwordValidator = new MasterPasswordValidator(fileHandler);
-
-        Run(config, fileHandler, passwordValidator);
-    }
-
-    private static void Run(Configuration config, FileHandler fileHandler, MasterPasswordValidator passwordValidator)
-    {
-        Console.WriteLine("Welcome to KeyVaultCli (kvc), your local password generator and manager.");
-        var vaultHasBeenCreated = false;
-
-        // 1. Check if local Vault exists
-        if (!fileHandler.VaultExists())
+        Console.Write("Enter your master password: ");
+        var masterPassword = Console.ReadLine();
+        
+        if (masterPassword == null) return;
+        var vault = new Vault(masterPassword);
+        var savedPassword = vault.LoadMasterPassword();
+        if(savedPassword == null)
         {
-            // 2. If not, create it
-            fileHandler.CreateVault();
-            vaultHasBeenCreated = true;
+            vault.SaveMasterPassword();
+        }
+        else if(savedPassword != masterPassword)
+        {
+            Console.WriteLine("Invalid master password. Exit.");
+            return;
         }
 
-        Console.WriteLine($"Using vault file path: {config.VaultFilePath}");
-
-        // 3. If yes, ask for master password
-        Console.Write("Enter your master password: ");
-        var enteredPassword = Console.ReadLine();
-
-        // 4. If master password is correct, continue
-        if (vaultHasBeenCreated || passwordValidator.IsMasterPasswordCorrect(config, enteredPassword))
+        while (true)
         {
-            var exitRequested = false;
+            Console.WriteLine("1. Add password");
+            Console.WriteLine("1-g. Generate and add password");
+            Console.WriteLine("2. Get password");
+            Console.WriteLine("3. Get all password");
+            Console.WriteLine("4. Delete Password");
+            Console.WriteLine("5. Update password");
+            Console.WriteLine("5-g. Update password details with generated password");
+            Console.WriteLine("6. Search password entries");
+            Console.WriteLine("0. Exit");
+            Console.WriteLine("-1. Delete all Passwords");
+            Console.Write("Enter your choice: ");
+            var choice = Console.ReadLine();
 
-            // Continue the loop until the user decides to exit
-            while (!exitRequested)
+            switch (choice)
             {
-                // 6. If master password was correct, show menu
-                ShowMenu(config);
+                case "1":
+                    Console.Write("Enter service name: ");
+                    var serviceName = Console.ReadLine();
+                    Console.Write("Enter account name: ");
+                    var accountName = Console.ReadLine();
+                    Console.Write("Enter password: ");
+                    var password = Console.ReadLine();
+                    vault.AddPasswordEntry(serviceName, accountName, password);
+                    break;
+                case "1-g":
+                    Console.Write("Enter service name for the new password: ");
+                    var gServiceName = Console.ReadLine();
+                    Console.Write("Enter account name for the new password: ");
+                    var gAccountName = Console.ReadLine();
+                    Console.Write("Enter the desired password length (e.g. 10): ");
+                    if (int.TryParse(Console.ReadLine(), out int passwordLength))
+                    {
+                        var gNewPassword = vault.GenerateAndAddPasswordEntry(gServiceName, gAccountName, 
+                            passwordLength);
+                        Console.WriteLine($"Generated and added a new password for service {gServiceName}, account {gAccountName}: {gNewPassword}");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Invalid password length. Please enter a valid number.");
+                    }
+                    break;
+                case "2":
+                    Console.Write("Enter service name: ");
+                    serviceName = Console.ReadLine();
+                    Console.Write("Enter account name: ");
+                    accountName = Console.ReadLine();
+                    password = vault.GetPassword(serviceName, accountName);
+                    if (password != null)
+                    {
+                        Console.WriteLine($"Password: {password}");
+                    }
+                    else
+                    {
+                        Console.WriteLine("No password found for the given service and account name.");
+                    }
 
-                Console.Write("Enter your choice (0 to exit): ");
-                var optionInput = Console.ReadLine();
+                    break;
+                case "3":
+                    var allPasswords = vault.LoadPasswordEntries();
+                    foreach(var passwordEntry in allPasswords)
+                    {
+                        Console.WriteLine("Service Name: " + passwordEntry.ServiceName);
+                        Console.WriteLine("Account Name: " + passwordEntry.AccountName);
+                        Console.WriteLine("Password " + vault.GetPassword(passwordEntry.ServiceName, passwordEntry.AccountName));
+                        Console.WriteLine("-----------------------");
+                    }
+                    break;
+                case "4":
+                    Console.Write("Enter service name of the password to delete: ");
+                    var deletableServiceName = Console.ReadLine();
+                    Console.Write("Enter account name of the password to delete: ");
+                    var deletableAccountName = Console.ReadLine();
+                    vault.DeletePasswordEntry(deletableServiceName, deletableAccountName);
+                    Console.WriteLine($"Deleted password for service: {deletableServiceName} and account: {deletableAccountName}");
+                    break;
+                case "5":
+                    Console.Write("Enter current service name: ");
+                    var currentServiceName = Console.ReadLine();
+                    Console.Write("Enter current account name: ");
+                    var currentAccountName = Console.ReadLine();
+                    Console.Write("Enter new service name: ");
+                    var newServiceName = Console.ReadLine();
+                    Console.Write("Enter new account name: ");
+                    var newAccountName = Console.ReadLine();
+                    Console.Write("Enter new password: ");
+                    var newPassword = Console.ReadLine();
 
-                switch (optionInput)
-                {
-                    case "0":
-                        exitRequested = true;
-                        Console.WriteLine("Exiting...");
-                        break;
-                    case "1":
-                        // Implement logic for option 1 (Generate a new password)
-                        GenerateNewPassword(config);
-                        break;
-                    case "2":
-                        // Implement logic for option 2 (List all passwords)
-                        ListAllPasswords(config);
-                        break;
-                    // Add cases for other options as needed
-                    default:
-                        Console.WriteLine("Invalid choice. Please try again.");
-                        break;
-                }
+                    if (vault.UpdatePasswordEntry(currentServiceName, currentAccountName, newServiceName, newAccountName, newPassword.Length, newPassword))
+                        Console.WriteLine("Entry was updated successfully.");
+                    else
+                        Console.WriteLine("Error: Could not find the entry to be updated.");
+
+                    break;
+                case "5-g": // handling the new 'Update password details with generated password' option
+                    Console.Write("Enter current service name: ");
+                    var gCurrentServiceName = Console.ReadLine();
+                    Console.Write("Enter current account name: ");
+                    var gCurrentAccountName = Console.ReadLine();
+                    Console.Write("Enter new service name: ");
+                    var gNewServiceName = Console.ReadLine();
+                    Console.Write("Enter new account name: ");
+                    var gNewAccountName = Console.ReadLine();
+                    Console.Write("Enter the desired password length: ");
+                    var gPasswordLength = int.Parse(Console.ReadLine());
+
+                    if (vault.UpdatePasswordEntry(gCurrentServiceName, gCurrentAccountName, gNewServiceName, gNewAccountName, gPasswordLength))
+                        Console.WriteLine("Entry was updated successfully.");
+                    else
+                        Console.WriteLine("Error: Could not find the entry to be updated.");
+
+                    break;
+                case "6":
+                    Console.Write("Enter search term: ");
+                    var searchTerm = Console.ReadLine();
+                    var results = vault.SearchPasswordEntries(searchTerm);
+                    foreach(var passwordEntry in results)
+                    {
+                        Console.WriteLine($"Service Name: {passwordEntry.ServiceName}\nAccount Name: {passwordEntry.AccountName}");
+                    }
+                    break;
+                case "-1":
+                    Console.Write("Are you sure you want to delete all passwords? (y/n): ");
+                    var confirmation = Console.ReadLine();
+                    if (confirmation?.ToLower() == "y")
+                    {
+                        vault.DeleteAllPasswordEntries();
+                        Console.WriteLine("All passwords have been deleted!");
+                    }
+                    break;
+                case "0":
+                    return;
+                default:
+                    Console.WriteLine("Invalid choice. Please enter a valid option.");
+                    break;
             }
         }
-        else
-        {
-            Console.WriteLine("Incorrect master password. Exiting...");
-        }
-    }
-
-    private static void ShowConfiguration(Configuration config)
-    {
-        // Display the entered configuration
-        Console.WriteLine("Configuration:");
-        Console.WriteLine($"Service Name: {config.ServiceName}");
-        Console.WriteLine($"Common Name: {config.CommonName}");
-        Console.WriteLine($"Master Password: {config.MasterPassword}");
-        Console.WriteLine($"Has Numeric: {config.HasNumeric}");
-        Console.WriteLine($"Has Letters: {config.HasLetters}");
-        Console.WriteLine($"Has Special Symbols: {config.HasSpecialSymbols}");
-        Console.WriteLine($"Password Length: {config.Length}");
-    }
-
-    private static void ShowMenu(Configuration config)
-    {
-        // Display menu options
-        Console.WriteLine("Menu:");
-        Console.WriteLine("1. Generate a new password");
-        Console.WriteLine("2. List all passwords with services and accounts");
-        Console.WriteLine("3. Search for something");
-        Console.WriteLine("4. Update master password");
-        Console.WriteLine("0. Exit");
-
-        // Get user input
-        Console.Write("Enter your choice: ");
-        var userInput = Console.ReadLine();
-
-        // Process user input
-        switch (userInput)
-        {
-            case "1":
-                GenerateNewPassword(config);
-                break;
-            case "2":
-                ListAllPasswords(config);
-                break;
-            case "3":
-                SearchPasswords(config);
-                break;
-            case "4":
-                UpdateMasterPassword(config);
-                break;
-            case "0":
-                Console.WriteLine("Exiting...");
-                break;
-            default:
-                Console.WriteLine("Invalid choice. Please try again.");
-                ShowMenu(config); // Show the menu again for a valid choice
-                break;
-        }
-    }
-
-    private static void GenerateNewPassword(Configuration config)
-    {
-        // Use the PasswordGenerator to generate a new strong password
-        var generatedPassword = PasswordGenerator.GeneratePassword(config.Length, config.HasNumeric, config.HasLetters,
-            config.HasSpecialSymbols);
-
-        // Display the generated password
-        Console.WriteLine($"Generated Password: {generatedPassword}");
-
-        // Example: Encrypt the generated password
-        var encryptedPassword = EncryptionHelper.Encrypt(generatedPassword, config.MasterPassword);
-        Console.WriteLine($"Encrypted Password: {encryptedPassword}");
-    }
-
-    private static void PasswordActions()
-    {
-        Console.WriteLine("Menu:");
-        Console.WriteLine("S. Show Password");
-        Console.WriteLine("E. Edit Password");
-        Console.WriteLine("D. Delete Password");
-        Console.WriteLine("0. Exit");
-    }
-
-    private static void ListAllPasswords(Configuration config)
-    {
-        // Implement logic to list all passwords
-        Console.WriteLine("Listing all passwords...");
-
-        // Example: Decrypt a stored password
-        var encryptedPassword = "YourEncryptedPassword";
-        var decryptedPassword = EncryptionHelper.Decrypt(encryptedPassword, config.MasterPassword);
-        Console.WriteLine($"Decrypted Password: {decryptedPassword}");
-        PasswordActions();
-        var t = Console.ReadLine();
-
-        if (t == "E")
-        {
-            UpdatePasswordEntry(config);
-        }
-    }
-
-    private static void SearchPasswords(Configuration config)
-    {
-        // Implement logic to search for passwords
-        Console.WriteLine("Searching for passwords...");
-    }
-
-    private static void UpdateMasterPassword(Configuration config)
-    {
-        // Implement logic to update the master password
-        Console.WriteLine("Updating master password...");
-
-        // Example: Decrypt and then encrypt a password with the new master password
-        var encryptedPassword = "YourEncryptedPassword";
-        var decryptedPassword = EncryptionHelper.Decrypt(encryptedPassword, config.MasterPassword);
-
-        Console.Write("Enter the new master password: ");
-        var newMasterPassword = Console.ReadLine();
-
-        var reEncryptedPassword = EncryptionHelper.Encrypt(decryptedPassword, newMasterPassword);
-        Console.WriteLine($"Re-encrypted Password with the new master password: {reEncryptedPassword}");
-    }
-
-    private static void CreatePasswordEntry(Configuration config)
-    {
-        Console.Write("Enter service name: ");
-        string serviceName = Console.ReadLine();
-
-        Console.Write("Enter account name: ");
-        string accountName = Console.ReadLine();
-
-        Console.Write("Enter password: ");
-        string password = Console.ReadLine();
-
-        // Use the PasswordManager to create a new password entry
-        var passwordManager = new PasswordManager(config);
-        passwordManager.CreatePasswordEntry(serviceName, accountName, password);
-
-        Console.WriteLine("Password entry created successfully.");
-    }
-
-    private static void ReadPasswordEntry(Configuration config)
-    {
-        Console.Write("Enter service name: ");
-        string serviceName = Console.ReadLine();
-
-        Console.Write("Enter account name: ");
-        string accountName = Console.ReadLine();
-
-        // Use the PasswordManager to read a password entry
-        var passwordManager = new PasswordManager(config);
-        var passwordEntry = passwordManager.ReadPasswordEntry(serviceName, accountName);
-
-        if (passwordEntry != null)
-        {
-            // Decrypt and display the password
-            var decryptedPassword = EncryptionHelper.Decrypt(passwordEntry.EncryptedPassword, config.MasterPassword);
-            Console.WriteLine($"Decrypted Password: {decryptedPassword}");
-        }
-        else
-        {
-            Console.WriteLine("Password entry not found.");
-        }
-    }
-
-    private static void UpdatePasswordEntry(Configuration config)
-    {
-        Console.Write("Enter service name: ");
-        string serviceName = Console.ReadLine();
-
-        Console.Write("Enter account name: ");
-        string accountName = Console.ReadLine();
-
-        Console.Write("Enter new password: ");
-        string newPassword = Console.ReadLine();
-
-        // Use the PasswordManager to update a password entry
-        var passwordManager = new PasswordManager(config);
-        passwordManager.UpdatePasswordEntry(serviceName, accountName, newPassword);
-
-        Console.WriteLine("Password entry updated successfully.");
-    }
-
-    private static void DeletePasswordEntry(Configuration config)
-    {
-        Console.Write("Enter service name: ");
-        string serviceName = Console.ReadLine();
-
-        Console.Write("Enter account name: ");
-        string accountName = Console.ReadLine();
-
-        // Use the PasswordManager to delete a password entry
-        var passwordManager = new PasswordManager(config);
-        passwordManager.DeletePasswordEntry(serviceName, accountName);
-
-        Console.WriteLine("Password entry deleted successfully.");
     }
 }
