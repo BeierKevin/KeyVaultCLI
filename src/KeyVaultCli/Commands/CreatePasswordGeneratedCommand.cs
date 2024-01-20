@@ -1,6 +1,6 @@
-﻿using CLI.UI;
+﻿using KeyVaultCli.UI;
 
-namespace CLI.Commands;
+namespace KeyVaultCli.Commands;
 
 public class CreatePasswordGenerateCommand : ICommand
 {

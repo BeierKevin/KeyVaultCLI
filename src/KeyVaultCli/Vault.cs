@@ -1,6 +1,7 @@
 using System.Text.Json;
+using KeyVaultCli.Cryptography;
 
-namespace CLI;
+namespace KeyVaultCli;
 
 // Could be a Singleton ?
 public class Vault

@@ -1,6 +1,6 @@
-﻿using CLI.UI;
+﻿using KeyVaultCli.UI;
 
-namespace CLI;
+namespace KeyVaultCli;
 
 // Factory Pattern
 public static class VaultFactory

@@ -1,7 +1,7 @@
-﻿using CLI.Commands;
-using CLI.UI;
+﻿using KeyVaultCli.Commands;
+using KeyVaultCli.UI;
 
-namespace CLI;
+namespace KeyVaultCli;
 
 class Program
 {
@@ -34,7 +34,6 @@ class Program
         string command;
         do
         {
-            ConsoleHelper.WriteInfo("Welcome to KeyVault");
             ConsoleHelper.WriteText("Enter a command:");
             ConsoleHelper.WriteInfo(CommandFlags.CreatePassword + ". Create password");
             ConsoleHelper.WriteInfo(CommandFlags.CreatePasswordGenerated + ". Generate and add password");
@@ -49,6 +48,8 @@ class Program
             ConsoleHelper.WriteInfo(CommandFlags.DeleteAllPasswords + ". Delete all Passwords");
             ConsoleHelper.WriteText("Enter your choice: ");
             command = Console.ReadLine()?.Trim().ToLower();
+            ConsoleHelper.Clear();
+            Console.SetWindowPosition(0 , 0);
 
             if (commands.TryGetValue(command, out var selectedCommand))
             {

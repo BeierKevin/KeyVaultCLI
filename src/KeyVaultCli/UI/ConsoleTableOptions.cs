@@ -1,4 +1,4 @@
-﻿namespace CLI.UI;
+﻿namespace KeyVaultCli.UI;
 
 public class ConsoleTableOptions
 {
