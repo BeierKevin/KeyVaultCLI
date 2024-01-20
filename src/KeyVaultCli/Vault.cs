@@ -2,54 +2,54 @@ using System.Text.Json;
 
 namespace CLI;
 
-// Could be a Singelton ?
+// Could be a Singleton ?
 public class Vault
 { 
-    private readonly List<PasswordEntry> passwordEntries;
+    private readonly List<PasswordEntry> _passwordEntries;
     // Factory Pattern: Since the Vault needs a master password to initialize, you may have a factory that verifies the master password before returning a new Vault instance.
-    private string masterPassword;
+    private string _masterPassword;
     // Saved files will be in the /bin/Debug/netX.X folder
-    private readonly string filePath = "vault.dat";
-    private string passwordFile = "masterpassword.dat";
+    private readonly string _filePath = "vault.dat";
+    private readonly string _passwordFile = "masterpassword.dat";
 
     public Vault(string masterPassword)
     {
-        this.masterPassword = masterPassword;
-        this.passwordEntries = LoadPasswordEntries();
+        this._masterPassword = masterPassword;
+        this._passwordEntries = LoadPasswordEntries();
     }
     
     public void SaveMasterPassword()
     {
-        var encryptedPassword = EncryptionHelper.Encrypt(this.masterPassword, masterPassword);
-        File.WriteAllText(passwordFile, encryptedPassword);
+        var encryptedPassword = EncryptionHelper.Encrypt(this._masterPassword, _masterPassword);
+        File.WriteAllText(_passwordFile, encryptedPassword);
     }
 
     public string LoadMasterPassword()
     {
-        if (File.Exists(passwordFile))
+        if (File.Exists(_passwordFile))
         {
-            var encryptedPassword = File.ReadAllText(passwordFile);
-            return EncryptionHelper.Decrypt(encryptedPassword, masterPassword);
+            var encryptedPassword = File.ReadAllText(_passwordFile);
+            return EncryptionHelper.Decrypt(encryptedPassword, _masterPassword);
         }
         return null;
     }
     
     public bool UpdateMasterPassword(string oldPassword, string newPassword)
     {
-        if (!string.Equals(oldPassword, masterPassword))
+        if (!string.Equals(oldPassword, _masterPassword))
         {
             return false;
         }
     
         // Now update the master password
-        masterPassword = newPassword;
+        _masterPassword = newPassword;
         SaveMasterPassword();
         return true;
     }
     
     public void AddPasswordEntry(string serviceName, string accountName, string password)
     {
-        var encryptedPassword = EncryptionHelper.Encrypt(password, masterPassword);
+        var encryptedPassword = EncryptionHelper.Encrypt(password, _masterPassword);
     
         var entry = new PasswordEntryBuilder()
             .SetServiceName(serviceName)
@@ -57,27 +57,27 @@ public class Vault
             .SetEncryptedPassword(encryptedPassword)
             .Build();
 
-        passwordEntries.Add(entry);
+        _passwordEntries.Add(entry);
         SavePasswordEntries();
     }
 
     private void SavePasswordEntries()
     {
         var options = new JsonSerializerOptions { WriteIndented = true };
-        var json = JsonSerializer.Serialize(passwordEntries, options);
-        File.WriteAllText(filePath, json);
+        var json = JsonSerializer.Serialize(_passwordEntries, options);
+        File.WriteAllText(_filePath, json);
     }
     
     public bool DeletePasswordEntry(string serviceName, string accountName)
     {
         // Check if password entry exists
-        var entryExists = passwordEntries.Any(x => 
+        var entryExists = _passwordEntries.Any(x => 
             string.Equals(x.ServiceName, serviceName, StringComparison.OrdinalIgnoreCase) &&
             string.Equals(x.AccountName, accountName, StringComparison.OrdinalIgnoreCase));
 
         if (entryExists)
         {
-            passwordEntries.RemoveAll(x => 
+            _passwordEntries.RemoveAll(x => 
                 string.Equals(x.ServiceName, serviceName, StringComparison.OrdinalIgnoreCase) &&
                 string.Equals(x.AccountName, accountName, StringComparison.OrdinalIgnoreCase));
         
@@ -90,18 +90,18 @@ public class Vault
     
     public void DeleteAllPasswordEntries()
     {
-        passwordEntries.Clear();
+        _passwordEntries.Clear();
         SavePasswordEntries();
     }
 
     public List<PasswordEntry> LoadPasswordEntries()
     {
-        if (!File.Exists(filePath))
+        if (!File.Exists(_filePath))
         {
             return new List<PasswordEntry>();
         }
     
-        var json = File.ReadAllText(filePath);
+        var json = File.ReadAllText(_filePath);
         return JsonSerializer.Deserialize<List<PasswordEntry>>(json);
     }
 
@@ -109,17 +109,17 @@ public class Vault
     {
         if (serviceName is null || accountName is null) return null;
 
-        var passwordEntry = passwordEntries.FirstOrDefault(entry => 
+        var passwordEntry = _passwordEntries.FirstOrDefault(entry => 
             entry.ServiceName == serviceName && entry.AccountName == accountName);
 
         return passwordEntry != null
-            ? EncryptionHelper.Decrypt(passwordEntry.EncryptedPassword, masterPassword)
+            ? EncryptionHelper.Decrypt(passwordEntry.EncryptedPassword, _masterPassword)
             : null;
     }
     
     public bool UpdatePasswordEntry(string currentServiceName, string currentAccountName, string newServiceName, string newAccountName, int passwordLength, string newPassword = null)
     {
-        var passwordEntry = passwordEntries.FirstOrDefault(x =>
+        var passwordEntry = _passwordEntries.FirstOrDefault(x =>
             x.ServiceName == currentServiceName && x.AccountName == currentAccountName);
 
         if (passwordEntry == null)
@@ -129,7 +129,7 @@ public class Vault
         passwordEntry.AccountName = newAccountName;
 
         // If newPassword is null, generate a random password
-        passwordEntry.EncryptedPassword = EncryptionHelper.Encrypt(newPassword ?? PasswordGenerator.GeneratePassword(passwordLength), masterPassword);
+        passwordEntry.EncryptedPassword = EncryptionHelper.Encrypt(newPassword ?? PasswordGenerator.GeneratePassword(passwordLength), _masterPassword);
 
         SavePasswordEntries();
         return true;
@@ -137,7 +137,7 @@ public class Vault
     
     public List<PasswordEntry> SearchPasswordEntries(string searchTerm)
     {
-        return passwordEntries.Where(x => 
+        return _passwordEntries.Where(x => 
             x.ServiceName.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) 
             || x.AccountName.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)
         ).ToList();

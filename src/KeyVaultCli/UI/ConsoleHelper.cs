@@ -40,7 +40,7 @@ public static class ConsoleHelper
             table.AddRow(row.ToArray());
         }
     
-        table.Write(Format.Default);
+        table.Write();
     }
 
     // Method to clear the console

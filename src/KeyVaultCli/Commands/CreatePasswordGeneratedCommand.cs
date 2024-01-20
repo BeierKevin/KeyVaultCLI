@@ -25,6 +25,6 @@ public class CreatePasswordGenerateCommand : ICommand
 
         var password = _vault.GenerateAndAddPasswordEntry(serviceName, accountName, passwordLength);
 
-        ConsoleHelper.WriteSuccess($"A new password has been created and stored for {serviceName}, {accountName}.");
+        ConsoleHelper.WriteSuccess($"A new password has been created and stored for {serviceName}, {accountName} with the value {password}.");
     }
 }

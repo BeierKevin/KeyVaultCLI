@@ -5,7 +5,7 @@ namespace CLI;
 
 class Program
 {
-    private static void Main(string[] args)
+    private static void Main()
     {
         Console.Title = "KeyVaultCli";
         ConsoleHelper.WriteInfo("Welcome to KeyVault");
