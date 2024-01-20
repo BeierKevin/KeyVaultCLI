@@ -11,7 +11,7 @@ public class Vault
 { 
     private readonly List<PasswordEntry> passwordEntries;
     // Factory Pattern: Since the Vault needs a master password to initialize, you may have a factory that verifies the master password before returning a new Vault instance.
-    private readonly string masterPassword;
+    private string masterPassword;
     // Saved files will be in the /bin/Debug/netX.X folder
     private readonly string filePath = "vault.dat";
     private string passwordFile = "masterpassword.dat";
@@ -38,6 +38,19 @@ public class Vault
         return null;
     }
     
+    public bool UpdateMasterPassword(string oldPassword, string newPassword)
+    {
+        // Verify the old password matches the current master password
+        if (!String.Equals(oldPassword, masterPassword)) // replace with your verification logic if different
+        {
+            return false;
+        }
+    
+        // Now update the master password
+        masterPassword = newPassword;  // replace with your updating code if different
+        return true;
+    }
+    
     public void AddPasswordEntry(string serviceName, string accountName, string password)
     {
         var encryptedPassword = EncryptionHelper.Encrypt(password, masterPassword);
@@ -59,12 +72,29 @@ public class Vault
         File.WriteAllText(filePath, json);
     }
     
-    public void DeletePasswordEntry(string serviceName, string accountName)
+    public bool DeletePasswordEntry(string serviceName, string accountName)
     {
         passwordEntries.RemoveAll(x => 
             string.Equals(x.ServiceName, serviceName, StringComparison.OrdinalIgnoreCase) &&
             string.Equals(x.AccountName, accountName, StringComparison.OrdinalIgnoreCase));
         SavePasswordEntries();
+        
+        // Check if password entry exists
+        var entryExists = passwordEntries.Any(x => 
+            string.Equals(x.ServiceName, serviceName, StringComparison.OrdinalIgnoreCase) &&
+            string.Equals(x.AccountName, accountName, StringComparison.OrdinalIgnoreCase));
+
+        if (entryExists)
+        {
+            passwordEntries.RemoveAll(x => 
+                string.Equals(x.ServiceName, serviceName, StringComparison.OrdinalIgnoreCase) &&
+                string.Equals(x.AccountName, accountName, StringComparison.OrdinalIgnoreCase));
+        
+            SavePasswordEntries();
+        }
+
+        // Return true if an entry was removed, otherwise return false
+        return entryExists;
     }
     
     public void DeleteAllPasswordEntries()
