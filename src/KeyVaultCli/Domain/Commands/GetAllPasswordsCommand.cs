@@ -1,15 +1,18 @@
-﻿using KeyVaultCli.Core;
-using KeyVaultCli.UI;
+﻿using KeyVaultCli.Application;
+using KeyVaultCli.Core;
+using KeyVaultCli.Infrastructure.UI;
 
 namespace KeyVaultCli.Commands;
 
 public class GetAllPasswordsCommand : ICommand
 {
     private readonly Vault _vault;
+    private readonly IConsoleService _consoleService;
 
-    public GetAllPasswordsCommand(Vault vault)
+    public GetAllPasswordsCommand(Vault vault, IConsoleService consoleService)
     {
         _vault = vault;
+        _consoleService = consoleService;
     }
 
     public void Execute()
@@ -32,11 +35,11 @@ public class GetAllPasswordsCommand : ICommand
                     entry.LastModifiedDate
                 }).ToList();
 
-            ConsoleHelper.WriteTable(headers, dataRows);
+            _consoleService.WriteTable(headers, dataRows);
         }
         else
         {
-            ConsoleHelper.WriteError("No password entries found.");
+            _consoleService.WriteError("No password entries found.");
         }
     }
 }

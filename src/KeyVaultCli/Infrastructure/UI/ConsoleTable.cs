@@ -2,7 +2,7 @@
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace KeyVaultCli.UI;
+namespace KeyVaultCli.Infrastructure.UI;
 
 // Credits go to https://github.com/khalidabuhakmeh/ConsoleTables
 public class ConsoleTable
@@ -308,22 +308,22 @@ public class ConsoleTable
         return columnLengths;
     }
 
-    public void Write(Format format = KeyVaultCli.UI.Format.Default)
+    public void Write(Format format = Infrastructure.UI.Format.Default)
     {
         SetFormats(ColumnLengths(), Enumerable.Range(0, Columns.Count).Select(GetNumberAlignment).ToList());
 
         switch (format)
         {
-            case KeyVaultCli.UI.Format.Default:
+            case Infrastructure.UI.Format.Default:
                 Options.OutputTo.WriteLine(ToString());
                 break;
-            case KeyVaultCli.UI.Format.MarkDown:
+            case Infrastructure.UI.Format.MarkDown:
                 Options.OutputTo.WriteLine(ToMarkDownString());
                 break;
-            case KeyVaultCli.UI.Format.Alternative:
+            case Infrastructure.UI.Format.Alternative:
                 Options.OutputTo.WriteLine(ToStringAlternative());
                 break;
-            case KeyVaultCli.UI.Format.Minimal:
+            case Infrastructure.UI.Format.Minimal:
                 Options.OutputTo.WriteLine(ToMinimalString());
                 break;
             default:
