@@ -1,9 +1,10 @@
 using System.Text.Json;
-using KeyVaultCli.Cryptography;
+using KeyVaultCli.Application;
+using KeyVaultCli.Domain.ValueObject;
+using KeyVaultCli.Infrastructure.Cryptography;
 
-namespace KeyVaultCli.Core;
+namespace KeyVaultCli.Domain.Entities;
 
-// Could be a Singleton ?
 public class Vault
 { 
     private readonly List<PasswordEntry> _passwordEntries;
@@ -12,25 +13,29 @@ public class Vault
     // Saved files will be in the /bin/Debug/netX.X folder
     private readonly string _filePath = "vault.dat";
     private readonly string _passwordFile = "masterpassword.dat";
+    private readonly IEncryptionService _encryptionService;
+    private readonly IFileService _fileService;
 
-    public Vault(string masterPassword)
+    public Vault(string masterPassword, IEncryptionService encryptionService, IFileService fileService)
     {
-        this._masterPassword = masterPassword;
-        this._passwordEntries = LoadPasswordEntries();
+        _masterPassword = masterPassword;
+        _encryptionService = encryptionService;
+        _fileService = fileService;
+        _passwordEntries = LoadPasswordEntries();
     }
     
     public void SaveMasterPassword()
     {
-        var encryptedPassword = EncryptionHelper.Encrypt(this._masterPassword, _masterPassword);
-        File.WriteAllText(_passwordFile, encryptedPassword);
+        var encryptedPassword = _encryptionService.Encrypt(this._masterPassword, _masterPassword);
+        _fileService.WriteAllText(_passwordFile, encryptedPassword);
     }
 
     public string LoadMasterPassword()
     {
-        if (File.Exists(_passwordFile))
+        if (_fileService.Exists(_passwordFile))
         {
-            var encryptedPassword = File.ReadAllText(_passwordFile);
-            return EncryptionHelper.Decrypt(encryptedPassword, _masterPassword);
+            var encryptedPassword = _fileService.ReadAllText(_passwordFile);
+            return _encryptionService.Decrypt(encryptedPassword, _masterPassword);
         }
         return null;
     }
@@ -50,7 +55,7 @@ public class Vault
     
     public void AddPasswordEntry(string serviceName, string accountName, string password)
     {
-        var encryptedPassword = EncryptionHelper.Encrypt(password, _masterPassword);
+        var encryptedPassword = _encryptionService.Encrypt(password, _masterPassword);
     
         var entry = new PasswordEntryBuilder()
             .SetServiceName(serviceName)
@@ -66,7 +71,7 @@ public class Vault
     {
         var options = new JsonSerializerOptions { WriteIndented = true };
         var json = JsonSerializer.Serialize(_passwordEntries, options);
-        File.WriteAllText(_filePath, json);
+        _fileService.WriteAllText(_filePath, json);
     }
     
     public bool DeletePasswordEntry(string serviceName, string accountName)
@@ -96,12 +101,12 @@ public class Vault
 
     public List<PasswordEntry> LoadPasswordEntries()
     {
-        if (!File.Exists(_filePath))
+        if (!_fileService.Exists(_filePath))
         {
             return new List<PasswordEntry>();
         }
     
-        var json = File.ReadAllText(_filePath);
+        var json = _fileService.ReadAllText(_filePath);
         return JsonSerializer.Deserialize<List<PasswordEntry>>(json);
     }
 
@@ -113,7 +118,7 @@ public class Vault
             entry.ServiceName == serviceName && entry.AccountName == accountName);
 
         return passwordEntry != null
-            ? EncryptionHelper.Decrypt(passwordEntry.EncryptedPassword, _masterPassword)
+            ? _encryptionService.Decrypt(passwordEntry.EncryptedPassword, _masterPassword)
             : null;
     }
     
@@ -129,7 +134,7 @@ public class Vault
         passwordEntry.AccountName = newAccountName;
 
         // If newPassword is null, generate a random password
-        passwordEntry.EncryptedPassword = EncryptionHelper.Encrypt(newPassword ?? PasswordGenerator.GeneratePassword(passwordLength), _masterPassword);
+        passwordEntry.EncryptedPassword = _encryptionService.Encrypt(newPassword ?? PasswordGenerator.GeneratePassword(passwordLength), _masterPassword);
 
         SavePasswordEntries();
         return true;

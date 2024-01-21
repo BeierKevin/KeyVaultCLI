@@ -1,18 +1,19 @@
 ﻿using KeyVaultCli.Application;
-using KeyVaultCli.Commands;
-using KeyVaultCli.Core;
 using KeyVaultCli.Domain;
-using KeyVaultCli.Infrastructure.UI;
+using KeyVaultCli.Domain.Commands;
+using KeyVaultCli.Infrastructure;
+using KeyVaultCli.Infrastructure.Cryptography;
 
-namespace KeyVaultCli;
+namespace KeyVaultCli.Presentation;
 
-class Program
+internal abstract class Program
 {
     private static void Main()
     {
-        // Create the service instance
         IConsoleService consoleService = new ConsoleService();
-        IVaultFactory vaultFactory = new VaultFactory(consoleService);
+        IEncryptionService encryptionService = new EncryptionService();
+        IFileService fileService = new FileService();
+        IVaultFactory vaultFactory = new VaultFactory(consoleService, encryptionService, fileService);
         
         Console.Title = "KeyVaultCli";
         consoleService.WriteInfo("Welcome to KeyVault");
@@ -20,7 +21,7 @@ class Program
         var masterPassword = Console.ReadLine();
         var vault = vaultFactory.CreateVault(masterPassword);
 
-        if(vault == null) return;  // Check if creation was successful
+        if(vault == null) return;
         
         // Command Pattern
         var commands = new Dictionary<string, ICommand>
@@ -61,6 +62,7 @@ class Program
             {
                 // Use the function in the service to execute the command.
                 // Successful execution, do nothing.
+                consoleService.WriteText("------------------------");
             }
             else
             {

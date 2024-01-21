@@ -1,6 +1,6 @@
 ﻿using System.Security.Cryptography;
 
-namespace KeyVaultCli.Cryptography;
+namespace KeyVaultCli.Infrastructure.Cryptography;
 
 public static class PasswordGenerator
 {

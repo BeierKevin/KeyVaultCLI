@@ -1,8 +1,7 @@
 ﻿using KeyVaultCli.Application;
-using KeyVaultCli.Core;
-using KeyVaultCli.Infrastructure.UI;
+using KeyVaultCli.Domain.Entities;
 
-namespace KeyVaultCli.Commands;
+namespace KeyVaultCli.Domain.Commands;
 
 public class CreatePasswordCommand : ICommand
 {

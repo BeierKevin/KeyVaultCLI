@@ -1,4 +1,6 @@
-﻿namespace KeyVaultCli.Core;
+﻿using KeyVaultCli.Domain.Entities;
+
+namespace KeyVaultCli.Domain.ValueObject;
 
 // Builder Pattern
 public class PasswordEntryBuilder

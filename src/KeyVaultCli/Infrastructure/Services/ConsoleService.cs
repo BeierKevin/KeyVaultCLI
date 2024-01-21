@@ -1,6 +1,7 @@
-﻿using KeyVaultCli.Infrastructure.UI;
+﻿using KeyVaultCli.Application;
+using KeyVaultCli.Infrastructure.UI;
 
-namespace KeyVaultCli.Application;
+namespace KeyVaultCli.Infrastructure;
 
 public class ConsoleService : IConsoleService
 {

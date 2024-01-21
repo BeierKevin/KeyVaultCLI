@@ -1,8 +1,8 @@
-﻿using KeyVaultCli.Commands;
+﻿using KeyVaultCli.Domain;
 
 namespace KeyVaultCli.Application;
 
-public class CommandService
+public class CommandService : ICommandService
 {
     private readonly Dictionary<string, ICommand> _commands;
 

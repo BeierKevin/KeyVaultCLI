@@ -1,8 +1,8 @@
 ﻿using KeyVaultCli.Application;
-using KeyVaultCli.Core;
-using KeyVaultCli.Infrastructure.UI;
+using KeyVaultCli.Domain.Entities;
+using KeyVaultCli.Infrastructure;
 
-namespace KeyVaultCli.Commands;
+namespace KeyVaultCli.Domain.Commands;
 
 public class UpdatePasswordCommand : ICommand
 {

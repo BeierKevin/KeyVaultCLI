@@ -1,7 +1,6 @@
 ﻿using KeyVaultCli.Application;
-using KeyVaultCli.Infrastructure.UI;
 
-namespace KeyVaultCli.Commands;
+namespace KeyVaultCli.Domain.Commands;
 
 public class ExitCommand : ICommand
 {

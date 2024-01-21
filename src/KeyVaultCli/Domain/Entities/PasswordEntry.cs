@@ -1,4 +1,4 @@
-namespace KeyVaultCli.Core;
+namespace KeyVaultCli.Domain.Entities;
 
 //Builder Pattern: If creating an instance of PasswordEntry involves setting more complex properties, or if there are many permutations of properties that could be set, you might want to introduce a builder for PasswordEntry. For example:
 // var passwordEntry = new PasswordEntryBuilder() .SetServiceName(serviceName) .SetAccountName(accountName) .SetEncryptedPassword(encryptedPassword) .Build();

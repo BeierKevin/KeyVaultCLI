@@ -1,17 +1,21 @@
 ﻿using KeyVaultCli.Application;
-using KeyVaultCli.Domain;
-using KeyVaultCli.Infrastructure.UI;
+using KeyVaultCli.Domain.Entities;
+using KeyVaultCli.Infrastructure.Cryptography;
 
-namespace KeyVaultCli.Core;
+namespace KeyVaultCli.Infrastructure;
 
 // Factory Pattern
 public class VaultFactory : IVaultFactory
 {
     private readonly IConsoleService _consoleService;
+    private readonly IEncryptionService _encryptionService;
+    private readonly IFileService _fileService;
     
-    public VaultFactory(IConsoleService consoleService)
+    public VaultFactory(IConsoleService consoleService, IEncryptionService encryptionService, IFileService fileService)
     {
         _consoleService = consoleService;
+        _encryptionService = encryptionService;
+        _fileService = fileService;
     }
 
     public Vault? CreateVault(string masterPassword)
@@ -22,7 +26,7 @@ public class VaultFactory : IVaultFactory
             return null;
         }
 
-        var vault = new Vault(masterPassword);
+        var vault = new Vault(masterPassword, _encryptionService, _fileService);
         var savedPassword = vault.LoadMasterPassword();
         if(savedPassword == null)
         {
