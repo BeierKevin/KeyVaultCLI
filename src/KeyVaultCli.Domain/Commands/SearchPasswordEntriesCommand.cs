@@ -1,14 +1,11 @@
-﻿using KeyVaultCli.Application;
-using KeyVaultCli.Domain.Entities;
-
-namespace KeyVaultCli.Domain.Commands;
+﻿namespace KeyVaultCli.Domain.Commands;
 
 public class SearchPasswordEntriesCommand : ICommand
 {
-    private readonly Vault _vault;
-    private readonly IConsoleService _consoleService;
+    private readonly IVault _vault;
+    private readonly IConsole _consoleService;
 
-    public SearchPasswordEntriesCommand(Vault vault, IConsoleService consoleService)
+    public SearchPasswordEntriesCommand(IVault vault, IConsole consoleService)
     {
         _vault = vault;
         _consoleService = consoleService;

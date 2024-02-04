@@ -19,7 +19,7 @@ internal abstract class Program
         consoleService.WriteInfo("Welcome to KeyVault");
         consoleService.WriteInfo("Enter your master password: ");
         var masterPassword = Console.ReadLine();
-        var vault = vaultFactory.CreateVault(masterPassword);
+        var vault = vaultFactory.CreateVault(masterPassword!);
 
         if(vault == null) return;
         

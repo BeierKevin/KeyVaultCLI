@@ -5,5 +5,5 @@ namespace KeyVaultCli.Application;
 
 public interface IVaultFactory
 {
-    Vault? CreateVault(string masterPassword);
+    IVault? CreateVault(string masterPassword);
 }

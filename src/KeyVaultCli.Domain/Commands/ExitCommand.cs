@@ -1,12 +1,10 @@
-﻿using KeyVaultCli.Application;
-
-namespace KeyVaultCli.Domain.Commands;
+﻿namespace KeyVaultCli.Domain.Commands;
 
 public class ExitCommand : ICommand
 {
-    private readonly IConsoleService _consoleService;
+    private readonly IConsole _consoleService;
 
-    public ExitCommand(IConsoleService consoleService)
+    public ExitCommand(IConsole consoleService)
     {
         _consoleService = consoleService;
     }

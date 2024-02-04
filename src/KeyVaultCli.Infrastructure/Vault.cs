@@ -5,7 +5,7 @@ using KeyVaultCli.Infrastructure.Cryptography;
 
 namespace KeyVaultCli.Domain.Entities;
 
-public class Vault
+public class Vault : IVault
 { 
     private readonly List<PasswordEntry> _passwordEntries;
     // Factory Pattern: Since the Vault needs a master password to initialize, you may have a factory that verifies the master password before returning a new Vault instance.
@@ -67,7 +67,7 @@ public class Vault
         SavePasswordEntries();
     }
 
-    private void SavePasswordEntries()
+    public void SavePasswordEntries()
     {
         var options = new JsonSerializerOptions { WriteIndented = true };
         var json = JsonSerializer.Serialize(_passwordEntries, options);

@@ -1,18 +1,14 @@
-﻿using KeyVaultCli.Application;
-using KeyVaultCli.Domain.Entities;
-using KeyVaultCli.Infrastructure;
-
-namespace KeyVaultCli.Domain.Commands;
+﻿namespace KeyVaultCli.Domain.Commands;
 
 public class UpdateMasterPasswordCommand : ICommand
 {
-    private readonly Vault _vault;
-    private readonly IConsoleService _consoleService;
+    private readonly IVault _vault;
+    private readonly IConsole _consoleService;
 
-    public UpdateMasterPasswordCommand(Vault vault, IConsoleService consoleService)
+    public UpdateMasterPasswordCommand(IVault vault, IConsole consoleService)
     {
         _vault = vault;
-        _consoleService = new ConsoleService();
+        _consoleService = consoleService;
     }
 
     public void Execute()

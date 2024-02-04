@@ -1,6 +1,6 @@
-﻿namespace KeyVaultCli.Application;
+﻿namespace KeyVaultCli.Domain;
 
-public interface IConsoleService
+public interface IConsole
 {
     string GetInput(string prompt);
     void WriteText(string message);

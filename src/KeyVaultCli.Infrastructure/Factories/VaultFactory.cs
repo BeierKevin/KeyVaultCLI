@@ -1,4 +1,5 @@
 ﻿using KeyVaultCli.Application;
+using KeyVaultCli.Domain;
 using KeyVaultCli.Domain.Entities;
 using KeyVaultCli.Infrastructure.Cryptography;
 
@@ -18,7 +19,7 @@ public class VaultFactory : IVaultFactory
         _fileService = fileService;
     }
 
-    public Vault? CreateVault(string masterPassword)
+    public IVault? CreateVault(string masterPassword)
     {
         if(string.IsNullOrEmpty(masterPassword))
         {
