@@ -1,6 +1,6 @@
 ﻿using KeyVaultCli.Application;
+using KeyVaultCli.Application.Commands;
 using KeyVaultCli.Domain;
-using KeyVaultCli.Domain.Commands;
 using KeyVaultCli.Infrastructure;
 using KeyVaultCli.Infrastructure.Cryptography;
 
