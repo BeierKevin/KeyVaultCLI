@@ -22,12 +22,14 @@ public class PasswordEntryBuilder
     public PasswordEntryBuilder SetAccountName(string accountName)
     {
         _passwordEntry.AccountName = accountName;
+        _passwordEntry.LastModifiedDate = DateTime.UtcNow;
         return this;
     }
 
     public PasswordEntryBuilder SetEncryptedPassword(string encryptedPassword)
     {
         _passwordEntry.EncryptedPassword = encryptedPassword;
+        _passwordEntry.LastModifiedDate = DateTime.UtcNow;
         return this;
     }
 

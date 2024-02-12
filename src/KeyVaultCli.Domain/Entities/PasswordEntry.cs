@@ -4,11 +4,11 @@ namespace KeyVaultCli.Domain.Entities;
 // var passwordEntry = new PasswordEntryBuilder() .SetServiceName(serviceName) .SetAccountName(accountName) .SetEncryptedPassword(encryptedPassword) .Build();
 public class PasswordEntry
 {
-    public Guid EntryId { get; set; }
+    public Guid EntryId { get; init; }
     public string ServiceName { get; set; }
     public string AccountName { get; set; }
     public string EncryptedPassword { get; set; }
-    public DateTime CreationDate { get; set; }
+    public DateTime CreationDate { get; init; }
     public DateTime LastModifiedDate { get; set; }
 
     public PasswordEntry()
