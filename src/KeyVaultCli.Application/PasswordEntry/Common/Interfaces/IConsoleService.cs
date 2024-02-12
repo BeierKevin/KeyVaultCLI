@@ -1,6 +1,6 @@
 ﻿using KeyVaultCli.Domain;
 
-namespace KeyVaultCli.Application;
+namespace KeyVaultCli.Application.PasswordEntry.Common.Interfaces;
 
 public interface IConsoleService : IConsole
 {

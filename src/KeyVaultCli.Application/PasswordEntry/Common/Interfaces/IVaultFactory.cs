@@ -1,7 +1,6 @@
 ﻿using KeyVaultCli.Domain;
-using KeyVaultCli.Domain.Entities;
 
-namespace KeyVaultCli.Application;
+namespace KeyVaultCli.Application.PasswordEntry.Common.Interfaces;
 
 public interface IVaultFactory
 {

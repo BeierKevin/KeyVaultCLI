@@ -1,5 +1,6 @@
 using System.Text.Json;
 using KeyVaultCli.Application;
+using KeyVaultCli.Application.PasswordEntry.Common.Interfaces;
 using KeyVaultCli.Domain.ValueObject;
 using KeyVaultCli.Infrastructure.Cryptography;
 

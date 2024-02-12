@@ -1,4 +1,4 @@
-﻿namespace KeyVaultCli.Application;
+﻿namespace KeyVaultCli.Application.PasswordEntry.Common.Interfaces;
 
 public interface IFileService
 {

@@ -1,4 +1,5 @@
 ﻿using KeyVaultCli.Application;
+using KeyVaultCli.Application.PasswordEntry.Common.Interfaces;
 
 namespace KeyVaultCli.Infrastructure;
 

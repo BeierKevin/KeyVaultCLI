@@ -1,10 +1,11 @@
 ﻿using KeyVaultCli.Application;
-using KeyVaultCli.Application.Cli;
 using KeyVaultCli.Application.Cli.Commands;
 using KeyVaultCli.Application.PasswordEntry.Commands.CreatePasswordEntry;
 using KeyVaultCli.Application.PasswordEntry.Commands.DeletePasswordEntry;
 using KeyVaultCli.Application.PasswordEntry.Commands.GetPasswordEntry;
 using KeyVaultCli.Application.PasswordEntry.Commands.UpdatePasswordEntry;
+using KeyVaultCli.Application.PasswordEntry.Common.Constants;
+using KeyVaultCli.Application.PasswordEntry.Common.Interfaces;
 using KeyVaultCli.Domain;
 using KeyVaultCli.Infrastructure;
 using KeyVaultCli.Infrastructure.Cryptography;
@@ -29,19 +30,19 @@ internal abstract class Program
         if(vault == null) return;
         
         // Command Pattern
-        var commands = new Dictionary<string, ICommand>
+        var commands = new Dictionary<CommandFlag, ICommand>
         {
-            { CommandFlags.CreatePassword, new CreatePasswordCommand(vault, consoleService) },
-            { CommandFlags.CreatePasswordGenerated, new CreatePasswordGenerateCommand(vault, consoleService) },
-            { CommandFlags.GetPassword, new GetPasswordCommand(vault, consoleService) },
-            { CommandFlags.GetAllPasswords, new GetAllPasswordsCommand(vault, consoleService) },
-            { CommandFlags.UpdatePassword, new UpdatePasswordCommand(vault, consoleService) },
-            { CommandFlags.UpdatePasswordGenerated, new UpdatePasswordGeneratedCommand(vault, consoleService) },
-            { CommandFlags.DeletePassword, new DeletePasswordCommand(vault, consoleService) },
-            { CommandFlags.SearchPasswordEntries, new SearchPasswordEntriesCommand(vault, consoleService) },
-            { CommandFlags.UpdateMasterPassword, new UpdateMasterPasswordCommand(vault, consoleService) },
-            { CommandFlags.Exit, new ExitCommand(consoleService) },
-            { CommandFlags.DeleteAllPasswords, new DeleteAllPasswordsCommand(vault, consoleService) }
+            { CommandFlag.CreatePassword, new CreatePasswordCommand(vault, consoleService) },
+            { CommandFlag.CreatePasswordGenerated, new CreatePasswordGenerateCommand(vault, consoleService) },
+            { CommandFlag.GetPassword, new GetPasswordCommand(vault, consoleService) },
+            { CommandFlag.GetAllPasswords, new GetAllPasswordsCommand(vault, consoleService) },
+            { CommandFlag.UpdatePassword, new UpdatePasswordCommand(vault, consoleService) },
+            { CommandFlag.UpdatePasswordGenerated, new UpdatePasswordGeneratedCommand(vault, consoleService) },
+            { CommandFlag.DeletePassword, new DeletePasswordCommand(vault, consoleService) },
+            { CommandFlag.SearchPasswordEntries, new SearchPasswordEntriesCommand(vault, consoleService) },
+            { CommandFlag.UpdateMasterPassword, new UpdateMasterPasswordCommand(vault, consoleService) },
+            { CommandFlag.Exit, new ExitCommand(consoleService) },
+            { CommandFlag.DeleteAllPasswords, new DeleteAllPasswordsCommand(vault, consoleService) }
         };
         
         var commandService = new CommandService(commands);
@@ -50,29 +51,37 @@ internal abstract class Program
         do
         {
             consoleService.WriteText("Enter a command:");
-            consoleService.WriteInfo(CommandFlags.CreatePassword + ". CreatePasswordEntry password");
-            consoleService.WriteInfo(CommandFlags.CreatePasswordGenerated + ". Generate and add password");
-            consoleService.WriteInfo(CommandFlags.GetPassword + ". GetPasswordEntry password");
-            consoleService.WriteInfo(CommandFlags.GetAllPasswords + ". GetPasswordEntry all password");
-            consoleService.WriteInfo(CommandFlags.UpdatePassword + ". UpdatePasswordEntry password");
-            consoleService.WriteInfo(CommandFlags.DeletePassword + ". DeletePasswordEntry Password");
-            consoleService.WriteInfo(CommandFlags.UpdatePasswordGenerated + ". UpdatePasswordEntry password details with generated password");
-            consoleService.WriteInfo(CommandFlags.SearchPasswordEntries + ". Search password entries");
-            consoleService.WriteInfo(CommandFlags.UpdateMasterPassword + ". UpdatePasswordEntry Master Password");
-            consoleService.WriteInfo(CommandFlags.Exit + ". Exit");
-            consoleService.WriteInfo(CommandFlags.DeleteAllPasswords + ". DeletePasswordEntry all Passwords");
+            consoleService.WriteInfo((int)CommandFlag.CreatePassword + ". CreatePasswordEntry password");
+            consoleService.WriteInfo((int)CommandFlag.CreatePasswordGenerated + ". Generate and add password");
+            consoleService.WriteInfo((int)CommandFlag.GetPassword + ". GetPasswordEntry password");
+            consoleService.WriteInfo((int)CommandFlag.GetAllPasswords + ". GetPasswordEntry all password");
+            consoleService.WriteInfo((int)CommandFlag.UpdatePassword + ". UpdatePasswordEntry password");
+            consoleService.WriteInfo((int)CommandFlag.DeletePassword + ". DeletePasswordEntry Password");
+            consoleService.WriteInfo((int)CommandFlag.UpdatePasswordGenerated + ". UpdatePasswordEntry password details with generated password");
+            consoleService.WriteInfo((int)CommandFlag.SearchPasswordEntries + ". Search password entries");
+            consoleService.WriteInfo((int)CommandFlag.UpdateMasterPassword + ". UpdatePasswordEntry Master Password");
+            consoleService.WriteInfo((int)CommandFlag.Exit + ". Exit");
+            consoleService.WriteInfo((int)CommandFlag.DeleteAllPasswords + ". DeletePasswordEntry all Passwords");
             command = consoleService.GetInput("Enter your choice: ");
 
-            if (commandService.ExecuteCommand(command))
+            
+            var validationErrorMessage = commandService.GetCommandValidationErrorMessage(command);
+            if (validationErrorMessage == null)
             {
-                // Use the function in the service to execute the command.
-                // Successful execution, do nothing.
-                consoleService.WriteText("------------------------");
+                var commandFlag = Enum.Parse<CommandFlag>(command);
+                if (commandService.ExecuteCommand(commandFlag, out var executionError))
+                {
+                    consoleService.WriteText("------------------------");
+                }
+                else 
+                {
+                    consoleService.WriteError(executionError);
+                }
             }
-            else
+            else 
             {
-                consoleService.WriteError("Invalid command");
+                consoleService.WriteError(validationErrorMessage);
             }
-        } while (command != "0");
+        } while (commandService.IsExitCommand(command) == false);
     }
 }
