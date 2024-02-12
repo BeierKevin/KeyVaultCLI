@@ -1,6 +1,6 @@
 ﻿using KeyVaultCli.Domain;
 
-namespace KeyVaultCli.Application.Commands;
+namespace KeyVaultCli.Application.PasswordEntry.Commands.DeletePasswordEntry;
 
 public class DeletePasswordCommand(IVault vault, IConsole consoleService) : ICommand
 {

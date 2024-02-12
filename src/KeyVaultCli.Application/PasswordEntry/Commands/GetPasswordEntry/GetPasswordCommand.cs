@@ -1,6 +1,6 @@
 ﻿using KeyVaultCli.Domain;
 
-namespace KeyVaultCli.Application.Commands;
+namespace KeyVaultCli.Application.PasswordEntry.Commands.GetPasswordEntry;
 
 public class GetPasswordCommand(IVault vault, IConsole consoleService) : ICommand
 {

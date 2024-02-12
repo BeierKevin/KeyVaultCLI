@@ -1,5 +1,10 @@
 ﻿using KeyVaultCli.Application;
-using KeyVaultCli.Application.Commands;
+using KeyVaultCli.Application.Cli;
+using KeyVaultCli.Application.Cli.Commands;
+using KeyVaultCli.Application.PasswordEntry.Commands.CreatePasswordEntry;
+using KeyVaultCli.Application.PasswordEntry.Commands.DeletePasswordEntry;
+using KeyVaultCli.Application.PasswordEntry.Commands.GetPasswordEntry;
+using KeyVaultCli.Application.PasswordEntry.Commands.UpdatePasswordEntry;
 using KeyVaultCli.Domain;
 using KeyVaultCli.Infrastructure;
 using KeyVaultCli.Infrastructure.Cryptography;
@@ -45,17 +50,17 @@ internal abstract class Program
         do
         {
             consoleService.WriteText("Enter a command:");
-            consoleService.WriteInfo(CommandFlags.CreatePassword + ". Create password");
+            consoleService.WriteInfo(CommandFlags.CreatePassword + ". CreatePasswordEntry password");
             consoleService.WriteInfo(CommandFlags.CreatePasswordGenerated + ". Generate and add password");
-            consoleService.WriteInfo(CommandFlags.GetPassword + ". Get password");
-            consoleService.WriteInfo(CommandFlags.GetAllPasswords + ". Get all password");
-            consoleService.WriteInfo(CommandFlags.UpdatePassword + ". Update password");
-            consoleService.WriteInfo(CommandFlags.DeletePassword + ". Delete Password");
-            consoleService.WriteInfo(CommandFlags.UpdatePasswordGenerated + ". Update password details with generated password");
+            consoleService.WriteInfo(CommandFlags.GetPassword + ". GetPasswordEntry password");
+            consoleService.WriteInfo(CommandFlags.GetAllPasswords + ". GetPasswordEntry all password");
+            consoleService.WriteInfo(CommandFlags.UpdatePassword + ". UpdatePasswordEntry password");
+            consoleService.WriteInfo(CommandFlags.DeletePassword + ". DeletePasswordEntry Password");
+            consoleService.WriteInfo(CommandFlags.UpdatePasswordGenerated + ". UpdatePasswordEntry password details with generated password");
             consoleService.WriteInfo(CommandFlags.SearchPasswordEntries + ". Search password entries");
-            consoleService.WriteInfo(CommandFlags.UpdateMasterPassword + ". Update Master Password");
+            consoleService.WriteInfo(CommandFlags.UpdateMasterPassword + ". UpdatePasswordEntry Master Password");
             consoleService.WriteInfo(CommandFlags.Exit + ". Exit");
-            consoleService.WriteInfo(CommandFlags.DeleteAllPasswords + ". Delete all Passwords");
+            consoleService.WriteInfo(CommandFlags.DeleteAllPasswords + ". DeletePasswordEntry all Passwords");
             command = consoleService.GetInput("Enter your choice: ");
 
             if (commandService.ExecuteCommand(command))

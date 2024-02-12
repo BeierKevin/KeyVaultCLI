@@ -1,6 +1,6 @@
 ﻿using KeyVaultCli.Domain;
 
-namespace KeyVaultCli.Application.Commands;
+namespace KeyVaultCli.Application.PasswordEntry.Commands.UpdatePasswordEntry;
 
 public class UpdatePasswordGeneratedCommand(IVault vault, IConsole consoleService) : ICommand
 {
