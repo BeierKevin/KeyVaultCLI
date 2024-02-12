@@ -6,7 +6,7 @@ public interface IVault
 {
     public void SaveMasterPassword();
 
-    public string LoadMasterPassword();
+    public string? LoadMasterPassword();
 
     public bool UpdateMasterPassword(string oldPassword, string newPassword);
 
@@ -20,10 +20,10 @@ public interface IVault
 
     public List<PasswordEntry> LoadPasswordEntries();
 
-    public string? GetPassword(string? serviceName, string? accountName);
+    public string GetPassword(string serviceName, string accountName);
 
     public bool UpdatePasswordEntry(string currentServiceName, string currentAccountName, string newServiceName,
-        string newAccountName, int passwordLength, string newPassword = null);
+        string newAccountName, int passwordLength, string? newPassword = null);
 
     public List<PasswordEntry> SearchPasswordEntries(string searchTerm);
 

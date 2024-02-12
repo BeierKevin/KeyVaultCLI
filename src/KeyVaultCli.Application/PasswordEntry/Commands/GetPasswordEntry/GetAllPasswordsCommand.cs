@@ -9,10 +9,10 @@ public class GetAllPasswordsCommand(IVault vault, IConsole consoleService) : ICo
     {
         var allPasswordEntries = vault.LoadPasswordEntries();
 
-        if (allPasswordEntries != null && allPasswordEntries.Any())
+        if (allPasswordEntries.Any())
         {
-            string[] headers = { "GUID", "Service Name", "AccountName", "Password", "Creation Date", "Last Modified Date", };
-    
+            string[] headers = { "GUID", "Service Name", "AccountName", "Password (Decrypted)", "Creation Date", "Last Modified Date", };
+
             // Transform every PasswordEntry into a List of objects
             List<List<object>> dataRows = allPasswordEntries
                 .Select(entry => new List<object>

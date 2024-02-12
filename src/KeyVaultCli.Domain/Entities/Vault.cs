@@ -1,5 +1,6 @@
 using System.Text.Json;
 using KeyVaultCli.Domain.Common.Interfaces;
+using KeyVaultCli.Domain.Exceptions;
 
 namespace KeyVaultCli.Domain.Entities;
 
@@ -30,14 +31,11 @@ public class Vault : IVault
         _fileService.WriteAllText(_passwordFile, encryptedPassword);
     }
 
-    public string LoadMasterPassword()
+    public string? LoadMasterPassword()
     {
-        if (_fileService.Exists(_passwordFile))
-        {
-            var encryptedPassword = _fileService.ReadAllText(_passwordFile);
-            return _encryptionService.Decrypt(encryptedPassword, _masterPassword);
-        }
-        return null;
+        if (!_fileService.Exists(_passwordFile)) return null;
+        var encryptedPassword = _fileService.ReadAllText(_passwordFile);
+        return _encryptionService.Decrypt(encryptedPassword, _masterPassword);
     }
     
     public bool UpdateMasterPassword(string oldPassword, string newPassword)
@@ -105,24 +103,26 @@ public class Vault : IVault
         {
             return new List<PasswordEntry>();
         }
-    
+
         var json = _fileService.ReadAllText(_filePath);
-        return JsonSerializer.Deserialize<List<PasswordEntry>>(json);
+        return JsonSerializer.Deserialize<List<PasswordEntry>>(json) ?? new List<PasswordEntry>();
     }
 
-    public string? GetPassword(string? serviceName, string? accountName)
+    public string GetPassword(string serviceName, string accountName)
     {
-        if (serviceName is null || accountName is null) return null;
+        if (serviceName is null || accountName is null)
+            throw new ArgumentNullException(serviceName is null ? nameof(serviceName) : nameof(accountName));
 
-        var passwordEntry = _passwordEntries.FirstOrDefault(entry => 
+        var passwordEntry = _passwordEntries.FirstOrDefault(entry =>
             entry.ServiceName == serviceName && entry.AccountName == accountName);
 
-        return passwordEntry != null
-            ? _encryptionService.Decrypt(passwordEntry.EncryptedPassword, _masterPassword)
-            : null;
+        if (passwordEntry is null)
+            throw new PasswordNotFoundException(serviceName, accountName);
+
+        return  _encryptionService.Decrypt(passwordEntry.EncryptedPassword, _masterPassword);
     }
     
-    public bool UpdatePasswordEntry(string currentServiceName, string currentAccountName, string newServiceName, string newAccountName, int passwordLength, string newPassword = null)
+    public bool UpdatePasswordEntry(string currentServiceName, string currentAccountName, string newServiceName, string newAccountName, int passwordLength, string? newPassword = null)
     {
         var passwordEntry = _passwordEntries.FirstOrDefault(x =>
             x.ServiceName == currentServiceName && x.AccountName == currentAccountName);

@@ -9,6 +9,12 @@ public class GetPasswordCommand(IVault vault, IConsole consoleService) : IComman
     {
         var serviceName = consoleService.GetInputFromPrompt("Enter the service name: ");
         var accountName = consoleService.GetInputFromPrompt("Enter the account name: ");
+        
+        if(accountName == string.Empty || serviceName == string.Empty)
+        {
+            consoleService.WriteError("Service name and account name cannot be empty.");
+            return;
+        }
 
         var password = vault.GetPassword(serviceName, accountName);
 
