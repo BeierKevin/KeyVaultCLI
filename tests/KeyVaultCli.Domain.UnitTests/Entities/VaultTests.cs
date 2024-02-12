@@ -3,7 +3,7 @@ using KeyVaultCli.Infrastructure.Cryptography;
 using KeyVaultCli.Infrastructure.Services;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace KeyVaultCli.Domain.UnitTests;
+namespace KeyVaultCli.Domain.UnitTests.Entities;
 
 [TestClass]
 public class VaultTests

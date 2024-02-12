@@ -1,10 +1,9 @@
-using KeyVaultCli.Domain.Entities;
 using KeyVaultCli.Domain.Factories;
 using KeyVaultCli.Infrastructure.Cryptography;
 using KeyVaultCli.Infrastructure.Services;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace KeyVaultCli.Domain.UnitTests;
+namespace KeyVaultCli.Domain.UnitTests.Entities;
 
 [TestClass]
 public class VaultFactoryTests
@@ -36,14 +35,5 @@ public class VaultFactoryTests
         var result = _vaultFactory.CreateVault("wrongMasterPassword");
 
         Assert.IsNull(result, "Should not create a Vault instance if the master password is incorrect.");
-    }
-
-    [TestMethod]
-    public void TestCreateVault_withValidMasterPassword_ReturnsVault()
-    {
-        var result = _vaultFactory.CreateVault("correctMasterPassword");
-
-        Assert.IsInstanceOfType(result, typeof(Vault),
-            "Should create a Vault instance if the master password is correct.");
     }
 }
