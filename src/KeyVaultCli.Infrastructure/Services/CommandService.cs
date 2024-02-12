@@ -1,5 +1,5 @@
-﻿using KeyVaultCli.Application.PasswordEntry.Common.Constants;
-using KeyVaultCli.Application.PasswordEntry.Common.Interfaces;
+﻿using KeyVaultCli.Application.Common.Constants;
+using KeyVaultCli.Application.Common.Interfaces;
 using KeyVaultCli.Domain;
 
 namespace KeyVaultCli.Application;

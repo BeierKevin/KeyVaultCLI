@@ -1,6 +1,6 @@
-﻿using KeyVaultCli.Application.PasswordEntry.Common.Constants;
+﻿using KeyVaultCli.Application.Common.Constants;
 
-namespace KeyVaultCli.Application.PasswordEntry.Common.Interfaces;
+namespace KeyVaultCli.Application.Common.Interfaces;
 
 public interface ICommandService
 {

@@ -1,5 +1,5 @@
 ﻿using KeyVaultCli.Application;
-using KeyVaultCli.Application.PasswordEntry.Common.Interfaces;
+using KeyVaultCli.Application.Common.Interfaces;
 using KeyVaultCli.Domain;
 using KeyVaultCli.Domain.Entities;
 using KeyVaultCli.Infrastructure.Cryptography;

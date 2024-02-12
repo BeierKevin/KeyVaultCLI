@@ -1,11 +1,11 @@
 ﻿using KeyVaultCli.Application;
 using KeyVaultCli.Application.Cli.Commands;
+using KeyVaultCli.Application.Common.Constants;
+using KeyVaultCli.Application.Common.Interfaces;
 using KeyVaultCli.Application.PasswordEntry.Commands.CreatePasswordEntry;
 using KeyVaultCli.Application.PasswordEntry.Commands.DeletePasswordEntry;
 using KeyVaultCli.Application.PasswordEntry.Commands.GetPasswordEntry;
 using KeyVaultCli.Application.PasswordEntry.Commands.UpdatePasswordEntry;
-using KeyVaultCli.Application.PasswordEntry.Common.Constants;
-using KeyVaultCli.Application.PasswordEntry.Common.Interfaces;
 using KeyVaultCli.Domain;
 using KeyVaultCli.Infrastructure;
 using KeyVaultCli.Infrastructure.Cryptography;

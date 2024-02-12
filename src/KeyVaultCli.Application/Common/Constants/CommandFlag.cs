@@ -1,4 +1,4 @@
-﻿namespace KeyVaultCli.Application.PasswordEntry.Common.Constants;
+﻿namespace KeyVaultCli.Application.Common.Constants;
 
 public enum CommandFlag
 {
