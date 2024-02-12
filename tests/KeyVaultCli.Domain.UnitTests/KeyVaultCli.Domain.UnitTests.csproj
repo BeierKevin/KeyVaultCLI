@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+		<RootNamespace>KeyVaultCli.Domain.UnitTests</RootNamespace>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="MSTest" Version="3.2.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\..\src\KeyVaultCli.Domain\KeyVaultCli.Domain.csproj" />
+	  <ProjectReference Include="..\..\src\KeyVaultCli.Infrastructure\KeyVaultCli.Infrastructure.csproj" />
+	</ItemGroup>
+
+</Project>
