@@ -1,7 +1,6 @@
-﻿using KeyVaultCli.Application;
-using KeyVaultCli.Application.Common.Interfaces;
+﻿using KeyVaultCli.Application.Common.Interfaces;
 
-namespace KeyVaultCli.Infrastructure;
+namespace KeyVaultCli.Infrastructure.Services;
 
 public class FileService : IFileService
 {

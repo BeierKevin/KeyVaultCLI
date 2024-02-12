@@ -8,6 +8,8 @@ using KeyVaultCli.Application.PasswordEntry.Commands.GetPasswordEntry;
 using KeyVaultCli.Application.PasswordEntry.Commands.UpdatePasswordEntry;
 using KeyVaultCli.Infrastructure;
 using KeyVaultCli.Infrastructure.Cryptography;
+using KeyVaultCli.Infrastructure.Factories;
+using KeyVaultCli.Infrastructure.Services;
 
 namespace KeyVaultCli.Presentation;
 

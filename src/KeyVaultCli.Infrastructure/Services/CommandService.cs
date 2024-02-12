@@ -1,8 +1,7 @@
 ﻿using KeyVaultCli.Application.Common.Constants;
 using KeyVaultCli.Application.Common.Interfaces;
-using KeyVaultCli.Domain;
 
-namespace KeyVaultCli.Application;
+namespace KeyVaultCli.Infrastructure.Services;
 
 public class CommandService(Dictionary<CommandFlag, ICommand> commands) : ICommandService
 {

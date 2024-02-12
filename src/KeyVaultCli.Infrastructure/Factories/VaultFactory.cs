@@ -1,34 +1,26 @@
-﻿using KeyVaultCli.Application;
-using KeyVaultCli.Application.Common.Interfaces;
+﻿using KeyVaultCli.Application.Common.Interfaces;
 using KeyVaultCli.Domain;
 using KeyVaultCli.Domain.Entities;
 using KeyVaultCli.Infrastructure.Cryptography;
 
-namespace KeyVaultCli.Infrastructure;
+namespace KeyVaultCli.Infrastructure.Factories;
 
 // Factory Pattern
-public class VaultFactory : IVaultFactory
+public class VaultFactory(
+    IConsoleService consoleService,
+    IEncryptionService encryptionService,
+    IFileService fileService)
+    : IVaultFactory
 {
-    private readonly IConsoleService _consoleService;
-    private readonly IEncryptionService _encryptionService;
-    private readonly IFileService _fileService;
-    
-    public VaultFactory(IConsoleService consoleService, IEncryptionService encryptionService, IFileService fileService)
-    {
-        _consoleService = consoleService;
-        _encryptionService = encryptionService;
-        _fileService = fileService;
-    }
-
     public IVault? CreateVault(string masterPassword)
     {
         if(string.IsNullOrEmpty(masterPassword))
         {
-            _consoleService.WriteError("Master password should not be empty");
+            consoleService.WriteError("Master password should not be empty");
             return null;
         }
 
-        var vault = new Vault(masterPassword, _encryptionService, _fileService);
+        var vault = new Vault(masterPassword, encryptionService, fileService);
         var savedPassword = vault.LoadMasterPassword();
         if(savedPassword == null)
         {
@@ -36,7 +28,7 @@ public class VaultFactory : IVaultFactory
         }
         else if(savedPassword != masterPassword)
         {
-            _consoleService.WriteError("Invalid master password. Exit.");
+            consoleService.WriteError("Invalid master password. Exit.");
             return null;
         }
         

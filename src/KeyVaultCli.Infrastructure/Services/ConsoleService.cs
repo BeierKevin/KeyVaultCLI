@@ -1,12 +1,11 @@
-﻿using KeyVaultCli.Application;
-using KeyVaultCli.Application.Common.Interfaces;
+﻿using KeyVaultCli.Application.Common.Interfaces;
 using KeyVaultCli.Infrastructure.UI;
 
-namespace KeyVaultCli.Infrastructure;
+namespace KeyVaultCli.Infrastructure.Services;
 
 public class ConsoleService : IConsoleService
 {
-    public string GetInput(string prompt)
+    public string? GetInput(string prompt)
     {
         Console.Write(prompt);
         return Console.ReadLine();

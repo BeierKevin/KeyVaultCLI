@@ -1,5 +1,4 @@
 using System.Text.Json;
-using KeyVaultCli.Application;
 using KeyVaultCli.Application.Common.Interfaces;
 using KeyVaultCli.Domain.ValueObject;
 using KeyVaultCli.Infrastructure.Cryptography;
