@@ -8,11 +8,11 @@ public class UpdatePasswordGeneratedCommand(IVault vault, IConsole consoleServic
 {
     public void Execute()
     {
-        var oldServiceName = consoleService.GetInput("Enter old service name: ");
-        var oldAccountName = consoleService.GetInput("Enter old account name: ");
-        var newServiceName = consoleService.GetInput("Enter new service name: ");
-        var newAccountName = consoleService.GetInput("Enter new account name: ");
-        var passwordLengthInput = consoleService.GetInput("Enter the number of characters for the new password (e.g. 10): ");
+        var oldServiceName = consoleService.GetInputFromPrompt("Enter old service name: ");
+        var oldAccountName = consoleService.GetInputFromPrompt("Enter old account name: ");
+        var newServiceName = consoleService.GetInputFromPrompt("Enter new service name: ");
+        var newAccountName = consoleService.GetInputFromPrompt("Enter new account name: ");
+        var passwordLengthInput = consoleService.GetInputFromPrompt("Enter the number of characters for the new password (e.g. 10): ");
 
         if (!int.TryParse(passwordLengthInput, out var passwordLength))
         {

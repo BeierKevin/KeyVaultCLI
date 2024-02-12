@@ -8,9 +8,9 @@ public class CreatePasswordGenerateCommand(IVault vault, IConsole consoleService
 {
     public void Execute()
     {
-        var serviceName = consoleService.GetInput("Enter service name for the new password: ");
-        var accountName = consoleService.GetInput("Enter account name for the new password: ");
-        var passwordLengthStr = consoleService.GetInput("Enter the desired password length: ");
+        var serviceName = consoleService.GetInputFromPrompt("Enter service name for the new password: ");
+        var accountName = consoleService.GetInputFromPrompt("Enter account name for the new password: ");
+        var passwordLengthStr = consoleService.GetInputFromPrompt("Enter the desired password length: ");
 
         if (!int.TryParse(passwordLengthStr, out var passwordLength))
         {

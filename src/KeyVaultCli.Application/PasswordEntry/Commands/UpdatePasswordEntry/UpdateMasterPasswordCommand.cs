@@ -8,8 +8,8 @@ public class UpdateMasterPasswordCommand(IVault vault, IConsole consoleService) 
 {
     public void Execute()
     {
-        var oldPassword = consoleService.GetInput("Enter current master password: ");
-        var newPassword = consoleService.GetInput("Enter new master password: ");
+        var oldPassword = consoleService.GetInputFromPrompt("Enter current master password: ");
+        var newPassword = consoleService.GetInputFromPrompt("Enter new master password: ");
 
         if (vault.UpdateMasterPassword(oldPassword, newPassword))
         {

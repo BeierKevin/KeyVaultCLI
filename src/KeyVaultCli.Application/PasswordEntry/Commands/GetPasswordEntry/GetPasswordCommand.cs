@@ -8,8 +8,8 @@ public class GetPasswordCommand(IVault vault, IConsole consoleService) : IComman
 {
     public void Execute()
     {
-        var serviceName = consoleService.GetInput("Enter the service name: ");
-        var accountName = consoleService.GetInput("Enter the account name: ");
+        var serviceName = consoleService.GetInputFromPrompt("Enter the service name: ");
+        var accountName = consoleService.GetInputFromPrompt("Enter the account name: ");
 
         var password = vault.GetPassword(serviceName, accountName);
 

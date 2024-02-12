@@ -8,9 +8,9 @@ public class CreatePasswordCommand(IVault vault, IConsole consoleService) : ICom
 {
     public void Execute()
     {
-        var serviceName = consoleService.GetInput("Enter service name for the new password: "); // Use the service
-        var accountName = consoleService.GetInput("Enter account name for the new password: "); // Use the service
-        var password = consoleService.GetInput("Enter the password: "); // Use the service
+        var serviceName = consoleService.GetInputFromPrompt("Enter service name for the new password: "); // Use the service
+        var accountName = consoleService.GetInputFromPrompt("Enter account name for the new password: "); // Use the service
+        var password = consoleService.GetInputFromPrompt("Enter the password: "); // Use the service
 
         vault.AddPasswordEntry(serviceName, accountName, password);
 

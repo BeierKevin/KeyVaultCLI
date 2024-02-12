@@ -8,7 +8,7 @@ public class SearchPasswordEntriesCommand(IVault vault, IConsole consoleService)
 {
     public void Execute()
     {
-        var query = consoleService.GetInput("Enter your search query: ");
+        var query = consoleService.GetInputFromPrompt("Enter your search query: ");
 
         var matchingEntries = vault.SearchPasswordEntries(query);
 

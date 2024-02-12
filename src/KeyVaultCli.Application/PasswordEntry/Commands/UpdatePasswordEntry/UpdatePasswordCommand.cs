@@ -8,11 +8,11 @@ public class UpdatePasswordCommand(IVault vault, IConsole consoleService) : ICom
 {
     public void Execute()
     {
-        var currentServiceName = consoleService.GetInput("Enter current service name: ");
-        var currentAccountName = consoleService.GetInput("Enter current account name: ");
-        var newServiceName = consoleService.GetInput("Enter new service name: ");
-        var newAccountName = consoleService.GetInput("Enter new account name: ");
-        var newPassword = consoleService.GetInput("Enter new password: ");
+        var currentServiceName = consoleService.GetInputFromPrompt("Enter current service name: ");
+        var currentAccountName = consoleService.GetInputFromPrompt("Enter current account name: ");
+        var newServiceName = consoleService.GetInputFromPrompt("Enter new service name: ");
+        var newAccountName = consoleService.GetInputFromPrompt("Enter new account name: ");
+        var newPassword = consoleService.GetInputFromPrompt("Enter new password: ");
 
         if (vault.UpdatePasswordEntry(currentServiceName, currentAccountName, newServiceName, newAccountName, newPassword.Length, newPassword))
         {

@@ -8,7 +8,7 @@ public class DeleteAllPasswordsCommand(IVault vault, IConsole consoleService) : 
 {
     public void Execute()
     {
-        var confirmation = consoleService.GetInput("Are you sure you want to delete all passwords? (yes/no): ");
+        var confirmation = consoleService.GetInputFromPrompt("Are you sure you want to delete all passwords? (yes/no): ");
         if (confirmation.ToLower() == "yes")
         {
             vault.DeleteAllPasswordEntries();

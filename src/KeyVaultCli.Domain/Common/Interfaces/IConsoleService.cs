@@ -2,7 +2,7 @@
 
 public interface IConsoleService : IConsole
 {
-    new string? GetInput(string prompt);
+    new string GetInputFromPrompt(string prompt);
 
     new void WriteText(string message);
 

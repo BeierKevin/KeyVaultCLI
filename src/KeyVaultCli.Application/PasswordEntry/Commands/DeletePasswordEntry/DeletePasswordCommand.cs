@@ -8,8 +8,8 @@ public class DeletePasswordCommand(IVault vault, IConsole consoleService) : ICom
 {
     public void Execute()
     {
-        var serviceName = consoleService.GetInput("Enter the service name for the password you want to delete: ");
-        var accountName = consoleService.GetInput("Enter the account name for the password you want to delete: ");
+        var serviceName = consoleService.GetInputFromPrompt("Enter the service name for the password you want to delete: ");
+        var accountName = consoleService.GetInputFromPrompt("Enter the account name for the password you want to delete: ");
 
         var isDeleted = vault.DeletePasswordEntry(serviceName, accountName);
 

@@ -63,7 +63,7 @@ internal abstract class Program
             consoleService.WriteInfo((int)CommandFlag.UpdateMasterPassword + ". UpdatePasswordEntry Master Password");
             consoleService.WriteInfo((int)CommandFlag.Exit + ". Exit");
             consoleService.WriteInfo((int)CommandFlag.DeleteAllPasswords + ". DeletePasswordEntry all Passwords");
-            command = consoleService.GetInput("Enter your choice: ");
+            command = consoleService.GetInputFromPrompt("Enter your choice: ");
 
             
             var validationErrorMessage = commandService.GetCommandValidationErrorMessage(command);
