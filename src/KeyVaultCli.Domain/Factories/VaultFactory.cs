@@ -1,15 +1,12 @@
-﻿using KeyVaultCli.Application.Common.Interfaces;
-using KeyVaultCli.Domain;
-using KeyVaultCli.Domain.Entities;
-using KeyVaultCli.Infrastructure.Cryptography;
+﻿using KeyVaultCli.Domain.Common.Interfaces;
 
-namespace KeyVaultCli.Infrastructure.Factories;
+namespace KeyVaultCli.Domain.Factories;
 
 // Factory Pattern
 public class VaultFactory(
     IConsoleService consoleService,
     IEncryptionService encryptionService,
-    IFileService fileService)
+    IFileService fileService, IPasswordGenerator passwordGenerator)
     : IVaultFactory
 {
     public IVault? CreateVault(string masterPassword)
@@ -20,7 +17,7 @@ public class VaultFactory(
             return null;
         }
 
-        var vault = new Vault(masterPassword, encryptionService, fileService);
+        var vault = new Vault(masterPassword, encryptionService, fileService, passwordGenerator);
         var savedPassword = vault.LoadMasterPassword();
         if(savedPassword == null)
         {

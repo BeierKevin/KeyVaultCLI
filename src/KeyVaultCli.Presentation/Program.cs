@@ -1,14 +1,13 @@
-﻿using KeyVaultCli.Application;
-using KeyVaultCli.Application.Cli.Commands;
+﻿using KeyVaultCli.Application.Cli.Commands;
 using KeyVaultCli.Application.Common.Constants;
 using KeyVaultCli.Application.Common.Interfaces;
 using KeyVaultCli.Application.PasswordEntry.Commands.CreatePasswordEntry;
 using KeyVaultCli.Application.PasswordEntry.Commands.DeletePasswordEntry;
 using KeyVaultCli.Application.PasswordEntry.Commands.GetPasswordEntry;
 using KeyVaultCli.Application.PasswordEntry.Commands.UpdatePasswordEntry;
-using KeyVaultCli.Infrastructure;
+using KeyVaultCli.Domain.Common.Interfaces;
+using KeyVaultCli.Domain.Factories;
 using KeyVaultCli.Infrastructure.Cryptography;
-using KeyVaultCli.Infrastructure.Factories;
 using KeyVaultCli.Infrastructure.Services;
 
 namespace KeyVaultCli.Presentation;
@@ -20,7 +19,8 @@ internal abstract class Program
         IConsoleService consoleService = new ConsoleService();
         IEncryptionService encryptionService = new EncryptionService();
         IFileService fileService = new FileService();
-        IVaultFactory vaultFactory = new VaultFactory(consoleService, encryptionService, fileService);
+        IPasswordGenerator passwordGenerator = new PasswordGenerator();
+        IVaultFactory vaultFactory = new VaultFactory(consoleService, encryptionService, fileService, passwordGenerator);
         
         Console.Title = "KeyVaultCli";
         consoleService.WriteInfo("Welcome to KeyVault");

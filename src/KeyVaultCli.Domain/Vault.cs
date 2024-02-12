@@ -1,9 +1,9 @@
 using System.Text.Json;
-using KeyVaultCli.Application.Common.Interfaces;
+using KeyVaultCli.Domain.Common.Interfaces;
+using KeyVaultCli.Domain.Entities;
 using KeyVaultCli.Domain.ValueObject;
-using KeyVaultCli.Infrastructure.Cryptography;
 
-namespace KeyVaultCli.Domain.Entities;
+namespace KeyVaultCli.Domain;
 
 public class Vault : IVault
 { 
@@ -15,12 +15,14 @@ public class Vault : IVault
     private readonly string _passwordFile = "masterpassword.dat";
     private readonly IEncryptionService _encryptionService;
     private readonly IFileService _fileService;
+    private readonly IPasswordGenerator _passwordGenerator;
 
-    public Vault(string masterPassword, IEncryptionService encryptionService, IFileService fileService)
+    public Vault(string masterPassword, IEncryptionService encryptionService, IFileService fileService, IPasswordGenerator passwordGenerator)
     {
         _masterPassword = masterPassword;
         _encryptionService = encryptionService;
         _fileService = fileService;
+        _passwordGenerator = passwordGenerator;
         _passwordEntries = LoadPasswordEntries();
     }
     
@@ -134,7 +136,7 @@ public class Vault : IVault
         passwordEntry.AccountName = newAccountName;
 
         // If newPassword is null, generate a random password
-        passwordEntry.EncryptedPassword = _encryptionService.Encrypt(newPassword ?? PasswordGenerator.GeneratePassword(passwordLength), _masterPassword);
+        passwordEntry.EncryptedPassword = _encryptionService.Encrypt(newPassword ?? _passwordGenerator.GeneratePassword(passwordLength), _masterPassword);
 
         SavePasswordEntries();
         return true;
@@ -150,7 +152,7 @@ public class Vault : IVault
     
     public string GenerateAndAddPasswordEntry(string serviceName, string accountName, int passwordLength)
     {
-        var password = PasswordGenerator.GeneratePassword(passwordLength);  // Generate a password
+        var password = _passwordGenerator.GeneratePassword(passwordLength);  // Generate a password
         AddPasswordEntry(serviceName, accountName, password);  // Add it to password entries
         return password;
     }

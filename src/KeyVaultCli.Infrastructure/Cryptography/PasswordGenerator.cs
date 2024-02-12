@@ -1,12 +1,13 @@
 ﻿using System.Security.Cryptography;
+using KeyVaultCli.Domain.Common.Interfaces;
 
 namespace KeyVaultCli.Infrastructure.Cryptography;
 
-public static class PasswordGenerator
+public class PasswordGenerator : IPasswordGenerator
 {
     private static readonly char[] allowableCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890".ToCharArray();
 
-    public static string GeneratePassword(int length)
+    public string GeneratePassword(int length)
     {
         var bytes = new byte[length * 8];
         using (var cryptoProvider = new RNGCryptoServiceProvider())

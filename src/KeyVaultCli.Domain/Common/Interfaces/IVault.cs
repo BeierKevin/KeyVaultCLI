@@ -1,6 +1,6 @@
 ﻿using KeyVaultCli.Domain.Entities;
 
-namespace KeyVaultCli.Domain;
+namespace KeyVaultCli.Domain.Common.Interfaces;
 
 public interface IVault
 {

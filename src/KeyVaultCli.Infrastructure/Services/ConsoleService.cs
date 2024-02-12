@@ -1,4 +1,5 @@
 ﻿using KeyVaultCli.Application.Common.Interfaces;
+using KeyVaultCli.Domain.Common.Interfaces;
 using KeyVaultCli.Infrastructure.UI;
 
 namespace KeyVaultCli.Infrastructure.Services;

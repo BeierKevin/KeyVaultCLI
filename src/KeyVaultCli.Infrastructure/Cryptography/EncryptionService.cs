@@ -1,4 +1,6 @@
-﻿namespace KeyVaultCli.Infrastructure.Cryptography;
+﻿using KeyVaultCli.Domain.Common.Interfaces;
+
+namespace KeyVaultCli.Infrastructure.Cryptography;
 
 public class EncryptionService : IEncryptionService
 {
