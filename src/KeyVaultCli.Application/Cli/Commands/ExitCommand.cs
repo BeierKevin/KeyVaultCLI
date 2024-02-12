@@ -1,4 +1,5 @@
-﻿using KeyVaultCli.Domain;
+﻿using KeyVaultCli.Application.Common.Interfaces;
+using KeyVaultCli.Domain;
 
 namespace KeyVaultCli.Application.Cli.Commands;
 

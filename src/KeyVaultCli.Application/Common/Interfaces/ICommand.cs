@@ -1,4 +1,4 @@
-﻿namespace KeyVaultCli.Domain;
+﻿namespace KeyVaultCli.Application.Common.Interfaces;
 
 // Command Pattern
 public interface ICommand

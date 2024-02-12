@@ -6,7 +6,6 @@ using KeyVaultCli.Application.PasswordEntry.Commands.CreatePasswordEntry;
 using KeyVaultCli.Application.PasswordEntry.Commands.DeletePasswordEntry;
 using KeyVaultCli.Application.PasswordEntry.Commands.GetPasswordEntry;
 using KeyVaultCli.Application.PasswordEntry.Commands.UpdatePasswordEntry;
-using KeyVaultCli.Domain;
 using KeyVaultCli.Infrastructure;
 using KeyVaultCli.Infrastructure.Cryptography;
 
