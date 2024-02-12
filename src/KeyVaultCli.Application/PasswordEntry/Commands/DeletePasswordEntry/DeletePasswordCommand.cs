@@ -1,5 +1,4 @@
 ﻿using KeyVaultCli.Application.Common.Interfaces;
-using KeyVaultCli.Domain;
 using KeyVaultCli.Domain.Common.Interfaces;
 
 namespace KeyVaultCli.Application.PasswordEntry.Commands.DeletePasswordEntry;

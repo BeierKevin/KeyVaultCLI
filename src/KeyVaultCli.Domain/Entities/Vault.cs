@@ -1,9 +1,7 @@
 using System.Text.Json;
 using KeyVaultCli.Domain.Common.Interfaces;
-using KeyVaultCli.Domain.Entities;
-using KeyVaultCli.Domain.ValueObject;
 
-namespace KeyVaultCli.Domain;
+namespace KeyVaultCli.Domain.Entities;
 
 public class Vault : IVault
 { 

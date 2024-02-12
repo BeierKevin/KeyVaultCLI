@@ -1,4 +1,5 @@
 ﻿using KeyVaultCli.Domain.Common.Interfaces;
+using KeyVaultCli.Domain.Entities;
 
 namespace KeyVaultCli.Domain.Factories;
 

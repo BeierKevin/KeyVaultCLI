@@ -1,4 +1,4 @@
-﻿namespace KeyVaultCli.Domain;
+﻿namespace KeyVaultCli.Domain.Common.Interfaces;
 
 public interface IConsole
 {
