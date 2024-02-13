@@ -11,4 +11,8 @@
       <ProjectReference Include="..\KeyVaultCli.Application\KeyVaultCli.Application.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Cryptography\" />
+    </ItemGroup>
+
 </Project>

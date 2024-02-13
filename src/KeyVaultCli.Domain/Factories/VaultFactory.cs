@@ -5,31 +5,49 @@ namespace KeyVaultCli.Domain.Factories;
 
 // Factory Pattern
 public class VaultFactory(
-    IConsoleService consoleService,
-    IEncryptionService encryptionService,
-    IFileService fileService, IPasswordGenerator passwordGenerator)
+    IConsole vaultConsoleService,
+    IVaultEncryptionService vaultEncryptionService,
+    IVaultFileService vaultFileService,
+    IVaultPasswordGenerator vaultPasswordGenerator)
     : IVaultFactory
 {
+    private const string VaultFilePath = "vault.dat";
+    private const string MasterPasswordFilePath = "masterpassword.dat";
+    private IVault _vault;
+
     public IVault? CreateVault(string masterPassword)
     {
-        if(string.IsNullOrEmpty(masterPassword))
+        if (string.IsNullOrEmpty(masterPassword))
         {
-            consoleService.WriteError("Master password should not be empty");
+            vaultConsoleService.WriteError("Master password should not be empty");
             return null;
         }
 
-        var vault = new Vault(masterPassword, encryptionService, fileService, passwordGenerator);
-        var savedPassword = vault.LoadMasterPassword();
-        if(savedPassword == null)
+        _vault = new Vault(VaultFilePath, MasterPasswordFilePath, masterPassword, vaultEncryptionService, vaultFileService, vaultPasswordGenerator);
+        var savedPassword = _vault.LoadMasterPassword();
+        if (savedPassword == null)
         {
-            vault.SaveMasterPassword();
+            _vault.SaveMasterPassword();
         }
-        else if(savedPassword != masterPassword)
+        else if (savedPassword != masterPassword)
         {
-            consoleService.WriteError("Invalid master password. Exit.");
+            vaultConsoleService.WriteError("Invalid master password. Exit.");
             return null;
         }
-        
-        return vault;
+
+        return _vault;
+    }
+
+    public bool DeleteVault()
+    {
+        var isVaultDeleted = vaultFileService.Delete(VaultFilePath);
+        var isMasterPasswordDeleted = vaultFileService.Delete(MasterPasswordFilePath);
+        var deleted = isVaultDeleted && isMasterPasswordDeleted;
+        return deleted;
+    }
+    
+    public IVault GetVault()
+    {
+        return _vault;
     }
 }

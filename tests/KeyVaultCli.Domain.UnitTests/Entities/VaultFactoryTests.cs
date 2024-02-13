@@ -1,5 +1,4 @@
 using KeyVaultCli.Domain.Factories;
-using KeyVaultCli.Infrastructure.Cryptography;
 using KeyVaultCli.Infrastructure.Services;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -15,7 +14,7 @@ public class VaultFactoryTests
     {
         var encryptionService = new EncryptionService();
         var fileService = new FileService();
-        var passwordGenerator = new PasswordGenerator();
+        var passwordGenerator = new PasswordGeneratorService();
         var consoleService = new ConsoleService();
         _vaultFactory = new VaultFactory(consoleService, encryptionService, fileService, passwordGenerator);
     }

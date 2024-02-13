@@ -12,5 +12,7 @@ public enum CommandFlag
     SearchPasswordEntries = 6,
     UpdateMasterPassword = 7,
     Exit = 0,
-    DeleteAllPasswords = -1
+    CreateVault = 00,
+    DeleteAllPasswords = -1,
+    DeleteVault = -11
 }

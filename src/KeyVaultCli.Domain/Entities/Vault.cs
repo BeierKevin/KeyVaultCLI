@@ -10,33 +10,39 @@ public class Vault : IVault
     private readonly List<PasswordEntry> _passwordEntries;
     // Factory Pattern: Since the Vault needs a master password to initialize, you may have a factory that verifies the master password before returning a new Vault instance.
     private string _masterPassword;
+    
     // Saved files will be in the /bin/Debug/netX.X folder
-    private readonly string _filePath = "vault.dat";
-    private readonly string _passwordFile = "masterpassword.dat";
-    private readonly IEncryptionService _encryptionService;
-    private readonly IFileService _fileService;
-    private readonly IPasswordGenerator _passwordGenerator;
+    private readonly string _passwordEntryFilePath;
+    private readonly string _masterPasswordFilePath;
+    private readonly IVaultEncryptionService _vaultEncryptionService;
+    private readonly IVaultFileService _vaultFileService;
+    private readonly IVaultPasswordGenerator _vaultPasswordGenerator;
 
-    public Vault(string masterPassword, IEncryptionService encryptionService, IFileService fileService, IPasswordGenerator passwordGenerator)
+    public Vault(string vaultFilePath, string masterPasswordFilePath, string masterPassword, IVaultEncryptionService 
+            vaultEncryptionService, 
+        IVaultFileService 
+            vaultFileService, IVaultPasswordGenerator vaultPasswordGenerator)
     {
+        _passwordEntryFilePath = vaultFilePath;
+        _masterPasswordFilePath = masterPasswordFilePath;
         _masterPassword = masterPassword;
-        _encryptionService = encryptionService;
-        _fileService = fileService;
-        _passwordGenerator = passwordGenerator;
+        _vaultEncryptionService = vaultEncryptionService;
+        _vaultFileService = vaultFileService;
+        _vaultPasswordGenerator = vaultPasswordGenerator;
         _passwordEntries = LoadPasswordEntries();
     }
     
     public void SaveMasterPassword()
     {
-        var encryptedPassword = _encryptionService.Encrypt(this._masterPassword, _masterPassword);
-        _fileService.WriteAllText(_passwordFile, encryptedPassword);
+        var encryptedPassword = _vaultEncryptionService.Encrypt(this._masterPassword, _masterPassword);
+        _vaultFileService.WriteAllText(_masterPasswordFilePath, encryptedPassword);
     }
 
     public string? LoadMasterPassword()
     {
-        if (!_fileService.Exists(_passwordFile)) return null;
-        var encryptedPassword = _fileService.ReadAllText(_passwordFile);
-        return _encryptionService.Decrypt(encryptedPassword, _masterPassword);
+        if (!_vaultFileService.Exists(_masterPasswordFilePath)) return null;
+        var encryptedPassword = _vaultFileService.ReadAllText(_masterPasswordFilePath);
+        return _vaultEncryptionService.Decrypt(encryptedPassword, _masterPassword);
     }
     
     public bool UpdateMasterPassword(string oldPassword, string newPassword)
@@ -54,7 +60,7 @@ public class Vault : IVault
     
     public void AddPasswordEntry(string serviceName, string accountName, string password)
     {
-        var encryptedPassword = _encryptionService.Encrypt(password, _masterPassword);
+        var encryptedPassword = _vaultEncryptionService.Encrypt(password, _masterPassword);
     
         var entry = new PasswordEntryBuilder()
             .SetServiceName(serviceName)
@@ -70,7 +76,7 @@ public class Vault : IVault
     {
         var options = new JsonSerializerOptions { WriteIndented = true };
         var json = JsonSerializer.Serialize(_passwordEntries, options);
-        _fileService.WriteAllText(_filePath, json);
+        _vaultFileService.WriteAllText(_passwordEntryFilePath, json);
     }
     
     public bool DeletePasswordEntry(string serviceName, string accountName)
@@ -100,12 +106,12 @@ public class Vault : IVault
 
     public List<PasswordEntry> LoadPasswordEntries()
     {
-        if (!_fileService.Exists(_filePath))
+        if (!_vaultFileService.Exists(_passwordEntryFilePath))
         {
             return new List<PasswordEntry>();
         }
 
-        var json = _fileService.ReadAllText(_filePath);
+        var json = _vaultFileService.ReadAllText(_passwordEntryFilePath);
         return JsonSerializer.Deserialize<List<PasswordEntry>>(json) ?? new List<PasswordEntry>();
     }
 
@@ -120,7 +126,7 @@ public class Vault : IVault
         if (passwordEntry is null)
             throw new PasswordNotFoundException(serviceName, accountName);
 
-        return  _encryptionService.Decrypt(passwordEntry.EncryptedPassword, _masterPassword);
+        return  _vaultEncryptionService.Decrypt(passwordEntry.EncryptedPassword, _masterPassword);
     }
     
     public bool UpdatePasswordEntry(string currentServiceName, string currentAccountName, string newServiceName, string newAccountName, int passwordLength, string? newPassword = null)
@@ -135,7 +141,7 @@ public class Vault : IVault
         passwordEntry.AccountName = newAccountName;
 
         // If newPassword is null, generate a random password
-        passwordEntry.EncryptedPassword = _encryptionService.Encrypt(newPassword ?? _passwordGenerator.GeneratePassword(passwordLength), _masterPassword);
+        passwordEntry.EncryptedPassword = _vaultEncryptionService.Encrypt(newPassword ?? _vaultPasswordGenerator.GeneratePassword(passwordLength), _masterPassword);
 
         SavePasswordEntries();
         return true;
@@ -151,7 +157,7 @@ public class Vault : IVault
     
     public string GenerateAndAddPasswordEntry(string serviceName, string accountName, int passwordLength)
     {
-        var password = _passwordGenerator.GeneratePassword(passwordLength);  // Generate a password
+        var password = _vaultPasswordGenerator.GeneratePassword(passwordLength);  // Generate a password
         AddPasswordEntry(serviceName, accountName, password);  // Add it to password entries
         return password;
     }
