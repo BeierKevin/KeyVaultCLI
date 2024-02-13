@@ -12,11 +12,7 @@ Remember, this is an independent project and **should not have any references to
 
 2. `Value Objects`: These are immutable objects that validate and represent particular values in our system.
 
-3. `Domain Events`: These are events that get triggered when something notable happens within our business domain.
-
-4. `Common/Interfaces`: These are used to create a contract for services, which will be used by our 
+3. `Common/Interfaces`: These are used to create a contract for services, which will be used by our 
    entities.
-
-5. `Repository Interfaces`: These are project to the Application or Infrastructure layer for data access.
 
 Please do not add any infrastructure-related code or any external package references to this project.

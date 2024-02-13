@@ -9,6 +9,7 @@ using KeyVaultCli.Application.Services;
 using KeyVaultCli.Application.Vault.Commands.CreateVault;
 using KeyVaultCli.Application.Vault.Commands.DeleteVault;
 using KeyVaultCli.Infrastructure.Services;
+using KeyVaultCli.Presentation.Services;
 
 namespace KeyVaultCli.Presentation;
 

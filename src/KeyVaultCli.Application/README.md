@@ -10,10 +10,7 @@ This project **should only reference the Domain project** to use the entities an
 
 1. `Commands`: These encapsulate actions users want to perform on our system. Commands are handled by Command Handlers.
 
-2. `Queries`: These encapsulate requests for information. Queries are handled by Query Handlers.
-
-3. `DTOs`: These are simple data structures used for communication between the application layer and the outside world.
-
-4. `Validators`: These are classes that validate incoming commands and queries before they are processed.
+2. `Services`: Services which ar tightly coupled to the domain layer and are used to perform operations that do not fit 
+   into the domain layer.
 
 Please avoid defining any business rules or domain logic in this layer.

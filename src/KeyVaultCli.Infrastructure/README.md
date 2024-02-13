@@ -8,10 +8,7 @@ This project **should reference the Domain project** to provide concrete impleme
 
 ## Key Components
 
-1. `Repository Implementations`: These are the concrete implementations of the repositories defined in the domain layer.
-
-2. `Persistence`: This sub-layer handles data access and storage concerns.
-
-3. `Services`: External services or utilities like Email Sender, File Provider etc. are defined here.
+1. `Services`: External services or utilities like File Provider, Encryption, Generation, Commands and Console are 
+   defined here.
 
 Ensure infrastructure-specific business rules or logic are not defined in this project.
