@@ -1,6 +1,7 @@
 using System.Text.Json;
 using KeyVaultCli.Domain.Common.Interfaces;
 using KeyVaultCli.Domain.Exceptions;
+using KeyVaultCli.Domain.Factories;
 
 namespace KeyVaultCli.Domain.Entities;
 

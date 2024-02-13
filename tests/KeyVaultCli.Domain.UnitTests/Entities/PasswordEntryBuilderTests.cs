@@ -1,4 +1,5 @@
 using KeyVaultCli.Domain.Entities;
+using KeyVaultCli.Domain.Factories;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace KeyVaultCli.Domain.UnitTests.Entities;
