@@ -34,7 +34,7 @@ public class Vault : IVault
     
     public void SaveMasterPassword()
     {
-        var encryptedPassword = _vaultEncryptionService.Encrypt(this._masterPassword, _masterPassword);
+        var encryptedPassword = _vaultEncryptionService.Encrypt(this._masterPassword, "staticEncryptionKey");
         _vaultFileService.WriteAllText(_masterPasswordFilePath, encryptedPassword);
     }
 
@@ -42,7 +42,7 @@ public class Vault : IVault
     {
         if (!_vaultFileService.Exists(_masterPasswordFilePath)) return null;
         var encryptedPassword = _vaultFileService.ReadAllText(_masterPasswordFilePath);
-        return _vaultEncryptionService.Decrypt(encryptedPassword, _masterPassword);
+        return _vaultEncryptionService.Decrypt(encryptedPassword, "staticEncryptionKey");
     }
     
     public bool UpdateMasterPassword(string oldPassword, string newPassword)

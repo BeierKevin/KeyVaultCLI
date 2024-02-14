@@ -2,7 +2,7 @@ using KeyVaultCli.Domain.Entities;
 using KeyVaultCli.Domain.Factories;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace KeyVaultCli.Domain.UnitTests.Entities;
+namespace KeyVaultCli.Domain.UnitTests.Factories;
 
 [TestClass]
 public class PasswordEntryBuilderTests
