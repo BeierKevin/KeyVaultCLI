@@ -1,5 +1,83 @@
 # Entwurfsmuster
 
+## Command
+
+Das Command-Muster (englisch: Command Pattern) ist ein Verhaltensmuster (Behavioral Design Pattern) und wird genutzt, um Anfragen oder einfache Operationen in Form eines Objekts zu kapseln.
+
+````csharp
+using KeyVaultCli.Application.Common.Constants;
+
+namespace KeyVaultCli.Application.Common.Interfaces;
+
+public interface ICommandService
+{
+    bool ExecuteCommand(CommandFlag command, out string errorMessage);
+    string? GetCommandValidationErrorMessage(string commandString);
+    public bool IsCommandSupported(string commandString);
+    public bool IsCommandRecognized(string commandString);
+    bool IsExitCommand(string commandString);
+}
+````
+
+````csharp
+using KeyVaultCli.Application.Common.Constants;
+using KeyVaultCli.Application.Common.Interfaces;
+
+namespace KeyVaultCli.Infrastructure.Services;
+
+public class CommandService(Dictionary<CommandFlag, ICommand> commands) : ICommandService
+{
+    public bool ExecuteCommand(CommandFlag command, out string errorMessage)
+    {
+        errorMessage = string.Empty;
+
+        if (commands.TryGetValue(command, out var selectedCommand))
+        {
+            try
+            {
+                selectedCommand.Execute();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                errorMessage = ex.Message;
+            }
+        }
+        else
+        {
+            errorMessage = "Invalid command";
+        }
+
+        return false;
+    }
+
+    public bool IsCommandSupported(string commandString)
+    {
+        return Enum.TryParse<CommandFlag>(commandString, true, out var commandFlag) && commands.ContainsKey(commandFlag);
+    }
+
+    public bool IsCommandRecognized(string commandString)
+    {
+        return Enum.TryParse<CommandFlag>(commandString, true, out var _);
+    }
+
+    public string? GetCommandValidationErrorMessage(string commandString)
+    {
+        if (!IsCommandRecognized(commandString))
+        {
+            return "Command not recognized. Please try again.";
+        }
+
+        return !IsCommandSupported(commandString) ? "Command recognized but not supported. Please try again." : null;
+    }
+    
+    public bool IsExitCommand(string commandString)
+    {
+        return Enum.TryParse<CommandFlag>(commandString, true, out var commandFlag) && commandFlag == CommandFlag.Exit;
+    }
+}
+````
+
 ## Factory
 
 Das Factory-Entwurfsmuster wird verwendet, um die Erstellung von Objekten zu kapseln und zu zentralisieren. In dem gezeigten Beispiel wird die `VaultFactory`-Klasse verwendet, um Instanzen der `Vault`-Klasse zu erstellen, die eine zentrale Rolle im Key Vault CLI-Projekt spielen. Die `VaultFactory` bietet Methoden wie `CreateVault`, um eine neue Tresorinstanz zu erstellen, und `DeleteVault`, um einen vorhandenen Tresor zu löschen. Durch die Verwendung der Factory kann die Erstellung und Konfiguration von `Vault`-Instanzen zentralisiert und die Code-Wiederholung reduziert werden.
