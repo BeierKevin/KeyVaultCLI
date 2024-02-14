@@ -1,7 +1,6 @@
 using KeyVaultCli.Domain.Common.Interfaces;
 using KeyVaultCli.Domain.Factories;
 using KeyVaultCli.Domain.UnitTests.Fakes;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace KeyVaultCli.Domain.UnitTests.Factories;
 
