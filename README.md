@@ -23,19 +23,21 @@ list of features, marked with checkmarks (✔), crosses (❌) to indicate the st
 - ❌ **Category Organization**: Organize your passwords into categories for better management.
 - ❌ **Password Sharing**: Share passwords securely with other users.
 
+## Prerequisites
+
+Key Vault CLI is built on the .NET SDK. To run the application, you'll need to have the .NET SDK installed on your
+local machine. You can find the latest version of the
+SDK [here](https://dotnet.microsoft.com/download). The application uses.NET 8.0, so make sure you have the correct
+version.
+
 ## Technologies
 
 Key Vault CLI is developed using the following technologies:
 
-- .NET Core: The application is built on the .NET Core framework.
-- C#: The primary programming language used.
-- Console Application: The user interface is entirely CLI-based.
-
-## Prerequisites
-
-Key Vault CLI is built on the .NET Core framework. To run the application, you'll need to have the .NET Core SDK
-installed on your local machine. You can find the latest version of the
-SDK [here](https://dotnet.microsoft.com/download).
+- [.NET](https://dotnet.microsoft.com/en-us/): The application is built on the .NET SDK.
+- [C#](https://learn.microsoft.com/de-de/dotnet/csharp/): The primary programming language used.
+- [Console Application](https://learn.microsoft.com/de-de/dotnet/core/tutorials/with-visual-studio?pivots=dotnet-8-0):
+  The user interface is entirely CLI-based.
 
 ## How tos
 
@@ -69,7 +71,11 @@ dotnet build
 
 ### How to Test
 
-*Tbd* (how to run the tests)
+To run the tests, use the following command:
+
+```shell
+dotnet test
+```
 
 ### Counting Lines of Code
 
@@ -78,6 +84,79 @@ Count the lines of code using the following command in the root of the project:
 ```shell
 chmod +x countlines.sh && ./countlines.sh
 ```
+
+## Use Cases
+
+In the following there are simple use cases for the Key Vault CLI, and why you would use it.
+
+### Use Case 1: Managing Personal Passwords
+
+#### Actors:
+
+- **User**: A person who wants to securely manage their passwords and sensitive information.
+
+#### Preconditions:
+
+- The user has installed Key Vault CLI on their local machine.
+- The user has set up a master password for their vault.
+
+#### Main Flow:
+
+1. **Run the Application**: The user runs the Key Vault CLI application by executing the command `dotnet run`.
+2. **Authenticate**: The application prompts the user to enter their master password to unlock the vault.
+3. **Access Passwords**: Once authenticated, the user can perform CRUD operations to manage their passwords and
+   sensitive information.
+    - *Create*: The user can add new password entries to the vault.
+    - *Read*: The user can view existing password entries.
+    - *Update*: The user can modify existing password entries if needed.
+    - *Delete*: The user can remove password entries from the vault.
+4. **Generate Strong Passwords**: The user can utilize the password generation feature to create strong, random
+   passwords for their accounts.
+5. **Search and Retrieval**: The user can easily search for specific passwords or information stored in the vault using
+   the search feature.
+6. **Logout**: Once the user has finished managing their passwords, they can log out of the application, via a 
+   command or by closing the terminal.
+
+#### Post conditions:
+
+- The user's passwords and sensitive information are securely stored in the vault.
+- The user can safely exit the application knowing that their data is protected by the master password.
+
+### Use Case 2: Securely Storing Work Credentials
+
+#### Actors:
+
+- **Employee**: An individual working in an organization who needs to manage various work-related credentials securely.
+
+#### Preconditions:
+
+- The employee has access to the Key Vault CLI application.
+- The employee has set up a master password for their vault.
+- The employee has access to the work-related systems and services that require credentials.
+
+#### Main Flow:
+
+1. **Run the Application**: The employee executes the command `dotnet run` to start the Key Vault CLI application.
+2. **Authenticate**: The application prompts the employee to enter their master password to unlock the vault.
+3. **Access Work Credentials**: Once authenticated, the employee can perform CRUD operations to manage their
+   work-related credentials.
+    - *Create*: The employee adds entries for various work-related systems, such as company email, internal databases,
+      or cloud services, along with their respective usernames and passwords.
+    - *Read*: The employee can view the stored work credentials whenever needed.
+    - *Update*: If the employee's work password changes or needs updating, they can modify the corresponding entry in
+      the vault.
+    - *Delete*: If access to a particular system or service is revoked or no longer required, the employee can delete
+      the corresponding credential entry from the vault.
+4. **Search and Retrieve**: The employee can quickly search for specific work-related credentials stored in the vault
+   using the search feature, making it easy to retrieve the necessary information when logging into different systems or
+   services.
+5. **Logout**: Once the employee has finished accessing or updating their work credentials, they securely log out of the
+   Key Vault CLI application.
+
+#### Post conditions:
+
+- The employee's work-related credentials are securely stored in the vault, ensuring access to critical systems and
+  services while maintaining security standards set by the organization.
 
 ## License
 
