@@ -1,9 +1,9 @@
 ﻿using System.Security.Cryptography;
-using KeyVaultCli.Domain.Common.Interfaces;
+using KeyVaultCli.Application.Common.Interfaces;
 
-namespace KeyVaultCli.Infrastructure.Cryptography;
+namespace KeyVaultCli.Infrastructure.Services;
 
-public class PasswordGenerator : IPasswordGenerator
+public class PasswordGeneratorService : IPasswordGeneratorService
 {
     private static readonly char[] AllowableCharacters = Enumerable
         .Range(0, 26)

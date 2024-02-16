@@ -11,7 +11,6 @@
 
     <ItemGroup>
       <ProjectReference Include="..\KeyVaultCli.Application\KeyVaultCli.Application.csproj" />
-      <ProjectReference Include="..\KeyVaultCli.Domain\KeyVaultCli.Domain.csproj" />
       <ProjectReference Include="..\KeyVaultCli.Infrastructure\KeyVaultCli.Infrastructure.csproj" />
     </ItemGroup>
 

@@ -1,7 +1,7 @@
-﻿using KeyVaultCli.Domain.Common.Interfaces;
-using KeyVaultCli.Infrastructure.UI;
+﻿using KeyVaultCli.Application.Common.Interfaces;
+using KeyVaultCli.Presentation.UserInterface.Table;
 
-namespace KeyVaultCli.Infrastructure.Services;
+namespace KeyVaultCli.Presentation.Services;
 
 public class ConsoleService : IConsoleService
 {

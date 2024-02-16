@@ -5,10 +5,11 @@ using KeyVaultCli.Application.PasswordEntry.Commands.CreatePasswordEntry;
 using KeyVaultCli.Application.PasswordEntry.Commands.DeletePasswordEntry;
 using KeyVaultCli.Application.PasswordEntry.Commands.GetPasswordEntry;
 using KeyVaultCli.Application.PasswordEntry.Commands.UpdatePasswordEntry;
-using KeyVaultCli.Domain.Common.Interfaces;
-using KeyVaultCli.Domain.Factories;
-using KeyVaultCli.Infrastructure.Cryptography;
+using KeyVaultCli.Application.Services;
+using KeyVaultCli.Application.Vault.Commands.CreateVault;
+using KeyVaultCli.Application.Vault.Commands.DeleteVault;
 using KeyVaultCli.Infrastructure.Services;
+using KeyVaultCli.Presentation.Services;
 
 namespace KeyVaultCli.Presentation;
 
@@ -16,72 +17,74 @@ internal abstract class Program
 {
     private static void Main()
     {
-        IConsoleService consoleService = new ConsoleService();
-        IEncryptionService encryptionService = new EncryptionService();
-        IFileService fileService = new FileService();
-        IPasswordGenerator passwordGenerator = new PasswordGenerator();
-        IVaultFactory vaultFactory = new VaultFactory(consoleService, encryptionService, fileService, passwordGenerator);
+        IConsoleService vaultConsoleService = new ConsoleService();
+        IEncryptionService vaultEncryptionService = new EncryptionService();
+        IFileService vaultFileService = new FileService();
+        IPasswordGeneratorService vaultPasswordGenerator = new PasswordGeneratorService();
+        IVaultService vaultFactory = new VaultService(vaultConsoleService, vaultEncryptionService, vaultFileService, vaultPasswordGenerator);
+        ICommandService createVaultCommand = new CommandService(new Dictionary<CommandFlag, ICommand>
+        {
+            { CommandFlag.CreateVault, new CreateVaultCommand(vaultFactory, vaultConsoleService) }
+        });
         
         Console.Title = "KeyVaultCli";
-        consoleService.WriteInfo("Welcome to KeyVault");
-        consoleService.WriteInfo("Enter your master password: ");
-        var masterPassword = Console.ReadLine();
-        var vault = vaultFactory.CreateVault(masterPassword!);
-
-        if(vault == null) return;
+        vaultConsoleService.WriteInfo("Welcome to KeyVault");
+        createVaultCommand.ExecuteCommand(CommandFlag.CreateVault, out var error);
+        var vault = vaultFactory.GetVault();
         
         // Command Pattern
         var commands = new Dictionary<CommandFlag, ICommand>
         {
-            { CommandFlag.CreatePassword, new CreatePasswordCommand(vault, consoleService) },
-            { CommandFlag.CreatePasswordGenerated, new CreatePasswordGenerateCommand(vault, consoleService) },
-            { CommandFlag.GetPassword, new GetPasswordCommand(vault, consoleService) },
-            { CommandFlag.GetAllPasswords, new GetAllPasswordsCommand(vault, consoleService) },
-            { CommandFlag.UpdatePassword, new UpdatePasswordCommand(vault, consoleService) },
-            { CommandFlag.UpdatePasswordGenerated, new UpdatePasswordGeneratedCommand(vault, consoleService) },
-            { CommandFlag.DeletePassword, new DeletePasswordCommand(vault, consoleService) },
-            { CommandFlag.SearchPasswordEntries, new SearchPasswordEntriesCommand(vault, consoleService) },
-            { CommandFlag.UpdateMasterPassword, new UpdateMasterPasswordCommand(vault, consoleService) },
-            { CommandFlag.Exit, new ExitCommand(consoleService) },
-            { CommandFlag.DeleteAllPasswords, new DeleteAllPasswordsCommand(vault, consoleService) }
+            { CommandFlag.CreatePassword, new CreatePasswordCommand(vault, vaultConsoleService) },
+            { CommandFlag.CreatePasswordGenerated, new CreatePasswordGenerateCommand(vault, vaultConsoleService) },
+            { CommandFlag.GetPassword, new GetPasswordCommand(vault, vaultConsoleService) },
+            { CommandFlag.GetAllPasswords, new GetAllPasswordsCommand(vault, vaultConsoleService) },
+            { CommandFlag.UpdatePassword, new UpdatePasswordCommand(vault, vaultConsoleService) },
+            { CommandFlag.UpdatePasswordGenerated, new UpdatePasswordGeneratedCommand(vault, vaultConsoleService) },
+            { CommandFlag.DeletePassword, new DeletePasswordCommand(vault, vaultConsoleService) },
+            { CommandFlag.SearchPasswordEntries, new SearchPasswordEntriesCommand(vault, vaultConsoleService) },
+            { CommandFlag.UpdateMasterPassword, new UpdateMasterPasswordCommand(vault, vaultConsoleService) },
+            { CommandFlag.Exit, new ExitCommand(vaultConsoleService) },
+            { CommandFlag.DeleteAllPasswords, new DeleteAllPasswordsCommand(vault, vaultConsoleService) },
+            { CommandFlag.DeleteVault, new DeleteVaultCommand(vaultFactory, vaultConsoleService) }
         };
         
-        var commandService = new CommandService(commands);
+        ICommandService commandService = new CommandService(commands);
         
         string command;
         do
         {
-            consoleService.WriteText("Enter a command:");
-            consoleService.WriteInfo((int)CommandFlag.CreatePassword + ". CreatePasswordEntry password");
-            consoleService.WriteInfo((int)CommandFlag.CreatePasswordGenerated + ". Generate and add password");
-            consoleService.WriteInfo((int)CommandFlag.GetPassword + ". GetPasswordEntry password");
-            consoleService.WriteInfo((int)CommandFlag.GetAllPasswords + ". GetPasswordEntry all password");
-            consoleService.WriteInfo((int)CommandFlag.UpdatePassword + ". UpdatePasswordEntry password");
-            consoleService.WriteInfo((int)CommandFlag.DeletePassword + ". DeletePasswordEntry Password");
-            consoleService.WriteInfo((int)CommandFlag.UpdatePasswordGenerated + ". UpdatePasswordEntry password details with generated password");
-            consoleService.WriteInfo((int)CommandFlag.SearchPasswordEntries + ". Search password entries");
-            consoleService.WriteInfo((int)CommandFlag.UpdateMasterPassword + ". UpdatePasswordEntry Master Password");
-            consoleService.WriteInfo((int)CommandFlag.Exit + ". Exit");
-            consoleService.WriteInfo((int)CommandFlag.DeleteAllPasswords + ". DeletePasswordEntry all Passwords");
-            command = consoleService.GetInputFromPrompt("Enter your choice: ");
+            vaultConsoleService.WriteText("Enter a command:");
+            vaultConsoleService.WriteInfo((int)CommandFlag.CreatePassword + ". Create password entry");
+            vaultConsoleService.WriteInfo((int)CommandFlag.CreatePasswordGenerated + ". Create password entry with generated password");
+            vaultConsoleService.WriteInfo((int)CommandFlag.GetPassword + ". Get password entry by name");
+            vaultConsoleService.WriteInfo((int)CommandFlag.GetAllPasswords + ". Get all password entries");
+            vaultConsoleService.WriteInfo((int)CommandFlag.UpdatePassword + ". Update password entry");
+            vaultConsoleService.WriteInfo((int)CommandFlag.DeletePassword + ". Delete password entry");
+            vaultConsoleService.WriteInfo((int)CommandFlag.UpdatePasswordGenerated + ". Update password with generated password");
+            vaultConsoleService.WriteInfo((int)CommandFlag.SearchPasswordEntries + ". Search password entries");
+            vaultConsoleService.WriteInfo((int)CommandFlag.UpdateMasterPassword + ". Update Master Password");
+            vaultConsoleService.WriteInfo((int)CommandFlag.Exit + ". Exit");
+            vaultConsoleService.WriteInfo((int)CommandFlag.DeleteAllPasswords + ". Delete all passwords in vault");
+            vaultConsoleService.WriteInfo((int)CommandFlag.DeleteVault + ". Delete Vault");
+            command = vaultConsoleService.GetInputFromPrompt("Enter your choice: ");
 
-            
             var validationErrorMessage = commandService.GetCommandValidationErrorMessage(command);
             if (validationErrorMessage == null)
             {
                 var commandFlag = Enum.Parse<CommandFlag>(command);
                 if (commandService.ExecuteCommand(commandFlag, out var executionError))
                 {
-                    consoleService.WriteText("------------------------");
+                    vaultConsoleService.WriteText("------------------------");
                 }
                 else 
                 {
-                    consoleService.WriteError(executionError);
+                    vaultConsoleService.WriteError(executionError);
                 }
             }
             else 
             {
-                consoleService.WriteError(validationErrorMessage);
+                vaultConsoleService.WriteError(validationErrorMessage);
             }
         } while (commandService.IsExitCommand(command) == false);
     }

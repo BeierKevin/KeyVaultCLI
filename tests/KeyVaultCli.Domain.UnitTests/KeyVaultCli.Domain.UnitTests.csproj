@@ -5,6 +5,8 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
 		<RootNamespace>KeyVaultCli.Domain.UnitTests</RootNamespace>
+		<IsPackable>false</IsPackable>
+		<IsTestProject>true</IsTestProject>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -14,6 +16,11 @@
 	<ItemGroup>
 	  <ProjectReference Include="..\..\src\KeyVaultCli.Domain\KeyVaultCli.Domain.csproj" />
 	  <ProjectReference Include="..\..\src\KeyVaultCli.Infrastructure\KeyVaultCli.Infrastructure.csproj" />
+	  <ProjectReference Include="..\..\src\KeyVaultCli.Presentation\KeyVaultCli.Presentation.csproj" />
 	</ItemGroup>
 
+	<Target Name="AfterBuild">
+		<Exec Command="dotnet test" />
+	</Target>
+	
 </Project>

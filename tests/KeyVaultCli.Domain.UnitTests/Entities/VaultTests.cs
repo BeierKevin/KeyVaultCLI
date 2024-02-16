@@ -1,7 +1,5 @@
 using KeyVaultCli.Domain.Entities;
-using KeyVaultCli.Infrastructure.Cryptography;
-using KeyVaultCli.Infrastructure.Services;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using KeyVaultCli.Domain.UnitTests.Fakes;
 
 namespace KeyVaultCli.Domain.UnitTests.Entities;
 
@@ -9,14 +7,16 @@ namespace KeyVaultCli.Domain.UnitTests.Entities;
 public class VaultTests
 {
     private Vault _vault;
+    private const string VaultFilePath = "vault.dat";
+    private const string MasterPasswordFilePath = "masterpassword.dat";
 
     [TestInitialize]
     public void TestInitialize()
     {
-        var encryptionService = new EncryptionService();
-        var fileService = new FileService();
-        var passwordGenerator = new PasswordGenerator();
-        _vault = new Vault("masterPassword", encryptionService, fileService, passwordGenerator);
+        var encryptionService = new FakeEncryptionService();
+        var fileService = new FakeFileService();
+        var passwordGenerator = new FakePasswordGeneratorService();
+        _vault = new Vault(VaultFilePath, MasterPasswordFilePath, "masterPassword", encryptionService, fileService, passwordGenerator);
     }
 
     [TestMethod]

@@ -1,6 +1,6 @@
 namespace KeyVaultCli.Domain.Common.Interfaces;
 
-public interface IPasswordGenerator
+public interface IVaultPasswordGenerator
 {
     string GeneratePassword(int length);
 }

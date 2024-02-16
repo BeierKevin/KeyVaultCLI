@@ -1,4 +1,4 @@
-﻿using KeyVaultCli.Domain.Common.Interfaces;
+﻿using KeyVaultCli.Application.Common.Interfaces;
 
 namespace KeyVaultCli.Infrastructure.Services;
 
@@ -17,5 +17,12 @@ public class FileService : IFileService
     public string ReadAllText(string path)
     {
         return File.ReadAllText(path);
+    }
+
+    public bool Delete(string path)
+    {
+        if (!Exists(path)) return false;
+        File.Delete(path);
+        return true;
     }
 }
