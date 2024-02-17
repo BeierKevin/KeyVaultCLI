@@ -7,6 +7,9 @@
         <Nullable>enable</Nullable>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
         <RootNamespace>KeyVaultCli.Presentation</RootNamespace>
+        <PackAsTool>true</PackAsTool>
+        <ToolCommandName>kvc</ToolCommandName>
+        <PackageOutputPath>./nupkg</PackageOutputPath>
     </PropertyGroup>
 
     <ItemGroup>

@@ -85,6 +85,41 @@ Count the lines of code using the following command in the root of the project:
 chmod +x countlines.sh && ./countlines.sh
 ```
 
+### Packaging for local use
+
+1. Package the project using the following command:
+
+````shell
+dotnet pack
+````
+
+Now in there is a new folder called `nupkg` in the `KeyVaultCli.Presentation` project. 
+You can install the package using and a local NuGet feed using the following command:
+
+```shell
+dotnet tool install --global --add-source ./src/KeyVaultCli.Presentation/nupkg KeyVaultCli.Presentation
+```
+
+After that you can check on your machine if any packages are installed using the following command:
+
+```shell
+dotnet tool list --global
+```
+
+Now you should see the `KeyVaultCli.Presentation` package installed. You can run your application using the following
+
+```shell
+kvc
+```
+
+#### Uninstalling the CLI
+
+You can remove the globally installed tool using the following command:
+
+```shell
+dotnet tool uninstall KeyVaultCli.Presentation
+```
+
 ## Use Cases
 
 In the following there are simple use cases for the Key Vault CLI, and why you would use it.
