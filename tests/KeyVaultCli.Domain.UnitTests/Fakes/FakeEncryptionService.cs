@@ -20,9 +20,4 @@ public class FakeEncryptionService : IEncryptionService
         
         return encryptedPassword;
     }
-    
-    public string HashPassword(string password)
-    {
-        return password;
-    }
 }
