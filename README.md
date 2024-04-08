@@ -194,6 +194,25 @@ In the following there are simple use cases for the Key Vault CLI, and why you w
 - The employee's work-related credentials are securely stored in the vault, ensuring access to critical systems and
   services while maintaining security standards set by the organization.
 
+## UML Diagrams Generation
+
+To generate UML diagrams for your .NET projects using PlantUML and JetBrains Rider, follow these simple steps:
+
+### Installation Guide
+
+Refer to the detailed installation guide by Khalid Abuhakmeh for setting up PlantUML with JetBrains Rider 
+[here](https://khalidabuhakmeh.com/dotnet-class-diagrams-in-jetbrains-rider-with-plantuml)
+
+### Generating UML Diagrams
+
+Run the script to generate UML diagrams based on your project's code:
+
+````shell
+chmod +x generate-uml.sh && ./generate-uml.sh
+````
+
+After running the script, navigate to the output (`puml`) directory to find the generated UML diagrams.
+
 ## License
 
 Key Vault CLI is open-source software released under the [MIT License](LICENSE). You are free to use, modify, and
