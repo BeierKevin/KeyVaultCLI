@@ -1,0 +1,5 @@
+@startuml
+interface IEncryptionService {
+}
+IVaultEncryptionService <|-- IEncryptionService
+@enduml

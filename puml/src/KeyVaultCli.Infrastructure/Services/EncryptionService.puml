@@ -1,0 +1,7 @@
+@startuml
+class EncryptionService {
+    + Encrypt(password:string, masterPassword:string) : string
+    + Decrypt(password:string, masterPassword:string) : string
+}
+IEncryptionService <|-- EncryptionService
+@enduml

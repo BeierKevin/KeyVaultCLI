@@ -1,0 +1,9 @@
+@startuml
+class VaultService {
+    + VaultService(vaultConsoleService:IConsole, vaultEncryptionService:IVaultEncryptionService, vaultFileService:IVaultFileService, vaultPasswordGenerator:IVaultPasswordGenerator)
+    + CreateVault(masterPassword:string) : IVault?
+    + DeleteVault() : bool
+    + GetVault() : IVault
+}
+IVaultService <|-- VaultService
+@enduml

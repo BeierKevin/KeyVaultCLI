@@ -1,0 +1,12 @@
+@startuml
+class CommandService {
+    + ExecuteCommand(command:CommandFlag, errorMessage:string) : bool
+    + IsCommandSupported(commandString:string) : bool
+    + IsCommandRecognized(commandString:string) : bool
+    + GetCommandValidationErrorMessage(commandString:string) : string?
+    + IsExitCommand(commandString:string) : bool
+}
+class "Dictionary`2"<T1,T2> {
+}
+ICommandService <|-- CommandService
+@enduml

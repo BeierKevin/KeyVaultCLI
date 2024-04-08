@@ -1,0 +1,10 @@
+@startuml
+class ConsoleTableOptions {
+    + EnableCount : bool <<get>> <<set>> = true
+}
+class "IEnumerable`1"<T> {
+}
+ConsoleTableOptions o-> "Columns<string>" "IEnumerable`1"
+ConsoleTableOptions o-> "NumberAlignment" Alignment
+ConsoleTableOptions o-> "OutputTo" TextWriter
+@enduml

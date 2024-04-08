@@ -1,0 +1,8 @@
+@startuml
+class VaultFactory {
+    + CreateVault(masterPassword:string) : IVault?
+    + DeleteVault() : bool
+    + GetVault() : IVault
+}
+IVaultFactory <|-- VaultFactory
+@enduml

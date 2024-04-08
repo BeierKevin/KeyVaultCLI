@@ -1,0 +1,6 @@
+@startuml
+interface ICommandService {
+    + IsCommandSupported(commandString:string) : bool
+    + IsCommandRecognized(commandString:string) : bool
+}
+@enduml

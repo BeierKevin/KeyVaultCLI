@@ -1,0 +1,6 @@
+@startuml
+class DeleteVaultCommand {
+    + Execute() : void
+}
+ICommand <|-- DeleteVaultCommand
+@enduml

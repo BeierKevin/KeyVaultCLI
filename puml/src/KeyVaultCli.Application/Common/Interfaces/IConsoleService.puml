@@ -1,0 +1,5 @@
+@startuml
+interface IConsoleService {
+}
+IConsole <|-- IConsoleService
+@enduml

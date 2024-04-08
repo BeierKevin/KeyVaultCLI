@@ -1,0 +1,27 @@
+@startuml
+class ConsoleTable {
+    + ConsoleTable(columns:string[])
+    + ConsoleTable(options:ConsoleTableOptions)
+    + AddColumn(names:IEnumerable<string>) : ConsoleTable
+    + AddRow(values:object[]) : ConsoleTable
+    + Configure(action:Action<ConsoleTableOptions>) : ConsoleTable
+    + {static} FromDictionary(values:Dictionary<string, Dictionary<string, object>>) : ConsoleTable
+    + {static} From(values:IEnumerable<T>) : ConsoleTable
+    + {static} From(dataTable:DataTable) : ConsoleTable
+    + <<override>> ToString() : string
+    + {static} GetTextWidth(value:string) : int
+    + ToMarkDownString() : string
+    + ToMinimalString() : string
+    + ToStringAlternative() : string
+    + Write(format:Format) : void
+}
+class "IList`1"<T> {
+}
+class "HashSet`1"<T> {
+}
+ConsoleTable --> "Columns<object>" "IList`1"
+ConsoleTable --> "Rows<object[]>" "IList`1"
+ConsoleTable --> "Options" ConsoleTableOptions
+ConsoleTable --> "Formats<string>" "IList`1"
+ConsoleTable o-> "NumericTypes<Type>" "HashSet`1"
+@enduml

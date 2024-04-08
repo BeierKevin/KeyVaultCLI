@@ -1,0 +1,12 @@
+@startuml
+class ConsoleService {
+    + GetInputFromPrompt(prompt:string) : string
+    + WriteText(message:string) : void
+    + WriteInfo(message:string) : void
+    + WriteSuccess(message:string) : void
+    + WriteError(message:string) : void
+    + WriteTable(headers:string[], data:List<List<object>>) : void
+    + Clear() : void
+}
+IConsoleService <|-- ConsoleService
+@enduml

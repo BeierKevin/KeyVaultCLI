@@ -1,0 +1,9 @@
+@startuml
+class FileService {
+    + Exists(path:string) : bool
+    + WriteAllText(path:string, content:string) : void
+    + ReadAllText(path:string) : string
+    + Delete(path:string) : bool
+}
+IFileService <|-- FileService
+@enduml
