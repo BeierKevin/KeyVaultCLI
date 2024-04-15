@@ -10,6 +10,8 @@ public class CreatePasswordGenerateCommand(IVault vault, IConsole consoleService
         var serviceName = consoleService.GetInputFromPrompt("Enter service name for the new password: ");
         var accountName = consoleService.GetInputFromPrompt("Enter account name for the new password: ");
         var passwordLengthStr = consoleService.GetInputFromPrompt("Enter the desired password length: ");
+        var url = consoleService.GetInputFromPrompt("Enter the URL (leave empty if not applicable): "); // Use the service
+        var category = consoleService.GetInputFromPrompt("Enter the category (leave empty if not applicable): "); // Use the service
 
         if (!int.TryParse(passwordLengthStr, out var passwordLength))
         {
@@ -17,7 +19,8 @@ public class CreatePasswordGenerateCommand(IVault vault, IConsole consoleService
             return;
         }
 
-        var password = vault.GenerateAndAddPasswordEntry(serviceName, accountName, passwordLength);
+        // Generate password internally and add a password entry
+        var password = vault.GenerateAndAddPasswordEntry(serviceName, accountName, passwordLength, url, category);
 
         consoleService.WriteSuccess($"A new password has been created and stored for {serviceName}, {accountName} with the value {password}.");
     }

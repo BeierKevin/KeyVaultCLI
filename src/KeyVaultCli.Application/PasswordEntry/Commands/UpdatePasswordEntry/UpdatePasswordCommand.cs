@@ -12,8 +12,10 @@ public class UpdatePasswordCommand(IVault vault, IConsole consoleService) : ICom
         var newServiceName = consoleService.GetInputFromPrompt("Enter new service name: ");
         var newAccountName = consoleService.GetInputFromPrompt("Enter new account name: ");
         var newPassword = consoleService.GetInputFromPrompt("Enter new password: ");
+        var newUrl = consoleService.GetInputFromPrompt("Enter new URL: ");
+        var newCategory = consoleService.GetInputFromPrompt("Enter new Category: ");
 
-        if (vault.UpdatePasswordEntry(currentServiceName, currentAccountName, newServiceName, newAccountName, newPassword.Length, newPassword))
+        if (vault.UpdatePasswordEntry(currentServiceName, currentAccountName, newServiceName, newAccountName, newPassword.Length, newPassword, newUrl, newCategory))
         {
             consoleService.WriteSuccess("The password entry has been updated.");
         }

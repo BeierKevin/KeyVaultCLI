@@ -10,8 +10,10 @@ public class CreatePasswordCommand(IVault vault, IConsole consoleService) : ICom
         var serviceName = consoleService.GetInputFromPrompt("Enter service name for the new password: "); // Use the service
         var accountName = consoleService.GetInputFromPrompt("Enter account name for the new password: "); // Use the service
         var password = consoleService.GetInputFromPrompt("Enter the password: "); // Use the service
+        var url = consoleService.GetInputFromPrompt("Enter the URL (leave empty if not applicable): "); // Use the service
+        var category = consoleService.GetInputFromPrompt("Enter the category (leave empty if not applicable): "); // Use the service
 
-        vault.AddPasswordEntry(serviceName, accountName, password);
+        vault.AddPasswordEntry(serviceName, accountName, password, url, category);
 
         consoleService.WriteSuccess($"A new password has been created and stored for {serviceName}, {accountName}."); // Use the service
     }

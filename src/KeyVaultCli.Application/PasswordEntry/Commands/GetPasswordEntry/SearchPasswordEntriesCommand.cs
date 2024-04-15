@@ -11,13 +11,32 @@ public class SearchPasswordEntriesCommand(IVault vault, IConsole consoleService)
 
         var matchingEntries = vault.SearchPasswordEntries(query);
 
-        if (matchingEntries.Any())
+        if (matchingEntries != null && matchingEntries.Any())
         {
-            consoleService.WriteInfo("Matching entries:");
-            foreach (var entry in matchingEntries)
-            {
-                consoleService.WriteInfo($"Service: {entry.ServiceName}, Account: {entry.AccountName}");
-            }
+            consoleService.WriteInfo("Matching search entries:");
+    
+            string[] headers = { "GUID", "Service Name", "AccountName", "Password (Decrypted)", "URL", "Category", "Creation Date", "Last Modified Date", };
+
+            // Transform every PasswordEntry into a List of objects
+            var dataRows = matchingEntries
+                .Where(entry => entry != null)
+                .Select(entry =>
+                {
+                    var password = vault.GetPassword(entry.ServiceName, entry.AccountName);
+                    return new List<object>
+                    {
+                        entry.EntryId,
+                        entry.ServiceName, 
+                        entry.AccountName, 
+                        password != null ? password : "N/A",
+                        entry.Url,
+                        entry.Category,
+                        entry.CreationDate,
+                        entry.LastModifiedDate
+                    };
+                }).ToList();
+
+            consoleService.WriteTable(headers, dataRows);
         }
         else
         {

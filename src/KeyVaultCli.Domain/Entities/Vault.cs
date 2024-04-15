@@ -58,15 +58,18 @@ public class Vault : IVault
         return true;
     }
     
-    public void AddPasswordEntry(string serviceName, string accountName, string password)
+    public void AddPasswordEntry(string serviceName, string accountName, string password, string url, string category)
     {
         var encryptedPassword = _vaultEncryptionService.Encrypt(password, _masterPassword);
-    
-        var entry = new PasswordEntryBuilder()
-            .SetServiceName(serviceName)
-            .SetAccountName(accountName)
-            .SetEncryptedPassword(encryptedPassword)
-            .Build();
+
+        var entry = new PasswordEntry
+        {
+            ServiceName = serviceName,
+            AccountName = accountName,
+            EncryptedPassword = encryptedPassword,
+            Url = url,
+            Category = category
+        };
 
         _passwordEntries.Add(entry);
         SavePasswordEntries();
@@ -128,8 +131,13 @@ public class Vault : IVault
 
         return  _vaultEncryptionService.Decrypt(passwordEntry.EncryptedPassword, _masterPassword);
     }
+
+    public PasswordEntry? GetPasswordEntry(string serviceName, string accountName)
+    {
+        return _passwordEntries.FirstOrDefault(x => x.ServiceName == serviceName && x.AccountName == accountName);
+    }
     
-    public bool UpdatePasswordEntry(string currentServiceName, string currentAccountName, string newServiceName, string newAccountName, int passwordLength, string? newPassword = null)
+    public bool UpdatePasswordEntry(string currentServiceName, string currentAccountName, string newServiceName, string newAccountName, int passwordLength, string? newPassword = null, string? newUrl = null, string? newCategory = null)
     {
         var passwordEntry = _passwordEntries.FirstOrDefault(x =>
             x.ServiceName == currentServiceName && x.AccountName == currentAccountName);
@@ -139,10 +147,18 @@ public class Vault : IVault
 
         passwordEntry.UpdateServiceName(newServiceName);
         passwordEntry.UpdateAccountName(newAccountName);
+    
+        // Updating url and category
+        if(newUrl != null)
+            passwordEntry.UpdateUrl(newUrl);
+        
+        if(newCategory != null)
+            passwordEntry.UpdateCategory(newCategory);
 
         // If newPassword is null, generate a random password
         var rand = new Random();
-        passwordEntry.UpdateEncryptedPassword(_vaultEncryptionService.Encrypt(newPassword ?? _vaultPasswordGenerator.GeneratePassword(rand.Next(1, 11)), _masterPassword));
+        passwordEntry.UpdateEncryptedPassword(_vaultEncryptionService.Encrypt(newPassword ?? _vaultPasswordGenerator
+            .GeneratePassword(passwordLength), _masterPassword));
 
         SavePasswordEntries();
         return true;
@@ -151,16 +167,19 @@ public class Vault : IVault
     public List<PasswordEntry> SearchPasswordEntries(string searchTerm)
     {
         return _passwordEntries.Where(x => 
-            x.ServiceName.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) 
-            || x.AccountName.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)
+            x?.ServiceName?.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) == true
+            || x?.AccountName?.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) == true
+            || x?.Url?.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) == true
+            || x?.Category?.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) == true
+            || x?.EntryId.ToString().Contains(searchTerm, StringComparison.OrdinalIgnoreCase) == true
         ).ToList();
     }
     
-    public string GenerateAndAddPasswordEntry(string serviceName, string accountName, int passwordLength)
+    public string GenerateAndAddPasswordEntry(string serviceName, string accountName, int passwordLength, string url = "", string category = "")
     {
-        var password = _vaultPasswordGenerator.GeneratePassword(passwordLength);  // Generate a password
-        AddPasswordEntry(serviceName, accountName, password);  // Add it to password entries
-        return password;
+        var newPass = _vaultPasswordGenerator.GeneratePassword(passwordLength);
+        AddPasswordEntry(serviceName, accountName, newPass, url, category);
+        return newPass;
     }
 
     public bool BackupVault(string backupFilePath)
