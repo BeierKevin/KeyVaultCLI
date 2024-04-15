@@ -4,7 +4,7 @@ namespace KeyVaultCli.Domain.Entities;
 // var passwordEntry = new PasswordEntryBuilder() .SetServiceName(serviceName) .SetAccountName(accountName) .SetEncryptedPassword(encryptedPassword) .Build();
 public class PasswordEntry
 {
-        public Guid EntryId { get; init; }
+    public Guid EntryId { get; init; }
     public string ServiceName { get; set; }
     public string AccountName { get; set; }
     public string EncryptedPassword { get; set; }
@@ -16,37 +16,45 @@ public class PasswordEntry
     public PasswordEntry()
     {
         EntryId = Guid.NewGuid();
-        CreationDate = DateTime.UtcNow;
-        LastModifiedDate = DateTime.UtcNow;
+        var berlinTimezone = TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time");
+        var currentDateTimeInBerlin = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, berlinTimezone);
+        CreationDate = currentDateTimeInBerlin;
+        LastModifiedDate = currentDateTimeInBerlin;
     }
 
     public void UpdateServiceName(string newServiceName)
     {
         ServiceName = newServiceName;
-        LastModifiedDate = DateTime.UtcNow;
+        UpdateLastModifiedDate();
     }
 
     public void UpdateAccountName(string newAccountName)
     {
         AccountName = newAccountName;
-        LastModifiedDate = DateTime.UtcNow;
+        UpdateLastModifiedDate();
     }
     
     public void UpdateUrl(string newUrl)
     {
         Url = newUrl;
-        LastModifiedDate = DateTime.UtcNow;
+        UpdateLastModifiedDate();
     }
 
     public void UpdateCategory(string newCategory)
     {
         Category = newCategory;
-        LastModifiedDate = DateTime.UtcNow;
+        UpdateLastModifiedDate();
     }
 
     public void UpdateEncryptedPassword(string newPassword)
     {
         EncryptedPassword = newPassword;
-        LastModifiedDate = DateTime.UtcNow;
+        UpdateLastModifiedDate();
+    }
+    
+    private void UpdateLastModifiedDate()
+    {
+        var berlinTimezone = TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time");
+        LastModifiedDate = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, berlinTimezone);
     }
 }
