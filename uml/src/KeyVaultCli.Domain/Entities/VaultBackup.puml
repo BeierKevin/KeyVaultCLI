@@ -1,0 +1,8 @@
+@startuml
+class VaultBackup {
+}
+class "List`1"<T> {
+}
+VaultBackup --> "Metadata" MetaData
+VaultBackup --> "Passwords<PasswordEntry>" "List`1"
+@enduml

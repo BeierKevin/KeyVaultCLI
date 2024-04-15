@@ -19,8 +19,8 @@ list of features, marked with checkmarks (✔), crosses (❌) to indicate the st
 - ✔ **Search and Retrieval**: Easily search and retrieve stored passwords.
 - ✔ **Multi-Platform Support**: Key Vault CLI can be installed and used on all the major platforms (Windows, MacOS and
   Linux).
-- ❌ **Backup and Restore**: Backup and restore your password database.
-- ❌ **Category Organization**: Organize your passwords into categories for better management.
+- ✔ **Backup and Restore**: Backup and restore your password database.
+- ✔ **Category Organization**: Organize your passwords into categories for better management.
 - ❌ **Password Sharing**: Share passwords securely with other users.
 
 ## Prerequisites

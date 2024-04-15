@@ -1,8 +1,10 @@
 @startuml
 !include .\\.\src\KeyVaultCli.Presentation\Program.puml
 !include .\\.\src\KeyVaultCli.Application\Services\VaultService.puml
+!include .\\.\src\KeyVaultCli.Domain\Entities\MetaData.puml
 !include .\\.\src\KeyVaultCli.Domain\Entities\PasswordEntry.puml
 !include .\\.\src\KeyVaultCli.Domain\Entities\Vault.puml
+!include .\\.\src\KeyVaultCli.Domain\Entities\VaultBackup.puml
 !include .\\.\src\KeyVaultCli.Domain\Exceptions\PasswordNotFoundException.puml
 !include .\\.\src\KeyVaultCli.Domain\Factories\PasswordEntryBuilder.puml
 !include .\\.\src\KeyVaultCli.Domain\Factories\VaultFactory.puml
@@ -52,8 +54,10 @@
 !include .\\.\src\KeyVaultCli.Application\PasswordEntry\Commands\UpdatePasswordEntry\UpdateMasterPasswordCommand.puml
 !include .\\.\src\KeyVaultCli.Application\PasswordEntry\Commands\UpdatePasswordEntry\UpdatePasswordCommand.puml
 !include .\\.\src\KeyVaultCli.Application\PasswordEntry\Commands\UpdatePasswordEntry\UpdatePasswordGeneratedCommand.puml
+!include .\\.\src\KeyVaultCli.Application\Vault\Commands\BackupVault\BackupVaultCommand.puml
 !include .\\.\src\KeyVaultCli.Application\Vault\Commands\CreateVault\CreateVaultCommand.puml
 !include .\\.\src\KeyVaultCli.Application\Vault\Commands\DeleteVault\DeleteVaultCommand.puml
+!include .\\.\src\KeyVaultCli.Application\Vault\Commands\RestoreVault\RestoreVaultCommand.puml
 !include .\\.\src\KeyVaultCli.Domain\obj\Debug\net7.0\.NETCoreApp,Version=v7.0.AssemblyAttributes.puml
 !include .\\.\src\KeyVaultCli.Domain\obj\Debug\net7.0\KeyVaultCli.Domain.AssemblyInfo.puml
 !include .\\.\src\KeyVaultCli.Domain\obj\Debug\net7.0\KeyVaultCli.Domain.GlobalUsings.g.puml

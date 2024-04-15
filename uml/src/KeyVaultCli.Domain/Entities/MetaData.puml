@@ -1,0 +1,6 @@
+@startuml
+class MetaData {
+    + Description : string <<get>> <<set>>
+    + BackupCreatedDate : string <<get>> <<set>>
+}
+@enduml
