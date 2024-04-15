@@ -137,12 +137,12 @@ public class Vault : IVault
         if (passwordEntry == null)
             return false;
 
-        passwordEntry.ServiceName = newServiceName;
-        passwordEntry.AccountName = newAccountName;
+        passwordEntry.UpdateServiceName(newServiceName);
+        passwordEntry.UpdateAccountName(newAccountName);
 
         // If newPassword is null, generate a random password
         var rand = new Random();
-        passwordEntry.EncryptedPassword = _vaultEncryptionService.Encrypt(newPassword ?? _vaultPasswordGenerator.GeneratePassword(rand.Next(1, 11)), _masterPassword);
+        passwordEntry.UpdateEncryptedPassword(_vaultEncryptionService.Encrypt(newPassword ?? _vaultPasswordGenerator.GeneratePassword(rand.Next(1, 11)), _masterPassword));
 
         SavePasswordEntries();
         return true;
