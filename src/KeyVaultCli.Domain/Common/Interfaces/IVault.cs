@@ -28,4 +28,8 @@ public interface IVault
     public List<PasswordEntry> SearchPasswordEntries(string searchTerm);
 
     public string GenerateAndAddPasswordEntry(string serviceName, string accountName, int passwordLength);
+    
+    public bool BackupVault(string backupFilePath);
+    
+    public bool RestoreVault(string backupFilePath);
 }

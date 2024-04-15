@@ -11,8 +11,4 @@
       <ProjectReference Include="..\KeyVaultCli.Domain\KeyVaultCli.Domain.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Vault\Commands\" />
-    </ItemGroup>
-
 </Project>

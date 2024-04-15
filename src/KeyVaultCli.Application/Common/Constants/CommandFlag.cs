@@ -13,6 +13,8 @@ public enum CommandFlag
     UpdateMasterPassword = 7,
     Exit = 0,
     CreateVault = 100,
+    BackupVault = 101,
+    RestoreVault = 102,
     DeleteAllPasswords = -1,
     DeleteVault = -11
 }

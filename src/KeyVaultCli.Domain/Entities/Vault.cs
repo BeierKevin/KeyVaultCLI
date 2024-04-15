@@ -141,7 +141,8 @@ public class Vault : IVault
         passwordEntry.AccountName = newAccountName;
 
         // If newPassword is null, generate a random password
-        passwordEntry.EncryptedPassword = _vaultEncryptionService.Encrypt(newPassword ?? _vaultPasswordGenerator.GeneratePassword(passwordLength), _masterPassword);
+        var rand = new Random();
+        passwordEntry.EncryptedPassword = _vaultEncryptionService.Encrypt(newPassword ?? _vaultPasswordGenerator.GeneratePassword(rand.Next(1, 11)), _masterPassword);
 
         SavePasswordEntries();
         return true;
@@ -160,5 +161,79 @@ public class Vault : IVault
         var password = _vaultPasswordGenerator.GeneratePassword(passwordLength);  // Generate a password
         AddPasswordEntry(serviceName, accountName, password);  // Add it to password entries
         return password;
+    }
+
+    public bool BackupVault(string backupFilePath)
+    {
+        try
+        {
+            // Description for your vault
+            string description = "Personal password vault";
+
+            // Define an intermediary vault representation 
+            var vaultBackup = new VaultBackup
+            {
+                Metadata = new MetaData
+                {
+                    Description = description,
+                    BackupCreatedDate = DateTime.UtcNow.ToString("O")
+                },
+                Passwords = this._passwordEntries.Select(entry => new PasswordEntry
+                {
+                    EntryId = entry.EntryId,
+                    ServiceName = entry.ServiceName,
+                    AccountName = entry.AccountName,
+                    EncryptedPassword = GetPassword(entry.ServiceName, entry.AccountName),
+                    CreationDate = entry.CreationDate,
+                    LastModifiedDate = entry.LastModifiedDate,
+                    // URL = entry.URL
+                }).ToList()
+            };
+
+            var options = new JsonSerializerOptions { WriteIndented = true };
+            var jsonString = JsonSerializer.Serialize(vaultBackup, options);
+
+            // Define a default file name
+            var defaultFileName = "VaultBackup.json";
+    
+            // Combine path and filename
+            var fullBackupFilePath = Path.Combine(backupFilePath, defaultFileName);
+
+            File.WriteAllText(fullBackupFilePath, jsonString);
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
+    public bool RestoreVault(string backupFilePath)
+    {
+        try 
+        {
+            var jsonString = File.ReadAllText(backupFilePath);
+            var restoredVault = JsonSerializer.Deserialize<VaultBackup>(jsonString);
+
+            // Remove current password entries
+            this._passwordEntries.Clear();
+
+            // If restored password entries exist, add them to the vault. 
+            // Avoids possible null reference argument.
+            if (restoredVault?.Passwords != null)
+            {
+                this._passwordEntries.AddRange(restoredVault.Passwords);
+            }
+
+            // Now, restoredVault.MetaData is available and you may use it as needed...
+
+            SavePasswordEntries();  // Save entries to current vault file
+
+            return true;
+        }
+        catch 
+        {
+            return false;
+        }
     }
 }

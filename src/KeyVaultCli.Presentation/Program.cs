@@ -6,8 +6,10 @@ using KeyVaultCli.Application.PasswordEntry.Commands.DeletePasswordEntry;
 using KeyVaultCli.Application.PasswordEntry.Commands.GetPasswordEntry;
 using KeyVaultCli.Application.PasswordEntry.Commands.UpdatePasswordEntry;
 using KeyVaultCli.Application.Services;
+using KeyVaultCli.Application.Vault.Commands.BackupVault;
 using KeyVaultCli.Application.Vault.Commands.CreateVault;
 using KeyVaultCli.Application.Vault.Commands.DeleteVault;
+using KeyVaultCli.Application.Vault.Commands.RestoreVault;
 using KeyVaultCli.Infrastructure.Services;
 using KeyVaultCli.Presentation.Services;
 
@@ -45,6 +47,8 @@ internal abstract class Program
             { CommandFlag.SearchPasswordEntries, new SearchPasswordEntriesCommand(vault, vaultConsoleService) },
             { CommandFlag.UpdateMasterPassword, new UpdateMasterPasswordCommand(vault, vaultConsoleService) },
             { CommandFlag.Exit, new ExitCommand(vaultConsoleService) },
+            { CommandFlag.BackupVault, new BackupVaultCommand(vault, vaultConsoleService) },
+            { CommandFlag.RestoreVault, new RestoreVaultCommand(vault, vaultConsoleService) },
             { CommandFlag.DeleteAllPasswords, new DeleteAllPasswordsCommand(vault, vaultConsoleService) },
             { CommandFlag.DeleteVault, new DeleteVaultCommand(vaultFactory, vaultConsoleService) }
         };
@@ -65,6 +69,8 @@ internal abstract class Program
             vaultConsoleService.WriteInfo((int)CommandFlag.SearchPasswordEntries + ". Search password entries");
             vaultConsoleService.WriteInfo((int)CommandFlag.UpdateMasterPassword + ". Update Master Password");
             vaultConsoleService.WriteInfo((int)CommandFlag.Exit + ". Exit");
+            vaultConsoleService.WriteInfo((int)CommandFlag.BackupVault + ". Backup Vault");
+            vaultConsoleService.WriteInfo((int)CommandFlag.RestoreVault + ". Restore Vault");
             vaultConsoleService.WriteInfo((int)CommandFlag.DeleteAllPasswords + ". Delete all passwords in vault");
             vaultConsoleService.WriteInfo((int)CommandFlag.DeleteVault + ". Delete Vault");
             command = vaultConsoleService.GetInputFromPrompt("Enter your choice: ");
