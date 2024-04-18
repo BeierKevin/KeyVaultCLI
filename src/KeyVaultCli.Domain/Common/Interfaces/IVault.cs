@@ -20,6 +20,8 @@ public interface IVault
 
     public List<PasswordEntry> LoadPasswordEntries();
 
+    public Dictionary<string, string> GetAllDecryptedPasswords();
+
     public string GetPassword(string serviceName, string accountName);
     
     public PasswordEntry? GetPasswordEntry(string serviceName, string accountName);

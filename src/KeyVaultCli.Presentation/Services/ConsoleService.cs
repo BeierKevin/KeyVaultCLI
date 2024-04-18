@@ -31,6 +31,13 @@ public class ConsoleService : IConsoleService
         Console.WriteLine(message);
         Console.ResetColor();
     }
+    
+    public void WriteWarning(string message)
+    {
+        Console.ForegroundColor = ConsoleColor.Yellow;
+        Console.WriteLine(message);
+        Console.ResetColor();
+    }
 
     public void WriteError(string message)
     {

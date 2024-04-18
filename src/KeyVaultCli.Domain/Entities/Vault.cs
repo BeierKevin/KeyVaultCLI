@@ -117,6 +117,19 @@ public class Vault : IVault
         var json = _vaultFileService.ReadAllText(_passwordEntryFilePath);
         return JsonSerializer.Deserialize<List<PasswordEntry>>(json) ?? new List<PasswordEntry>();
     }
+    
+    public Dictionary<string, string> GetAllDecryptedPasswords()
+    {
+        var result = new Dictionary<string, string>();
+
+        foreach (var entry in _passwordEntries)
+        {
+            var decryptedPassword = GetPassword(entry.ServiceName, entry.AccountName);
+            result[$"{entry.ServiceName}/{entry.AccountName}"] = decryptedPassword;
+        }
+
+        return result;
+    }
 
     public string GetPassword(string serviceName, string accountName)
     {
