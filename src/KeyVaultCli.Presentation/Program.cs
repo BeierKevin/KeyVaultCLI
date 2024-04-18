@@ -30,7 +30,7 @@ internal abstract class Program
         });
         
         Console.Title = "KeyVaultCli";
-        vaultConsoleService.WriteInfo("Welcome to KeyVault");
+        vaultConsoleService.WriteInfo(Logo.asciiStandard);
         createVaultCommand.ExecuteCommand(CommandFlag.CreateVault, out var error);
         var vault = vaultFactory.GetVault();
         
