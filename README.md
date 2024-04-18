@@ -21,6 +21,7 @@ list of features, marked with checkmarks (✔), crosses (❌) to indicate the st
   Linux).
 - ✔ **Backup and Restore**: Backup and restore your password database.
 - ✔ **Category Organization**: Organize your passwords into categories for better management.
+- ❌ **Password Health Check**: Check the strength and security of your passwords.
 - ❌ **Password Sharing**: Share passwords securely with other users.
 
 ## Prerequisites
