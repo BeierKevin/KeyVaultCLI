@@ -4,7 +4,6 @@ using System.Text.RegularExpressions;
 
 namespace KeyVaultCli.Presentation.UserInterface.Table;
 
-// Credits go to https://github.com/khalidabuhakmeh/ConsoleTables
 public class ConsoleTable
 {
     public IList<object> Columns { get; }

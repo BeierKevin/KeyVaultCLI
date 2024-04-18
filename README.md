@@ -48,10 +48,6 @@ For all the following **How tos** sections, you need to follow these steps first
 2. Open a terminal or command prompt.
 3. Navigate to the project directory.
 
-### How to Install
-
-*Tbd* (installing the CLI on your local machine)
-
 ### How to Run
 
 Run the project using the following command:
