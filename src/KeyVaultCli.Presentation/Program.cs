@@ -69,8 +69,8 @@ internal abstract class Program
             vaultConsoleService.WriteInfo((int)CommandFlag.SearchPasswordEntries + ". Search password entries");
             vaultConsoleService.WriteInfo((int)CommandFlag.UpdateMasterPassword + ". Update Master Password");
             vaultConsoleService.WriteInfo((int)CommandFlag.Exit + ". Exit");
-            vaultConsoleService.WriteInfo((int)CommandFlag.BackupVault + ". Backup Vault");
-            vaultConsoleService.WriteInfo((int)CommandFlag.RestoreVault + ". Restore Vault");
+            vaultConsoleService.WriteInfo((int)CommandFlag.BackupVault + ". Backup Vault / Export Vault");
+            vaultConsoleService.WriteInfo((int)CommandFlag.RestoreVault + ". Restore Vault / Import Vault");
             vaultConsoleService.WriteInfo((int)CommandFlag.DeleteAllPasswords + ". Delete all passwords in vault");
             vaultConsoleService.WriteInfo((int)CommandFlag.DeleteVault + ". Delete Vault");
             command = vaultConsoleService.GetInputFromPrompt("Enter your choice: ");
