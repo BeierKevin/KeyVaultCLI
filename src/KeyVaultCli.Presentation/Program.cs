@@ -12,6 +12,7 @@ using KeyVaultCli.Application.Vault.Commands.DeleteVault;
 using KeyVaultCli.Application.Vault.Commands.RestoreVault;
 using KeyVaultCli.Infrastructure.Services;
 using KeyVaultCli.Presentation.Services;
+using KeyVaultCli.Presentation.UserInterface;
 
 namespace KeyVaultCli.Presentation;
 
@@ -30,6 +31,8 @@ internal abstract class Program
         });
         
         Console.Title = "KeyVaultCli";
+        
+        Console.Write("\u001b[38;2;255;255;255m Hello, World! \u001b[0m \n");
         vaultConsoleService.WriteInfo(Logo.asciiStandard);
         createVaultCommand.ExecuteCommand(CommandFlag.CreateVault, out var error);
         var vault = vaultFactory.GetVault();

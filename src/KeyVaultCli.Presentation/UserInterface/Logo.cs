@@ -1,4 +1,4 @@
-namespace KeyVaultCli.Presentation;
+namespace KeyVaultCli.Presentation.UserInterface;
 
 public static class Logo
 {
