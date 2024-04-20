@@ -2,19 +2,26 @@
 
 public enum CommandFlag
 {
-    CreatePassword = 1,
-    CreatePasswordGenerated = 11,
-    GetPassword = 2,
-    GetAllPasswords = 3,
-    UpdatePassword = 4,
-    UpdatePasswordGenerated = 44,
-    DeletePassword = 5,
-    SearchPasswordEntries = 6,
-    UpdateMasterPassword = 7,
+    // General commands
     Exit = 0,
-    CreateVault = 100,
-    BackupVault = 101,
-    RestoreVault = 102,
-    DeleteAllPasswords = -1,
-    DeleteVault = -11
+
+    // Password related commands
+    CreatePassword = 10,
+    CreatePasswordGenerated = 11,
+    GetPassword = 12,
+    GetAllPasswords = 13,
+    UpdatePassword = 14,
+    UpdatePasswordGenerated = 15,
+    DeletePassword = 16,
+    DeleteAllPasswords = 17,
+    SearchPasswordEntries = 18,
+
+    // Vault related commands
+    CreateVault = 20,
+    BackupVault = 21,
+    RestoreVault = 22,
+    DeleteVault = 23,
+
+    // Master password
+    UpdateMasterPassword = 30,
 }

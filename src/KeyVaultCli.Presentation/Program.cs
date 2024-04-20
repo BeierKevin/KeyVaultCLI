@@ -62,20 +62,34 @@ internal abstract class Program
         do
         {
             vaultConsoleService.WriteText("Enter a command:");
+            
+            // General commands
+            vaultConsoleService.WriteInfo("---- General commands ----");
+            vaultConsoleService.WriteInfo((int)CommandFlag.Exit + ". Exit");
+
+            // Password related commands
+            vaultConsoleService.WriteInfo("---- Password related commands ----");
             vaultConsoleService.WriteInfo((int)CommandFlag.CreatePassword + ". Create password entry");
             vaultConsoleService.WriteInfo((int)CommandFlag.CreatePasswordGenerated + ". Create password entry with generated password");
             vaultConsoleService.WriteInfo((int)CommandFlag.GetPassword + ". Get password entry by name");
             vaultConsoleService.WriteInfo((int)CommandFlag.GetAllPasswords + ". Get all password entries");
             vaultConsoleService.WriteInfo((int)CommandFlag.UpdatePassword + ". Update password entry");
-            vaultConsoleService.WriteInfo((int)CommandFlag.DeletePassword + ". Delete password entry");
             vaultConsoleService.WriteInfo((int)CommandFlag.UpdatePasswordGenerated + ". Update password with generated password");
-            vaultConsoleService.WriteInfo((int)CommandFlag.SearchPasswordEntries + ". Search password entries");
-            vaultConsoleService.WriteInfo((int)CommandFlag.UpdateMasterPassword + ". Update Master Password");
-            vaultConsoleService.WriteInfo((int)CommandFlag.Exit + ". Exit");
-            vaultConsoleService.WriteInfo((int)CommandFlag.BackupVault + ". Backup Vault / Export Vault");
-            vaultConsoleService.WriteInfo((int)CommandFlag.RestoreVault + ". Restore Vault / Import Vault");
+            vaultConsoleService.WriteInfo((int)CommandFlag.DeletePassword + ". Delete password entry");
             vaultConsoleService.WriteInfo((int)CommandFlag.DeleteAllPasswords + ". Delete all passwords in vault");
+            vaultConsoleService.WriteInfo((int)CommandFlag.SearchPasswordEntries + ". Search password entries");
+
+            // Vault related commands
+            vaultConsoleService.WriteInfo("---- Vault related commands ----");
+            vaultConsoleService.WriteInfo((int)CommandFlag.CreateVault + ". Create vault");
+            vaultConsoleService.WriteInfo((int)CommandFlag.BackupVault + ". Backup vault / Export Vault");
+            vaultConsoleService.WriteInfo((int)CommandFlag.RestoreVault + ". Restore vault / Import Vault");
             vaultConsoleService.WriteInfo((int)CommandFlag.DeleteVault + ". Delete Vault");
+
+            // Master password
+            vaultConsoleService.WriteInfo("---- Master password ----");
+            vaultConsoleService.WriteInfo((int)CommandFlag.UpdateMasterPassword + ". Update Master Password");
+
             command = vaultConsoleService.GetInputFromPrompt("Enter your choice: ");
 
             var validationErrorMessage = commandService.GetCommandValidationErrorMessage(command);
