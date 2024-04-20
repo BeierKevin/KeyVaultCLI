@@ -32,8 +32,7 @@ internal abstract class Program
         
         Console.Title = "KeyVaultCli";
         
-        Console.Write("\u001b[38;2;255;255;255m Hello, World! \u001b[0m \n");
-        vaultConsoleService.WriteInfo(Logo.asciiStandard);
+        vaultConsoleService.WriteInfo(Logo.asciiStandard, true);
         createVaultCommand.ExecuteCommand(CommandFlag.CreateVault, out var error);
         var vault = vaultFactory.GetVault();
         
@@ -61,14 +60,14 @@ internal abstract class Program
         string command;
         do
         {
-            vaultConsoleService.WriteText("Enter a command:");
+            vaultConsoleService.WriteText("Enter a command:", true);
             
             // General commands
-            vaultConsoleService.WriteInfo("---- General commands ----");
+            vaultConsoleService.WriteInfo("---- General commands ----", true);
             vaultConsoleService.WriteInfo((int)CommandFlag.Exit + ". Exit");
 
             // Password related commands
-            vaultConsoleService.WriteInfo("---- Password related commands ----");
+            vaultConsoleService.WriteInfo("---- Password related commands ----", true);
             vaultConsoleService.WriteInfo((int)CommandFlag.CreatePassword + ". Create password entry");
             vaultConsoleService.WriteInfo((int)CommandFlag.CreatePasswordGenerated + ". Create password entry with generated password");
             vaultConsoleService.WriteInfo((int)CommandFlag.GetPassword + ". Get password entry by name");
@@ -80,17 +79,17 @@ internal abstract class Program
             vaultConsoleService.WriteInfo((int)CommandFlag.SearchPasswordEntries + ". Search password entries");
 
             // Vault related commands
-            vaultConsoleService.WriteInfo("---- Vault related commands ----");
+            vaultConsoleService.WriteInfo("---- Vault related commands ----", true);
             vaultConsoleService.WriteInfo((int)CommandFlag.CreateVault + ". Create vault");
             vaultConsoleService.WriteInfo((int)CommandFlag.BackupVault + ". Backup vault / Export Vault");
             vaultConsoleService.WriteInfo((int)CommandFlag.RestoreVault + ". Restore vault / Import Vault");
             vaultConsoleService.WriteInfo((int)CommandFlag.DeleteVault + ". Delete Vault");
 
             // Master password
-            vaultConsoleService.WriteInfo("---- Master password ----");
+            vaultConsoleService.WriteInfo("---- Master password ----", true);
             vaultConsoleService.WriteInfo((int)CommandFlag.UpdateMasterPassword + ". Update Master Password");
 
-            command = vaultConsoleService.GetInputFromPrompt("Enter your choice: ");
+            command = vaultConsoleService.GetInputFromPrompt("Enter your choice: ", true);
 
             var validationErrorMessage = commandService.GetCommandValidationErrorMessage(command);
             if (validationErrorMessage == null)

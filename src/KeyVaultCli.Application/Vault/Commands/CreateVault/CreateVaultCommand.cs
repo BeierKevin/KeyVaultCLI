@@ -9,7 +9,7 @@ public class CreateVaultCommand(IVaultFactory vaultFactory, IConsole consoleServ
 
     public void Execute()
     {
-        var masterPassword = consoleService.GetInputFromPrompt(passwordPrompt);
+        var masterPassword = consoleService.GetInputFromPrompt(passwordPrompt, true);
         var vault = vaultFactory.CreateVault(masterPassword);
 
         if(vault == null)

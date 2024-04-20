@@ -2,13 +2,13 @@
 
 public interface IConsole
 {
-    string GetInputFromPrompt(string prompt);
-    bool GetUserConfirmation(string promptMessage);
-    void WriteText(string message);
-    void WriteInfo(string message);
-    void WriteSuccess(string message);
-    void WriteWarning(string message);
-    void WriteError(string message);
+    string GetInputFromPrompt(string prompt, bool isBold = false);
+    bool GetUserConfirmation(string promptMessage, bool isBold = false);
+    void WriteText(string message, bool isBold = false);
+    void WriteInfo(string message, bool isBold = false);
+    void WriteSuccess(string message, bool isBold = false);
+    void WriteWarning(string message, bool isBold = false);
+    void WriteError(string message, bool isBold = false);
     void WriteTable(string[] headers, List<List<object>> data);
     void Clear();
 }
