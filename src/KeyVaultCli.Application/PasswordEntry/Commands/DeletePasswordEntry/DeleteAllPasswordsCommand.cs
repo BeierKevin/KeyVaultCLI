@@ -5,17 +5,21 @@ namespace KeyVaultCli.Application.PasswordEntry.Commands.DeletePasswordEntry;
 
 public class DeleteAllPasswordsCommand(IVault vault, IConsole consoleService) : ICommand
 {
+    private readonly string confirmationPrompt = "Are you sure you want to delete all passwords?";
+    private readonly string successMessage = "All passwords have been deleted.";
+    private readonly string errorMessage = "Operation cancelled.";
+
     public void Execute()
     {
-        var confirmation = consoleService.GetInputFromPrompt("Are you sure you want to delete all passwords? (yes/no): ");
-        if (confirmation.ToLower() == "yes")
+        var confirmation = consoleService.GetUserConfirmation(confirmationPrompt);
+        if (confirmation)
         {
             vault.DeleteAllPasswordEntries();
-            consoleService.WriteSuccess("All passwords have been deleted.");
+            consoleService.WriteSuccess(successMessage);
         }
         else
         {
-            consoleService.WriteError("Operation cancelled.");
+            consoleService.WriteError(errorMessage);
         }
     }
 }

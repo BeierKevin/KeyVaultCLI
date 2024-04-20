@@ -5,12 +5,13 @@ namespace KeyVaultCli.Application.Vault.Commands.CreateVault;
 
 public class CreateVaultCommand(IVaultFactory vaultFactory, IConsole consoleService) : ICommand
 {
+    private readonly string passwordPrompt = "Enter your master password: ";
+
     public void Execute()
     {
-        consoleService.WriteInfo("Enter your master password: ");
-        var masterPassword = Console.ReadLine();
-        var vault = vaultFactory.CreateVault(masterPassword!);
-        
+        var masterPassword = consoleService.GetInputFromPrompt(passwordPrompt);
+        var vault = vaultFactory.CreateVault(masterPassword);
+
         if(vault == null)
         {
             Environment.Exit(-1);

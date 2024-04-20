@@ -9,6 +9,9 @@ public class GetAllPasswordsCommand : ICommand
     private readonly IVault vault;
     private readonly IConsole consoleService;
     private readonly PasswordHealthService passwordHealthService;
+    private readonly string infoMessage = "A healthy password should be unique within the vault, at least 8 characters long, and contain at least one uppercase letter, one lowercase letter, and one digit.";
+    private readonly string[] headers = { "GUID", "Service Name", "Account Name", "Password (Decrypted)", "URL", "Category", "Creation Date", "Last Modified Date", "Password Health" };
+    private readonly string errorMessage = "No password entries found.";
     
     public GetAllPasswordsCommand(IVault vault, IConsole consoleService)
     {
@@ -20,24 +23,20 @@ public class GetAllPasswordsCommand : ICommand
     
     public void Execute()
     {
-        consoleService.WriteInfo("A healthy password should be unique within the vault, at least 8 characters long, and contain at least one uppercase letter, one lowercase letter, and one digit.");
+        consoleService.WriteInfo(infoMessage);
         
         var allPasswordEntries = vault.LoadPasswordEntries();
 
         if (allPasswordEntries.Any())
         {
-            string[] headers = { "GUID", "Service Name", "Account Name", "Password (Decrypted)", "URL", "Category", "Creation Date", "Last Modified Date", "Password Health" };
-
             // Transform every PasswordEntry into a List of objects
             var dataRows = allPasswordEntries
                 .Select(entry => {
                     var decryptedPassword = vault.GetPassword(entry.ServiceName, entry.AccountName);
                     var passwordHealthResult = passwordHealthService.CheckPasswordHealthAsync(decryptedPassword).Result;
 
-                    var passwordHealthDescription = passwordHealthResult.IsStrong && passwordHealthResult.IsUnique && !passwordHealthResult.IsCompromised
-                        ? "Healthy"
-                        : "Not Healthy";
-
+                    var passwordHealthDescription = GetPasswordHealthDescription(passwordHealthResult);
+    
                     return new List<object>
                     {
                         entry.EntryId,
@@ -56,7 +55,14 @@ public class GetAllPasswordsCommand : ICommand
         }
         else
         {
-            consoleService.WriteError("No password entries found.");
+            consoleService.WriteError(errorMessage);
         }
+    }
+
+    private string GetPasswordHealthDescription(PasswordHealthResult passwordHealthResult)
+    {
+        return passwordHealthResult.IsStrong && passwordHealthResult.IsUnique && !passwordHealthResult.IsCompromised
+        ? "Healthy"
+        : "Not Healthy";
     }
 }

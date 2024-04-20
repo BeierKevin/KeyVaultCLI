@@ -10,6 +10,14 @@ public class GetPasswordCommand : ICommand
     private readonly IConsole consoleService;
     private readonly PasswordHealthService passwordHealthService;
 
+    private readonly string serviceNamePrompt = "Enter the service name: ";
+    private readonly string accountNamePrompt = "Enter the account name: ";
+    private readonly string errorEmptyInputMessage = "Service name and account name cannot be empty.";
+    private readonly string passwordInfoMessage = "Information for {0}, {1}:";
+    private readonly string passwordNotFoundMessage = "No password entry found for service {0}, account {1}.";
+    private readonly string warningMessage = "This password is not healthy. A healthy password should be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, one digit and be unique inside this Vault.";
+    private readonly string passwordHealthyMessage = "This password is healthy.";
+
     public GetPasswordCommand(IVault vault, IConsole consoleService)
     {
         this.vault = vault;
@@ -22,12 +30,12 @@ public class GetPasswordCommand : ICommand
 
     public void Execute()
     {
-        var serviceName = consoleService.GetInputFromPrompt("Enter the service name: ");
-        var accountName = consoleService.GetInputFromPrompt("Enter the account name: ");
+        var serviceName = GetServiceName();
+        var accountName = GetAccountName();
 
         if (accountName == string.Empty || serviceName == string.Empty)
         {
-            consoleService.WriteError("Service name and account name cannot be empty.");
+            consoleService.WriteError(errorEmptyInputMessage);
             return;
         }
 
@@ -35,27 +43,41 @@ public class GetPasswordCommand : ICommand
 
         if (passwordEntry != null)
         {
-            var decryptedPassword = vault.GetPassword(serviceName, accountName);
-            var passwordHealthResult = passwordHealthService.CheckPasswordHealthAsync(decryptedPassword).Result;
-
-            consoleService.WriteInfo($"Information for {serviceName}, {accountName}:");
-            consoleService.WriteInfo($"Password: {decryptedPassword}");
-            consoleService.WriteInfo($"URL: {passwordEntry.Url}");
-            consoleService.WriteInfo($"Category: {passwordEntry.Category}");
-
-            if (passwordHealthResult.IsStrong && passwordHealthResult.IsUnique && !passwordHealthResult.IsCompromised)
-            {
-                consoleService.WriteInfo("This password is healthy.");
-            }
-            else
-            {
-                consoleService.WriteWarning(
-                    "This password is not healthy. A healthy password should be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, one digit and be unique inside this Vault.");
-            }
+            WritePasswordInfo(passwordEntry, serviceName, accountName);
         }
         else
         {
-            consoleService.WriteError($"No password entry found for service {serviceName}, account {accountName}.");
+            consoleService.WriteError(string.Format(passwordNotFoundMessage, serviceName, accountName));
+        }
+    }
+
+    private string GetServiceName()
+    {
+        return consoleService.GetInputFromPrompt(serviceNamePrompt);
+    }
+
+    private string GetAccountName()
+    {
+        return consoleService.GetInputFromPrompt(accountNamePrompt);
+    }
+
+    private void WritePasswordInfo(Domain.Entities.PasswordEntry passwordEntry, string serviceName, string accountName)
+    {
+        var decryptedPassword = vault.GetPassword(serviceName, accountName);
+        var passwordHealthResult = passwordHealthService.CheckPasswordHealthAsync(decryptedPassword).Result;
+
+        consoleService.WriteInfo(string.Format(passwordInfoMessage, serviceName, accountName));
+        consoleService.WriteInfo($"Password: {decryptedPassword}");
+        consoleService.WriteInfo($"URL: {passwordEntry.Url}");
+        consoleService.WriteInfo($"Category: {passwordEntry.Category}");
+
+        if (passwordHealthResult.IsStrong && passwordHealthResult.IsUnique && !passwordHealthResult.IsCompromised)
+        {
+            consoleService.WriteInfo(passwordHealthyMessage);
+        }
+        else
+        {
+            consoleService.WriteWarning(warningMessage);
         }
     }
 }
