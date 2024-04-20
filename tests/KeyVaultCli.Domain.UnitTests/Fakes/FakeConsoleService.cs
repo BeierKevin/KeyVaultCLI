@@ -5,6 +5,7 @@ namespace KeyVaultCli.Domain.UnitTests.Fakes;
 public class FakeConsoleService : IConsoleService
 {
     public string GetInputFromPrompt(string prompt) { return string.Empty; }
+    public bool GetUserConfirmation(string promptMessage) { return true; }
     public void WriteText(string message) { /* do nothing */ }
     public void WriteInfo(string message) { /* do nothing */ }
     public void WriteSuccess(string message) { /* do nothing */ }

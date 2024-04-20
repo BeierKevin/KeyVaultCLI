@@ -15,6 +15,26 @@ public class ConsoleService : IConsoleService
         return input ?? string.Empty;
     }
     
+    public bool GetUserConfirmation(string promptMessage)
+    {
+        while (true)
+        {
+            var input = GetInputFromPrompt(promptMessage + " (y/n): ");
+        
+            if (input.Equals("y", StringComparison.OrdinalIgnoreCase))
+            {
+                return true;
+            }
+
+            if (input.Equals("n", StringComparison.OrdinalIgnoreCase))
+            {
+                return false;
+            }
+
+            WriteInfo("Invalid input. Please enter 'y' or 'n'.");
+        }
+    }
+    
     public void WriteText(string message)
     {
         var regularText = new Text(message, colors.White);

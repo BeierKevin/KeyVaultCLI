@@ -3,6 +3,7 @@
 public interface IConsole
 {
     string GetInputFromPrompt(string prompt);
+    bool GetUserConfirmation(string promptMessage);
     void WriteText(string message);
     void WriteInfo(string message);
     void WriteSuccess(string message);
