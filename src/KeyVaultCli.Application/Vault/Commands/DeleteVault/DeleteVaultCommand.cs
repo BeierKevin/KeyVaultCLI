@@ -5,7 +5,7 @@ namespace KeyVaultCli.Application.Vault.Commands.DeleteVault;
 
 public class DeleteVaultCommand(IVaultFactory vault, IConsole consoleService) : ICommand
 {
-    private readonly string confirmationPrompt = "Are you sure you want to delete all passwords?";
+    private readonly string confirmationPrompt = "Are you sure you want to delete the vault?";
     private readonly string deleteSuccessMsg = "Deleted Vault with all passwords in it!";
     private readonly string deleteErrMsg = "Closing application, to create a new vault run the application again.";
     private readonly string operationCancelMsg = "Operation cancelled.";
