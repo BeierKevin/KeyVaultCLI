@@ -13,29 +13,18 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        dotnet-version: [ '8.0.x' ]  # make sure it matches your .NET version
+        dotnet-version: [ '8.0.x' ]
 
     steps:
       - uses: actions/checkout@v4
-      - name: Setup .NET
+      - name: Setup dotnet
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '8.0.x'  # make sure it matches your .NET version
+          dotnet-version: '6.0.x'
       - name: Install dependencies
         run: dotnet restore
       - name: Build
-        run: dotnet build --configuration Release --no-restore
+        run: dotnet build
       - name: Test with the dotnet CLI
-        run: dotnet test --configuration Release --no-build --collect:"XPlat Code Coverage"
-      - name: Code Coverage
-        uses: danielpalme/ReportGenerator-GitHub-Action@v1
-        with:
-          reports: '**/coverage.cobertura.xml'
-          targetdir: 'coverage'
-          reporttypes: 'HtmlInline_AzurePipelines'
-
-      - name: Publish Code Coverage
-        uses: actions/upload-artifact@v4
-        with:
-          name: code-coverage-report
-          path: coverage/
+        run: dotnet test
+      
