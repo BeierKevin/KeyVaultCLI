@@ -1,6 +1,12 @@
 @startuml
 class BackupVaultCommand {
+    - <<readonly>> backupSuccessMsg : string = "  ____             _                  ____                               __       _ \n | __ )  __ _  ___| | ___   _ _ __   / ___| _   _  ___ ___ ___  ___ ___ / _|_   _| |\n |  _ \\ / _` |/ __| |/ / | | | '_ \\  \\___ \\| | | |/ __/ __/ _ \\/ __/ __| |_| | | | |\n | |_) | (_| | (__|   <| |_| | |_) |  ___) | |_| | (_| (_|  __/\\__ \\__ \\  _| |_| | |\n |____/ \\__,_|\\___|_|\\_\\\\__,_| .__/  |____/ \\__,_|\\___\\___\\___||___/___/_|  \\__,_|_|\n                             |_|                                                    "
+    - <<readonly>> confirmationPrompt : string = "Are you sure you want to backup the vault?"
+    - <<readonly>> filePathPrompt : string = "Enter the full path to the backup file: "
+    - <<readonly>> backupErrMsg : string = "Failed to backup vault."
+    - <<readonly>> operationCancelMsg : string = "Operation cancelled."
     + Execute() : void
+    - PerformBackup() : void
 }
 ICommand <|-- BackupVaultCommand
 @enduml

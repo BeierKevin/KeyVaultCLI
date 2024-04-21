@@ -1,4 +1,8 @@
 @startuml
 interface IVaultFileService {
+    Exists(path:string) : bool
+    WriteAllText(path:string, content:string) : void
+    ReadAllText(path:string) : string
+    Delete(path:string) : bool
 }
 @enduml

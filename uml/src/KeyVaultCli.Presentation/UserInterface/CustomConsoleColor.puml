@@ -1,0 +1,12 @@
+@startuml
+class CustomConsoleColor {
+    + R : byte <<get>>
+    + G : byte <<get>>
+    + B : byte <<get>>
+    + CustomConsoleColor(r:byte, g:byte, b:byte)
+    + <<override>> Equals(obj:object) : bool
+    + <<override>> GetHashCode() : int
+    + <<override>> ToString() : string
+    + ToAnsiEscapeSequence() : string
+}
+@enduml

@@ -1,0 +1,15 @@
+@startuml
+class ColorGenerated {
+}
+ColorGenerated o-> "Success" CustomConsoleColor
+ColorGenerated o-> "Info" CustomConsoleColor
+ColorGenerated o-> "Warning" CustomConsoleColor
+ColorGenerated o-> "Error" CustomConsoleColor
+ColorGenerated o-> "White" CustomConsoleColor
+ColorGenerated o-> "Black" CustomConsoleColor
+ColorGenerated o-> "Red" CustomConsoleColor
+ColorGenerated o-> "Green" CustomConsoleColor
+ColorGenerated o-> "Blue" CustomConsoleColor
+ColorGenerated o-> "Purple" CustomConsoleColor
+ColorGenerated o-> "Magenta" CustomConsoleColor
+@enduml

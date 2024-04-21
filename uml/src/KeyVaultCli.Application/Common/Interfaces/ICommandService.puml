@@ -1,6 +1,9 @@
 @startuml
 interface ICommandService {
+    ExecuteCommand(command:CommandFlag, errorMessage:string) : bool
+    GetCommandValidationErrorMessage(commandString:string) : string?
     + IsCommandSupported(commandString:string) : bool
     + IsCommandRecognized(commandString:string) : bool
+    IsExitCommand(commandString:string) : bool
 }
 @enduml

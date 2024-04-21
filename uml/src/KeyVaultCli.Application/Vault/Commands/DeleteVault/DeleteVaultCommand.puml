@@ -1,5 +1,9 @@
 @startuml
 class DeleteVaultCommand {
+    - <<readonly>> confirmationPrompt : string = "Are you sure you want to delete the vault?"
+    - <<readonly>> deleteSuccessMsg : string = "Deleted Vault with all passwords in it!"
+    - <<readonly>> deleteErrMsg : string = "Closing application, to create a new vault run the application again."
+    - <<readonly>> operationCancelMsg : string = "Operation cancelled."
     + Execute() : void
 }
 ICommand <|-- DeleteVaultCommand

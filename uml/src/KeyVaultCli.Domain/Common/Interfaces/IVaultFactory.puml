@@ -1,4 +1,7 @@
 @startuml
 interface IVaultFactory {
+    CreateVault(masterPassword:string) : IVault?
+    DeleteVault() : bool
+    GetVault() : IVault
 }
 @enduml

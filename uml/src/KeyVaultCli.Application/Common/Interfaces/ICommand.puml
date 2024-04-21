@@ -1,4 +1,5 @@
 @startuml
 interface ICommand {
+    Execute() : void
 }
 @enduml

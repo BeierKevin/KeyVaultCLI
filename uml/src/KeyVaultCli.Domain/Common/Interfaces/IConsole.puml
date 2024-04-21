@@ -1,4 +1,13 @@
 @startuml
 interface IConsole {
+    GetInputFromPrompt(prompt:string, isBold:bool) : string
+    GetUserConfirmation(promptMessage:string, isBold:bool) : bool
+    WriteText(message:string, isBold:bool) : void
+    WriteInfo(message:string, isBold:bool) : void
+    WriteSuccess(message:string, isBold:bool) : void
+    WriteWarning(message:string, isBold:bool) : void
+    WriteError(message:string, isBold:bool) : void
+    WriteTable(headers:string[], data:List<List<object>>) : void
+    Clear() : void
 }
 @enduml

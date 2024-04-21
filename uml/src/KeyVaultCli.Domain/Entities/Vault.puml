@@ -1,5 +1,8 @@
 @startuml
 class Vault {
+    - _masterPassword : string
+    - <<readonly>> _passwordEntryFilePath : string
+    - <<readonly>> _masterPasswordFilePath : string
     + Vault(vaultFilePath:string, masterPasswordFilePath:string, masterPassword:string, vaultEncryptionService:IVaultEncryptionService, vaultFileService:IVaultFileService, vaultPasswordGenerator:IVaultPasswordGenerator)
     + SaveMasterPassword() : void
     + LoadMasterPassword() : string?
@@ -9,6 +12,7 @@ class Vault {
     + DeletePasswordEntry(serviceName:string, accountName:string) : bool
     + DeleteAllPasswordEntries() : void
     + LoadPasswordEntries() : List<PasswordEntry>
+    + GetAllDecryptedPasswords() : Dictionary<string, string>
     + GetPassword(serviceName:string, accountName:string) : string
     + GetPasswordEntry(serviceName:string, accountName:string) : PasswordEntry?
     + UpdatePasswordEntry(currentServiceName:string, currentAccountName:string, newServiceName:string, newAccountName:string, passwordLength:int, newPassword:string?, newUrl:string?, newCategory:string?) : bool
@@ -17,5 +21,11 @@ class Vault {
     + BackupVault(backupFilePath:string) : bool
     + RestoreVault(backupFilePath:string) : bool
 }
+class "List`1"<T> {
+}
 IVault <|-- Vault
+Vault --> "_passwordEntries<PasswordEntry>" "List`1"
+Vault --> "_vaultEncryptionService" IVaultEncryptionService
+Vault --> "_vaultFileService" IVaultFileService
+Vault --> "_vaultPasswordGenerator" IVaultPasswordGenerator
 @enduml

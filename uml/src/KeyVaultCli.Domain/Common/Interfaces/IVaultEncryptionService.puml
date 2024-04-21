@@ -1,4 +1,6 @@
 @startuml
 interface IVaultEncryptionService {
+    Encrypt(password:string, masterPassword:string) : string
+    Decrypt(password:string, masterPassword:string) : string
 }
 @enduml

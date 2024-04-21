@@ -6,4 +6,9 @@ class VaultService {
     + GetVault() : IVault
 }
 IVaultService <|-- VaultService
+VaultService --> "_vaultConsoleService" IConsole
+VaultService --> "_vaultEncryptionService" IVaultEncryptionService
+VaultService --> "_vaultFileService" IVaultFileService
+VaultService --> "_vaultPasswordGenerator" IVaultPasswordGenerator
+VaultService --> "_vaultFactory" VaultFactory
 @enduml

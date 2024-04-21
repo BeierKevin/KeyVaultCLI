@@ -1,8 +1,11 @@
 @startuml
 class VaultFactory {
+    - <<const>> VaultFilePath : string = "vault.dat"
+    - <<const>> MasterPasswordFilePath : string = "masterpassword.dat"
     + CreateVault(masterPassword:string) : IVault?
     + DeleteVault() : bool
     + GetVault() : IVault
 }
 IVaultFactory <|-- VaultFactory
+VaultFactory --> "_vault" IVault
 @enduml

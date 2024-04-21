@@ -2,7 +2,7 @@ using System;
 
 namespace KeyVaultCli.Presentation.UserInterface;
 
-public struct CustomConsoleColor
+public class CustomConsoleColor
 {
     public byte R { get; }
     public byte G { get; }

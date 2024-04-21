@@ -1,0 +1,10 @@
+@startuml
+class Text {
+    - text : string
+    - <<readonly>> colorSequence : string
+    - <<readonly>> isBold : bool
+    + Text(text:string, color:CustomConsoleColor, isBold:bool)
+    + DisplayText() : void
+}
+Text --> "color" ConsoleColor
+@enduml

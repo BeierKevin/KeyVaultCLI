@@ -9,11 +9,19 @@ class ConsoleTable {
     + {static} From(values:IEnumerable<T>) : ConsoleTable
     + {static} From(dataTable:DataTable) : ConsoleTable
     + <<override>> ToString() : string
+    - SetFormats(columnLengths:List<int>, columnAlignment:List<string>) : void
     + {static} GetTextWidth(value:string) : int
     + ToMarkDownString() : string
+    - ToMarkDownString(delimiter:char) : string
     + ToMinimalString() : string
     + ToStringAlternative() : string
+    - Format(columnLengths:List<int>, delimiter:char) : string
+    - GetNumberAlignment(i:int) : string
+    - ColumnLengths() : List<int>
     + Write(format:Format) : void
+    - {static} GetColumns() : IEnumerable<string>
+    - {static} GetColumnValue(target:object, column:string) : object
+    - {static} GetColumnsType() : IEnumerable<Type>
 }
 class "IList`1"<T> {
 }

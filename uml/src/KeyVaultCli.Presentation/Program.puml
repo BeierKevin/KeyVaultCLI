@@ -1,4 +1,11 @@
 @startuml
 abstract class Program {
+    - {static} Main() : void
+    - {static} PrintLogo(vaultConsoleService:IConsoleService) : void
+    - {static} RegisterCommands(vaultConsoleService:IConsoleService, vaultFactory:IVaultFactory, vault:IVault) : Dictionary<CommandFlag, ICommand>
+    - {static} ProcessInputCommands(vaultConsoleService:IConsoleService, commandService:ICommandService) : void
+    - {static} PrintPrompt(vaultConsoleService:IConsoleService) : string
+    - {static} ExecuteCommand(vaultConsoleService:IConsoleService, commandService:ICommandService, command:string) : void
+    - {static} IsExitCommand(commandService:ICommandService, command:string) : bool
 }
 @enduml

@@ -8,6 +8,7 @@ interface IVault {
     + DeletePasswordEntry(serviceName:string, accountName:string) : bool
     + DeleteAllPasswordEntries() : void
     + LoadPasswordEntries() : List<PasswordEntry>
+    + GetAllDecryptedPasswords() : Dictionary<string, string>
     + GetPassword(serviceName:string, accountName:string) : string
     + GetPasswordEntry(serviceName:string, accountName:string) : PasswordEntry?
     + UpdatePasswordEntry(currentServiceName:string, currentAccountName:string, newServiceName:string, newAccountName:string, passwordLength:int, newPassword:string?, newUrl:string?, newCategory:string?) : bool
