@@ -74,6 +74,12 @@ To run the tests, use the following command:
 dotnet test
 ```
 
+To run a coverage report inside the cli and not the IDE run this
+
+```shell
+dotnet test /p:CollectCoverage=true --% /p:CoverletOutputFormat=\"opencover,lcov\"
+```
+
 ### Counting Lines of Code
 
 Count the lines of code using the following command in the root of the project:
