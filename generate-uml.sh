@@ -1,6 +1,6 @@
 # Generate UML diagrams using puml-gen for a .NET project
 
-dotnet puml-gen ./src ./uml -dir -public -createAssociation
+dotnet puml-gen ./src ./uml -dir -createAssociation
 
 # Command breakdown:
 # dotnet puml-gen ./src ./uml -dir -public -createAssociation
