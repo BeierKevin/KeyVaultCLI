@@ -64,7 +64,7 @@ To run the application using Docker, execute the following commands:
 
 ```shell
 docker build . -t keyvaultcli
-docker run -it keyvaultcli
+docker run -it --name KeyVaultCli keyvaultcli
 ```
 
 ### How to Build
