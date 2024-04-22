@@ -58,6 +58,15 @@ dotnet run
 
 You will be prompted to create a master password the first time you run the application.
 
+### How to Run with Docker
+
+To run the application using Docker, execute the following commands:
+
+```shell
+docker build . -t keyvaultcli
+docker run -it keyvaultcli
+```
+
 ### How to Build
 
 Build the project using the following command:
