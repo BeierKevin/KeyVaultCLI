@@ -1,7 +1,10 @@
 @startuml
 class CreateVaultCommand {
     - <<readonly>> passwordPrompt : string = "Enter your master password: "
+    - <<readonly>> vaultCreationFailureMsg : string = "Failed to create the vault. Please restart the application."
     + Execute() : void
 }
 ICommand <|-- CreateVaultCommand
+CreateVaultCommand o-> "vaultFactory" IVaultFactory
+CreateVaultCommand o-> "consoleService" IConsoleService
 @enduml

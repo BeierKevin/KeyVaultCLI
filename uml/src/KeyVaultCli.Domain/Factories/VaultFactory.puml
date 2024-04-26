@@ -8,4 +8,8 @@ class VaultFactory {
 }
 IVaultFactory <|-- VaultFactory
 VaultFactory --> "_vault" IVault
+VaultFactory o-> "vaultConsoleService" IConsole
+VaultFactory o-> "vaultEncryptionService" IVaultEncryptionService
+VaultFactory o-> "vaultFileService" IVaultFileService
+VaultFactory o-> "vaultPasswordGenerator" IVaultPasswordGenerator
 @enduml

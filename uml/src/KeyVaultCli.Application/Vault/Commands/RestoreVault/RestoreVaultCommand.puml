@@ -5,8 +5,11 @@ class RestoreVaultCommand {
     - filePathPrompt : string = "Enter the full path to the backup file: "
     - <<readonly>> restoreErrorMsg : string = "Failed to restore vault."
     - <<readonly>> operationCancelMsg : string = "Operation cancelled."
+    + RestoreVaultCommand(vault:IVault, consoleService:IConsoleService)
     + Execute() : void
     - PerformRestore() : void
 }
 ICommand <|-- RestoreVaultCommand
+RestoreVaultCommand --> "vault" IVault
+RestoreVaultCommand --> "consoleService" IConsoleService
 @enduml

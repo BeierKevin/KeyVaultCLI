@@ -9,4 +9,6 @@ class BackupVaultCommand {
     - PerformBackup() : void
 }
 ICommand <|-- BackupVaultCommand
+BackupVaultCommand o-> "vault" IVault
+BackupVaultCommand o-> "consoleService" IConsoleService
 @enduml

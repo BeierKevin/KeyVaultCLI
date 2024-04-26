@@ -1,6 +1,7 @@
 @startuml
 abstract class Program {
     - {static} Main() : void
+    - {static} InitializeCommandService(vaultFactory:IVaultFactory, consoleService:IConsoleService) : ICommandService
     - {static} PrintLogo(vaultConsoleService:IConsoleService) : void
     - {static} RegisterCommands(vaultConsoleService:IConsoleService, vaultFactory:IVaultFactory, vault:IVault) : Dictionary<CommandFlag, ICommand>
     - {static} ProcessInputCommands(vaultConsoleService:IConsoleService, commandService:ICommandService) : void

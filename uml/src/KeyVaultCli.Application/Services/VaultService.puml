@@ -1,14 +1,16 @@
 @startuml
 class VaultService {
     + VaultService(vaultConsoleService:IConsole, vaultEncryptionService:IVaultEncryptionService, vaultFileService:IVaultFileService, vaultPasswordGenerator:IVaultPasswordGenerator)
-    + CreateVault(masterPassword:string) : IVault?
+    + CreateVault(masterPassword:string) : IVault
     + DeleteVault() : bool
     + GetVault() : IVault
+    + BackupVault(backupFilePath:string) : void
+    + RestoreVault(backupFilePath:string) : void
 }
 IVaultService <|-- VaultService
 VaultService --> "_vaultConsoleService" IConsole
 VaultService --> "_vaultEncryptionService" IVaultEncryptionService
 VaultService --> "_vaultFileService" IVaultFileService
 VaultService --> "_vaultPasswordGenerator" IVaultPasswordGenerator
-VaultService --> "_vaultFactory" VaultFactory
+VaultService --> "_vaultFactory" IVaultFactory
 @enduml

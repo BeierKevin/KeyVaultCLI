@@ -7,4 +7,6 @@ class DeleteVaultCommand {
     + Execute() : void
 }
 ICommand <|-- DeleteVaultCommand
+DeleteVaultCommand o-> "vault" IVaultFactory
+DeleteVaultCommand o-> "consoleService" IConsoleService
 @enduml
