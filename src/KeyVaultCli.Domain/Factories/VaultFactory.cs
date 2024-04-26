@@ -5,15 +5,21 @@ namespace KeyVaultCli.Domain.Factories;
 
 // Factory Pattern
 public class VaultFactory(
-    IConsole vaultConsoleService,
-    IVaultEncryptionService vaultEncryptionService,
-    IVaultFileService vaultFileService,
-    IVaultPasswordGenerator vaultPasswordGenerator)
+    IConsole consoleService,
+    IVaultEncryptionService encryptionService,
+    IVaultFileService fileService,
+    IVaultPasswordGenerator passwordGenerator)
     : IVaultFactory
 {
     private const string VaultFilePath = "vault.dat";
     private const string MasterPasswordFilePath = "masterpassword.dat";
     private IVault _vault;
+
+    private readonly IConsole vaultConsoleService = consoleService ?? throw new ArgumentNullException(nameof(consoleService));
+    private readonly IVaultEncryptionService vaultEncryptionService = encryptionService ?? throw new ArgumentNullException(nameof(encryptionService));
+    private readonly IVaultFileService vaultFileService = fileService ?? throw new ArgumentNullException(nameof(fileService));
+    private readonly IVaultPasswordGenerator vaultPasswordGenerator = passwordGenerator ?? throw new ArgumentNullException(nameof(passwordGenerator));
+
 
     public IVault? CreateVault(string masterPassword)
     {

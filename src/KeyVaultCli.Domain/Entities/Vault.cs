@@ -234,9 +234,9 @@ public class Vault : IVault
             File.WriteAllText(fullBackupFilePath, jsonString);
             return true;
         }
-        catch
+        catch (Exception ex)
         {
-            return false;
+            throw new Exception($"Error occurred while backing up the vault: {ex.Message}");
         }
     }
 
@@ -263,9 +263,9 @@ public class Vault : IVault
 
             return true;
         }
-        catch 
+        catch (Exception ex)
         {
-            return false;
+            throw new Exception($"Error occurred while restoring the vault: {ex.Message}");
         }
     }
 }
