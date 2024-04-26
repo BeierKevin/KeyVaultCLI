@@ -6,6 +6,6 @@ public class FakePasswordGeneratorService : IPasswordGeneratorService
 {
     public string GeneratePassword(int length)
     {
-        return new String('a', length);  // return a constant string of 'a's of length 
+        return new String('a', length); // return a constant string of 'a's of length 
     }
 }

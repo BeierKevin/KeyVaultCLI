@@ -17,7 +17,7 @@ public class FakeFileService : IFileService
         {
             _files[path] = content;
         }
-        else 
+        else
         {
             _files.Add(path, content);
         }

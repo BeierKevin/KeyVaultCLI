@@ -19,8 +19,8 @@ public class CustomConsoleColor
     {
         if (!(obj is CustomConsoleColor))
             return false;
-        
-        var color = (CustomConsoleColor) obj;
+
+        var color = (CustomConsoleColor)obj;
         return R == color.R && G == color.G && B == color.B;
     }
 
@@ -44,4 +44,4 @@ public class CustomConsoleColor
     {
         return $"\u001b[38;2;{R};{G};{B}m";
     }
-}	
+}

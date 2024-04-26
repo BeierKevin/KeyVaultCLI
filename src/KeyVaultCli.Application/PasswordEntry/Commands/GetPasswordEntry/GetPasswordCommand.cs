@@ -16,7 +16,10 @@ namespace KeyVaultCli.Application.PasswordEntry.Commands.GetPasswordEntry
         private readonly string errorEmptyInputMessage = "Service name and account name cannot be empty.";
         private readonly string passwordInfoMessage = "Information for {0}, {1}:";
         private readonly string passwordNotFoundMessage = "No password entry found for service {0}, account {1}.";
-        private readonly string warningMessage = "This password is not healthy. A healthy password should be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, one digit and be unique inside this Vault.";
+
+        private readonly string warningMessage =
+            "This password is not healthy. A healthy password should be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, one digit and be unique inside this Vault.";
+
         private readonly string passwordHealthyMessage = "This password is healthy.";
 
         public GetPasswordCommand(IVault vault, IConsoleService consoleService)
@@ -53,9 +56,10 @@ namespace KeyVaultCli.Application.PasswordEntry.Commands.GetPasswordEntry
                     consoleService.WriteError(string.Format(passwordNotFoundMessage, serviceName, accountName));
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                consoleService.WriteError($"An error occurred while trying to execute the command. Details: {ex.Message}");
+                consoleService.WriteError(
+                    $"An error occurred while trying to execute the command. Details: {ex.Message}");
             }
         }
 
@@ -69,7 +73,8 @@ namespace KeyVaultCli.Application.PasswordEntry.Commands.GetPasswordEntry
             return consoleService.GetInputFromPrompt(accountNamePrompt);
         }
 
-        private void WritePasswordInfo(Domain.Entities.PasswordEntry passwordEntry, string serviceName, string accountName)
+        private void WritePasswordInfo(Domain.Entities.PasswordEntry passwordEntry, string serviceName,
+            string accountName)
         {
             var decryptedPassword = vault.GetPassword(serviceName, accountName);
             var passwordHealthResult = passwordHealthService.CheckPasswordHealthAsync(decryptedPassword).Result;

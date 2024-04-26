@@ -23,7 +23,7 @@ public interface IVault
     public Dictionary<string, string> GetAllDecryptedPasswords();
 
     public string GetPassword(string serviceName, string accountName);
-    
+
     public PasswordEntry? GetPasswordEntry(string serviceName, string accountName);
 
     public bool UpdatePasswordEntry(string currentServiceName, string currentAccountName, string newServiceName,
@@ -32,9 +32,10 @@ public interface IVault
 
     public List<PasswordEntry> SearchPasswordEntries(string searchTerm);
 
-    public string GenerateAndAddPasswordEntry(string serviceName, string accountName, int passwordLength, string url, string category);
-    
+    public string GenerateAndAddPasswordEntry(string serviceName, string accountName, int passwordLength, string url,
+        string category);
+
     public bool BackupVault(string backupFilePath);
-    
+
     public bool RestoreVault(string backupFilePath);
 }

@@ -6,8 +6,11 @@ namespace KeyVaultCli.Application.Vault.Commands.CreateVault
 {
     public class CreateVaultCommand(IVaultFactory vaultFactory, IConsoleService consoleService) : ICommand
     {
-        private readonly IVaultFactory vaultFactory = vaultFactory ?? throw new ArgumentNullException(nameof(vaultFactory));
-        private readonly IConsoleService consoleService = consoleService ?? throw new ArgumentNullException(nameof(consoleService));
+        private readonly IVaultFactory vaultFactory =
+            vaultFactory ?? throw new ArgumentNullException(nameof(vaultFactory));
+
+        private readonly IConsoleService consoleService =
+            consoleService ?? throw new ArgumentNullException(nameof(consoleService));
 
         private readonly string passwordPrompt = "Enter your master password: ";
         private readonly string vaultCreationFailureMsg = "Failed to create the vault. Please restart the application.";

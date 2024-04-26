@@ -18,10 +18,13 @@ namespace KeyVaultCli.Application.Services
             IVaultPasswordGenerator vaultPasswordGenerator)
         {
             _vaultConsoleService = vaultConsoleService ?? throw new ArgumentNullException(nameof(vaultConsoleService));
-            _vaultEncryptionService = vaultEncryptionService ?? throw new ArgumentNullException(nameof(vaultEncryptionService));
+            _vaultEncryptionService =
+                vaultEncryptionService ?? throw new ArgumentNullException(nameof(vaultEncryptionService));
             _vaultFileService = vaultFileService ?? throw new ArgumentNullException(nameof(vaultFileService));
-            _vaultPasswordGenerator = vaultPasswordGenerator ?? throw new ArgumentNullException(nameof(vaultPasswordGenerator));
-            _vaultFactory = new VaultFactory(_vaultConsoleService, _vaultEncryptionService, _vaultFileService, _vaultPasswordGenerator);
+            _vaultPasswordGenerator =
+                vaultPasswordGenerator ?? throw new ArgumentNullException(nameof(vaultPasswordGenerator));
+            _vaultFactory = new VaultFactory(_vaultConsoleService, _vaultEncryptionService, _vaultFileService,
+                _vaultPasswordGenerator);
         }
 
         public IVault CreateVault(string masterPassword)

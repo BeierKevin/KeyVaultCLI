@@ -4,5 +4,4 @@ namespace KeyVaultCli.Application.Common.Interfaces;
 
 public interface IFileService : IVaultFileService
 {
-    
 }

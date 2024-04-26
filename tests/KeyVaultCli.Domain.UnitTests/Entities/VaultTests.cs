@@ -16,7 +16,8 @@ public class VaultTests
         var encryptionService = new FakeEncryptionService();
         var fileService = new FakeFileService();
         var passwordGenerator = new FakePasswordGeneratorService();
-        _vault = new Vault(VaultFilePath, MasterPasswordFilePath, "masterPassword", encryptionService, fileService, passwordGenerator);
+        _vault = new Vault(VaultFilePath, MasterPasswordFilePath, "masterPassword", encryptionService, fileService,
+            passwordGenerator);
     }
 
     [TestMethod]
@@ -57,7 +58,7 @@ public class VaultTests
         Assert.IsTrue(result, "Password entry should have been updated successfully.");
         Assert.AreEqual("newPassword", password, "Password should have been updated successfully.");
     }
-    
+
     [TestMethod]
     public void TestDeleteAllPasswordEntries_Success()
     {
@@ -74,7 +75,7 @@ public class VaultTests
     public void TestGenerateAndAddPasswordEntry_Success()
     {
         string password = _vault.GenerateAndAddPasswordEntry("testService", "testAccount", 10);
-            
+
         Assert.IsNotNull(password, "Generated password should not be null.");
         Assert.AreEqual(10, password.Length, "Generated password length should be 10.");
     }
@@ -89,7 +90,9 @@ public class VaultTests
         var expectedResult1 = _vault.SearchPasswordEntries("service1");
         var expectedResult2 = _vault.SearchPasswordEntries("testService3");
 
-        Assert.AreEqual("service1", expectedResult1.First().ServiceName, "Searched password entry should match the service name.");
-        Assert.AreEqual("testService3", expectedResult2.First().ServiceName, "Searched password entry should match the service name.");
+        Assert.AreEqual("service1", expectedResult1.First().ServiceName,
+            "Searched password entry should match the service name.");
+        Assert.AreEqual("testService3", expectedResult2.First().ServiceName,
+            "Searched password entry should match the service name.");
     }
 }

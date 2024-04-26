@@ -9,7 +9,7 @@ public class FakeEncryptionService : IEncryptionService
     public string Encrypt(string password, string masterPassword)
     {
         return password + FakeEncryptionSuffix;
-    }    
+    }
 
     public string Decrypt(string encryptedPassword, string masterPassword)
     {
@@ -17,7 +17,7 @@ public class FakeEncryptionService : IEncryptionService
         {
             return encryptedPassword.Substring(0, encryptedPassword.Length - FakeEncryptionSuffix.Length);
         }
-        
+
         return encryptedPassword;
     }
 }

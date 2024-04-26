@@ -26,12 +26,13 @@ public class VaultFactoryTests
 
         Assert.IsNull(result, "Should not create a Vault instance if the master password is empty.");
     }
-    
+
     [TestMethod]
     public void TestCreateVault_withValidMasterPassword_ReturnsVault()
     {
         var result = _vaultFactory.CreateVault("myMasterPassword");
 
-        Assert.IsInstanceOfType(result, typeof(IVault),"Should not create a Vault instance if the master password is incorrect.");
+        Assert.IsInstanceOfType(result, typeof(IVault),
+            "Should not create a Vault instance if the master password is incorrect.");
     }
 }

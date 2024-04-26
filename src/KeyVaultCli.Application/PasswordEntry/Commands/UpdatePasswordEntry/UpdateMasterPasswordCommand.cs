@@ -7,7 +7,9 @@ namespace KeyVaultCli.Application.PasswordEntry.Commands.UpdatePasswordEntry
     public class UpdateMasterPasswordCommand(IVault vault, IConsoleService consoleService) : ICommand
     {
         private readonly IVault vault = vault ?? throw new ArgumentNullException(nameof(vault));
-        private readonly IConsoleService consoleService = consoleService ?? throw new ArgumentNullException(nameof(consoleService));
+
+        private readonly IConsoleService consoleService =
+            consoleService ?? throw new ArgumentNullException(nameof(consoleService));
 
         private readonly string oldPasswordPrompt = "Enter current master password: ";
         private readonly string newPasswordPrompt = "Enter new master password: ";
@@ -30,9 +32,10 @@ namespace KeyVaultCli.Application.PasswordEntry.Commands.UpdatePasswordEntry
                     consoleService.WriteError(errorMessage);
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                consoleService.WriteError($"An error occurred while trying to update the master password. Details: {ex.Message}");
+                consoleService.WriteError(
+                    $"An error occurred while trying to update the master password. Details: {ex.Message}");
             }
         }
     }

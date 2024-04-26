@@ -31,7 +31,8 @@ public class CommandService(Dictionary<CommandFlag, ICommand> commands) : IComma
 
     public bool IsCommandSupported(string commandString)
     {
-        return Enum.TryParse<CommandFlag>(commandString, true, out var commandFlag) && commands.ContainsKey(commandFlag);
+        return Enum.TryParse<CommandFlag>(commandString, true, out var commandFlag) &&
+               commands.ContainsKey(commandFlag);
     }
 
     public bool IsCommandRecognized(string commandString)
@@ -48,7 +49,7 @@ public class CommandService(Dictionary<CommandFlag, ICommand> commands) : IComma
 
         return !IsCommandSupported(commandString) ? "Command recognized but not supported. Please try again." : null;
     }
-    
+
     public bool IsExitCommand(string commandString)
     {
         return Enum.TryParse<CommandFlag>(commandString, true, out var commandFlag) && commandFlag == CommandFlag.Exit;

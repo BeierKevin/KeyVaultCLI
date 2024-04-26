@@ -7,7 +7,9 @@ namespace KeyVaultCli.Application.PasswordEntry.Commands.UpdatePasswordEntry
     public class UpdatePasswordGeneratedCommand(IVault vault, IConsoleService consoleService) : ICommand
     {
         private readonly IVault vault = vault ?? throw new ArgumentNullException(nameof(vault));
-        private readonly IConsoleService consoleService = consoleService ?? throw new ArgumentNullException(nameof(consoleService));
+
+        private readonly IConsoleService consoleService =
+            consoleService ?? throw new ArgumentNullException(nameof(consoleService));
 
         private readonly string oldServiceNamePrompt = "Enter old service name: ";
         private readonly string oldAccountNamePrompt = "Enter old account name: ";
@@ -15,10 +17,17 @@ namespace KeyVaultCli.Application.PasswordEntry.Commands.UpdatePasswordEntry
         private readonly string newAccountNamePrompt = "Enter new account name: ";
         private readonly string newUrlPrompt = "Enter new URL: ";
         private readonly string newCategoryPrompt = "Enter new Category: ";
-        private readonly string passwordLengthPrompt = "Enter the number of characters for the new password (e.g. 10): ";
-        private readonly string invalidLengthError = "Invalid input for password length. Ensure you enter a valid number.";
+
+        private readonly string passwordLengthPrompt =
+            "Enter the number of characters for the new password (e.g. 10): ";
+
+        private readonly string invalidLengthError =
+            "Invalid input for password length. Ensure you enter a valid number.";
+
         private readonly string successMessage = "Password entry for {0}, {1} has been updated with new details.";
-        private readonly string errorMessage = "Failed to update the password entry. Ensure the old service and account names are correct.";
+
+        private readonly string errorMessage =
+            "Failed to update the password entry. Ensure the old service and account names are correct.";
 
         public void Execute()
         {
@@ -38,7 +47,8 @@ namespace KeyVaultCli.Application.PasswordEntry.Commands.UpdatePasswordEntry
                     return;
                 }
 
-                if (vault.UpdatePasswordEntry(oldServiceName, oldAccountName, newServiceName, newAccountName, passwordLength, null, newUrl: newUrl, newCategory: newCategory))
+                if (vault.UpdatePasswordEntry(oldServiceName, oldAccountName, newServiceName, newAccountName,
+                        passwordLength, null, newUrl: newUrl, newCategory: newCategory))
                 {
                     consoleService.WriteSuccess(string.Format(successMessage, oldServiceName, oldAccountName));
                 }
@@ -49,8 +59,9 @@ namespace KeyVaultCli.Application.PasswordEntry.Commands.UpdatePasswordEntry
             }
             catch (Exception ex)
             {
-                consoleService.WriteError($"An error occurred while trying to update the password entry. Details: {ex.Message}");
-            } 
+                consoleService.WriteError(
+                    $"An error occurred while trying to update the password entry. Details: {ex.Message}");
+            }
         }
     }
 }

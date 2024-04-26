@@ -10,7 +10,7 @@ public class PasswordUniquenessService : IPasswordUniquenessService
     {
         _vault = vault;
     }
-    
+
     public async Task<bool> IsUniquePasswordAsync(string password)
     {
         // TODO: proper implementation

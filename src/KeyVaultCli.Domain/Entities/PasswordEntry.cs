@@ -33,7 +33,7 @@ public class PasswordEntry
         AccountName = newAccountName;
         UpdateLastModifiedDate();
     }
-    
+
     public void UpdateUrl(string newUrl)
     {
         Url = newUrl;
@@ -51,7 +51,7 @@ public class PasswordEntry
         EncryptedPassword = newPassword;
         UpdateLastModifiedDate();
     }
-    
+
     private void UpdateLastModifiedDate()
     {
         var berlinTimezone = TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time");

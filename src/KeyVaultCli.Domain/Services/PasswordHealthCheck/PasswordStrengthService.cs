@@ -23,7 +23,7 @@ public class PasswordStrengthService : IPasswordStrengthService
             else if (char.IsDigit(c)) hasDecimalDigit = true;
             else if (!char.IsLetterOrDigit(c)) hasSpecialCharacter = true;
         }
-        
+
         var isStrong = hasUpperCaseLetter && hasLowerCaseLetter && hasDecimalDigit && hasSpecialCharacter;
 
         return isStrong;

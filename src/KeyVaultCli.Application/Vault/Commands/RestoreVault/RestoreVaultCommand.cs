@@ -9,7 +9,8 @@ namespace KeyVaultCli.Application.Vault.Commands.RestoreVault
         private readonly IVault vault;
         private readonly IConsoleService consoleService;
 
-        private readonly string restoreSuccessMsg = "  ____           _                     _ \n |  _ \\ ___  ___| |_ ___  _ __ ___  __| |\n | |_) / _ \\/ __| __/ _ \\| '__/ _ \\/ _` |\n |  _ <  __/\\__ \\ || (_) | | |  __/ (_| |\n |_| \\_\\___||___/\\__\\___/|_|  \\___|\\__,_|\n                                         ";
+        private readonly string restoreSuccessMsg =
+            "  ____           _                     _ \n |  _ \\ ___  ___| |_ ___  _ __ ___  __| |\n | |_) / _ \\/ __| __/ _ \\| '__/ _ \\/ _` |\n |  _ <  __/\\__ \\ || (_) | | |  __/ (_| |\n |_| \\_\\___||___/\\__\\___/|_|  \\___|\\__,_|\n                                         ";
 
         private string confirmationPrompt = "Are you sure you want to restore the vault?";
         private string filePathPrompt = "Enter the full path to the backup file: ";

@@ -15,10 +15,17 @@ public class VaultFactory(
     private const string MasterPasswordFilePath = "masterpassword.dat";
     private IVault _vault;
 
-    private readonly IConsole vaultConsoleService = consoleService ?? throw new ArgumentNullException(nameof(consoleService));
-    private readonly IVaultEncryptionService vaultEncryptionService = encryptionService ?? throw new ArgumentNullException(nameof(encryptionService));
-    private readonly IVaultFileService vaultFileService = fileService ?? throw new ArgumentNullException(nameof(fileService));
-    private readonly IVaultPasswordGenerator vaultPasswordGenerator = passwordGenerator ?? throw new ArgumentNullException(nameof(passwordGenerator));
+    private readonly IConsole vaultConsoleService =
+        consoleService ?? throw new ArgumentNullException(nameof(consoleService));
+
+    private readonly IVaultEncryptionService vaultEncryptionService =
+        encryptionService ?? throw new ArgumentNullException(nameof(encryptionService));
+
+    private readonly IVaultFileService vaultFileService =
+        fileService ?? throw new ArgumentNullException(nameof(fileService));
+
+    private readonly IVaultPasswordGenerator vaultPasswordGenerator =
+        passwordGenerator ?? throw new ArgumentNullException(nameof(passwordGenerator));
 
 
     public IVault? CreateVault(string masterPassword)
@@ -29,7 +36,8 @@ public class VaultFactory(
             return null;
         }
 
-        _vault = new Vault(VaultFilePath, MasterPasswordFilePath, masterPassword, vaultEncryptionService, vaultFileService, vaultPasswordGenerator);
+        _vault = new Vault(VaultFilePath, MasterPasswordFilePath, masterPassword, vaultEncryptionService,
+            vaultFileService, vaultPasswordGenerator);
         var savedPassword = _vault.LoadMasterPassword();
         if (savedPassword == null)
         {
@@ -51,7 +59,7 @@ public class VaultFactory(
         var deleted = isVaultDeleted && isMasterPasswordDeleted;
         return deleted;
     }
-    
+
     public IVault GetVault()
     {
         return _vault;

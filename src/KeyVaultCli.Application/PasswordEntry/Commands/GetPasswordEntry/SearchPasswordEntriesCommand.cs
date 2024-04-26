@@ -9,12 +9,19 @@ namespace KeyVaultCli.Application.PasswordEntry.Commands.GetPasswordEntry
     public class SearchPasswordEntriesCommand(IVault vault, IConsoleService consoleService) : ICommand
     {
         private readonly IVault vault = vault ?? throw new ArgumentNullException(nameof(vault));
-        private readonly IConsoleService consoleService = consoleService ?? throw new ArgumentNullException(nameof(consoleService));
-        
+
+        private readonly IConsoleService consoleService =
+            consoleService ?? throw new ArgumentNullException(nameof(consoleService));
+
         private readonly string searchPrompt = "Enter your search query: ";
         private readonly string matchingEntriesMessage = "Matching search entries:";
         private readonly string noEntriesFoundError = "No matching entries found.";
-        private readonly string[] headers = { "GUID", "Service Name", "AccountName", "Password (Decrypted)", "URL", "Category", "Creation Date", "Last Modified Date", };
+
+        private readonly string[] headers =
+        {
+            "GUID", "Service Name", "AccountName", "Password (Decrypted)", "URL", "Category", "Creation Date",
+            "Last Modified Date",
+        };
 
         public void Execute()
         {
@@ -35,13 +42,14 @@ namespace KeyVaultCli.Application.PasswordEntry.Commands.GetPasswordEntry
                     consoleService.WriteError(noEntriesFoundError);
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 consoleService.WriteError($"An error occurred: {ex.Message}");
             }
         }
 
-        private List<List<object>> GetMatchingEntriesDataRows(IEnumerable<Domain.Entities.PasswordEntry> matchingEntries)
+        private List<List<object>> GetMatchingEntriesDataRows(
+            IEnumerable<Domain.Entities.PasswordEntry> matchingEntries)
         {
             return matchingEntries
                 .Where(entry => entry != null)

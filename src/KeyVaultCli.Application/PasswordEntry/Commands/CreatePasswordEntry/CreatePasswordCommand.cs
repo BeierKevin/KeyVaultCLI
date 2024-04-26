@@ -6,7 +6,9 @@ namespace KeyVaultCli.Application.PasswordEntry.Commands.CreatePasswordEntry;
 public class CreatePasswordCommand(IVault vault, IConsoleService consoleService) : ICommand
 {
     private readonly IVault vault = vault ?? throw new ArgumentNullException(nameof(vault));
-    private readonly IConsole consoleService = consoleService ?? throw new ArgumentNullException(nameof(consoleService));
+
+    private readonly IConsole consoleService =
+        consoleService ?? throw new ArgumentNullException(nameof(consoleService));
 
     private const string serviceNamePrompt = "Enter service name for the new password: ";
     private const string accountNamePrompt = "Enter account name for the new password: ";
@@ -44,13 +46,14 @@ public class CreatePasswordCommand(IVault vault, IConsoleService consoleService)
             var category = consoleService.GetInputFromPrompt(categoryPrompt);
 
             vault.AddPasswordEntry(serviceName, accountName, password, url, category);
-            
+
             consoleService.WriteSuccess(string.Format(successMessage, serviceName, accountName));
         }
         catch (Exception ex)
         {
             // Handle or log exception
-            consoleService.WriteError("An error occurred while trying to create a password entry. Details: " + ex.Message);
+            consoleService.WriteError("An error occurred while trying to create a password entry. Details: " +
+                                      ex.Message);
         }
     }
 }
