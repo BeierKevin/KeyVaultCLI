@@ -51,7 +51,7 @@ namespace KeyVaultCli.Application.PasswordEntry.Commands.CreatePasswordEntry
                 var category = consoleService.GetInputFromPrompt(categoryPrompt);
 
                 var password =
-                    vault.GenerateAndAddPasswordEntry(serviceName, accountName, passwordLength, url, category);
+                    vault.GeneratePasswordAndAddEntry(serviceName, accountName, passwordLength, url, category);
                 if (string.IsNullOrEmpty(password))
                 {
                     consoleService.WriteError("The password was not generated. Please retry the operation.");

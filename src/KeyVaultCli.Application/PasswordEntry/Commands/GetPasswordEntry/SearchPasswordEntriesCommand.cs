@@ -55,7 +55,7 @@ namespace KeyVaultCli.Application.PasswordEntry.Commands.GetPasswordEntry
                 .Where(entry => entry != null)
                 .Select(entry =>
                 {
-                    var password = vault.GetPassword(entry.ServiceName, entry.AccountName);
+                    var password = vault.DecryptAndRetrievePassword(entry.ServiceName, entry.AccountName);
                     return new List<object>
                     {
                         entry.EntryId,

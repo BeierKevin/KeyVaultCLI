@@ -47,7 +47,7 @@ namespace KeyVaultCli.Application.PasswordEntry.Commands.UpdatePasswordEntry
                     return;
                 }
 
-                if (vault.UpdatePasswordEntry(oldServiceName, oldAccountName, newServiceName, newAccountName,
+                if (vault.UpdateAndSavePasswordEntry(oldServiceName, oldAccountName, newServiceName, newAccountName,
                         passwordLength, null, newUrl: newUrl, newCategory: newCategory))
                 {
                     consoleService.WriteSuccess(string.Format(successMessage, oldServiceName, oldAccountName));

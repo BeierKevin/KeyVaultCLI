@@ -35,7 +35,8 @@ namespace KeyVaultCli.Application.PasswordEntry.Commands.UpdatePasswordEntry
                 var newUrl = consoleService.GetInputFromPrompt(newUrlPrompt);
                 var newCategory = consoleService.GetInputFromPrompt(newCategoryPrompt);
 
-                if (vault.UpdatePasswordEntry(currentServiceName, currentAccountName, newServiceName, newAccountName,
+                if (vault.UpdateAndSavePasswordEntry(currentServiceName, currentAccountName, newServiceName,
+                        newAccountName,
                         newPassword.Length, newPassword, newUrl, newCategory))
                 {
                     consoleService.WriteSuccess(successMessage);

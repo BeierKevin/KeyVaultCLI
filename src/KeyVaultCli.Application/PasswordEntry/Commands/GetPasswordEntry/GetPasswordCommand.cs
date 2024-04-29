@@ -76,7 +76,7 @@ namespace KeyVaultCli.Application.PasswordEntry.Commands.GetPasswordEntry
         private void WritePasswordInfo(Domain.Entities.PasswordEntry passwordEntry, string serviceName,
             string accountName)
         {
-            var decryptedPassword = vault.GetPassword(serviceName, accountName);
+            var decryptedPassword = vault.DecryptAndRetrievePassword(serviceName, accountName);
             var passwordHealthResult = passwordHealthService.CheckPasswordHealthAsync(decryptedPassword).Result;
 
             consoleService.WriteInfo(string.Format(passwordInfoMessage, serviceName, accountName));

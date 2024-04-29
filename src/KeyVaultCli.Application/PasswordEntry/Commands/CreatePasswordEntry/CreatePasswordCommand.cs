@@ -45,7 +45,7 @@ public class CreatePasswordCommand(IVault vault, IConsoleService consoleService)
             var url = consoleService.GetInputFromPrompt(urlPrompt);
             var category = consoleService.GetInputFromPrompt(categoryPrompt);
 
-            vault.AddPasswordEntry(serviceName, accountName, password, url, category);
+            vault.AddEntryToPasswordList(serviceName, accountName, password, url, category);
 
             consoleService.WriteSuccess(string.Format(successMessage, serviceName, accountName));
         }

@@ -47,7 +47,8 @@ namespace KeyVaultCli.Application.PasswordEntry.Commands.GetPasswordEntry
                     var dataRows = allPasswordEntries
                         .Select(entry =>
                         {
-                            var decryptedPassword = vault.GetPassword(entry.ServiceName, entry.AccountName);
+                            var decryptedPassword =
+                                vault.DecryptAndRetrievePassword(entry.ServiceName, entry.AccountName);
                             var passwordHealthResult =
                                 passwordHealthService.CheckPasswordHealthAsync(decryptedPassword).Result;
 
