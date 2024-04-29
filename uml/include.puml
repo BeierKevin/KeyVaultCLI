@@ -5,6 +5,7 @@
 !include .\\.\src\KeyVaultCli.Domain\Entities\PasswordEntry.puml
 !include .\\.\src\KeyVaultCli.Domain\Entities\Vault.puml
 !include .\\.\src\KeyVaultCli.Domain\Entities\VaultBackup.puml
+!include .\\.\src\KeyVaultCli.Domain\Entities\VaultParams.puml
 !include .\\.\src\KeyVaultCli.Domain\Exceptions\PasswordNotFoundException.puml
 !include .\\.\src\KeyVaultCli.Domain\Factories\PasswordEntryBuilder.puml
 !include .\\.\src\KeyVaultCli.Domain\Factories\VaultFactory.puml

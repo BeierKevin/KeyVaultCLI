@@ -3,17 +3,17 @@ interface IVault {
     + SaveMasterPassword() : void
     + LoadMasterPassword() : string?
     + UpdateMasterPassword(oldPassword:string, newPassword:string) : bool
-    + AddPasswordEntry(serviceName:string, accountName:string, password:string, url:string, category:string) : void
+    + AddEntryToPasswordList(serviceName:string, accountName:string, password:string, url:string, category:string) : void
     + SavePasswordEntries() : void
     + DeletePasswordEntry(serviceName:string, accountName:string) : bool
     + DeleteAllPasswordEntries() : void
     + LoadPasswordEntries() : List<PasswordEntry>
     + GetAllDecryptedPasswords() : Dictionary<string, string>
-    + GetPassword(serviceName:string, accountName:string) : string
+    + DecryptAndRetrievePassword(serviceName:string, accountName:string) : string
     + GetPasswordEntry(serviceName:string, accountName:string) : PasswordEntry?
-    + UpdatePasswordEntry(currentServiceName:string, currentAccountName:string, newServiceName:string, newAccountName:string, passwordLength:int, newPassword:string?, newUrl:string?, newCategory:string?) : bool
+    + UpdateAndSavePasswordEntry(currentServiceName:string, currentAccountName:string, newServiceName:string, newAccountName:string, passwordLength:int, newPassword:string?, newUrl:string?, newCategory:string?) : bool
     + SearchPasswordEntries(searchTerm:string) : List<PasswordEntry>
-    + GenerateAndAddPasswordEntry(serviceName:string, accountName:string, passwordLength:int, url:string, category:string) : string
+    + GeneratePasswordAndAddEntry(serviceName:string, accountName:string, passwordLength:int, url:string, category:string) : string
     + BackupVault(backupFilePath:string) : bool
     + RestoreVault(backupFilePath:string) : bool
 }

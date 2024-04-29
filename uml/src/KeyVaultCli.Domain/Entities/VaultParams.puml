@@ -1,0 +1,10 @@
+@startuml
+class VaultParams {
+    + VaultFilePath : string <<get>> <<set>>
+    + MasterPasswordFilePath : string <<get>> <<set>>
+    + MasterPassword : string <<get>> <<set>>
+}
+VaultParams --> "VaultEncryptionService" IVaultEncryptionService
+VaultParams --> "VaultFileService" IVaultFileService
+VaultParams --> "VaultPasswordGenerator" IVaultPasswordGenerator
+@enduml

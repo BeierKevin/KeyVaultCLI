@@ -3,21 +3,21 @@ class Vault {
     - _masterPassword : string
     - <<readonly>> _passwordEntryFilePath : string
     - <<readonly>> _masterPasswordFilePath : string
-    + Vault(vaultFilePath:string, masterPasswordFilePath:string, masterPassword:string, vaultEncryptionService:IVaultEncryptionService, vaultFileService:IVaultFileService, vaultPasswordGenerator:IVaultPasswordGenerator)
+    + Vault(vaultParams:VaultParams)
+    + AddEntryToPasswordList(serviceName:string, accountName:string, password:string, url:string, category:string) : void
+    + DecryptAndRetrievePassword(serviceName:string, accountName:string) : string
+    + UpdateAndSavePasswordEntry(currentServiceName:string, currentAccountName:string, newServiceName:string, newAccountName:string, passwordLength:int, newPassword:string?, newUrl:string?, newCategory:string?) : bool
+    + GeneratePasswordAndAddEntry(serviceName:string, accountName:string, passwordLength:int, url:string, category:string) : string
     + SaveMasterPassword() : void
     + LoadMasterPassword() : string?
     + UpdateMasterPassword(oldPassword:string, newPassword:string) : bool
-    + AddPasswordEntry(serviceName:string, accountName:string, password:string, url:string, category:string) : void
     + SavePasswordEntries() : void
     + DeletePasswordEntry(serviceName:string, accountName:string) : bool
     + DeleteAllPasswordEntries() : void
     + LoadPasswordEntries() : List<PasswordEntry>
     + GetAllDecryptedPasswords() : Dictionary<string, string>
-    + GetPassword(serviceName:string, accountName:string) : string
     + GetPasswordEntry(serviceName:string, accountName:string) : PasswordEntry?
-    + UpdatePasswordEntry(currentServiceName:string, currentAccountName:string, newServiceName:string, newAccountName:string, passwordLength:int, newPassword:string?, newUrl:string?, newCategory:string?) : bool
     + SearchPasswordEntries(searchTerm:string) : List<PasswordEntry>
-    + GenerateAndAddPasswordEntry(serviceName:string, accountName:string, passwordLength:int, url:string, category:string) : string
     + BackupVault(backupFilePath:string) : bool
     + RestoreVault(backupFilePath:string) : bool
 }
