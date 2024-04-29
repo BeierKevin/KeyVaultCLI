@@ -63,14 +63,14 @@ public class Vault : IVault
     {
         var encryptedPassword = _vaultEncryptionService.Encrypt(password, _masterPassword);
 
-        var entry = new PasswordEntry
-        {
-            ServiceName = serviceName,
-            AccountName = accountName,
-            EncryptedPassword = encryptedPassword,
-            Url = url,
-            Category = category
-        };
+        var passwordEntryBuilder = new PasswordEntryBuilder();
+        passwordEntryBuilder.SetServiceName(serviceName)
+            .SetAccountName(accountName)
+            .SetEncryptedPassword(encryptedPassword)
+            .SetUrl(url)
+            .SetCategory(category);
+
+        var entry = passwordEntryBuilder.Build();
 
         _passwordEntries.Add(entry);
         SavePasswordEntries();

@@ -33,6 +33,20 @@ public class PasswordEntryBuilder
         return this;
     }
 
+    public PasswordEntryBuilder SetUrl(string url)
+    {
+        _passwordEntry.Url = url;
+        _passwordEntry.LastModifiedDate = DateTime.UtcNow;
+        return this;
+    }
+
+    public PasswordEntryBuilder SetCategory(string category)
+    {
+        _passwordEntry.Category = category;
+        _passwordEntry.LastModifiedDate = DateTime.UtcNow;
+        return this;
+    }
+
     public PasswordEntry Build()
     {
         return _passwordEntry;
