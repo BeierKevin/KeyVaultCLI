@@ -16,8 +16,18 @@ public class VaultTests
         var encryptionService = new FakeEncryptionService();
         var fileService = new FakeFileService();
         var passwordGenerator = new FakePasswordGeneratorService();
-        _vault = new Vault(VaultFilePath, MasterPasswordFilePath, "masterPassword", encryptionService, fileService,
-            passwordGenerator);
+
+        var vaultParams = new VaultParams
+        {
+            VaultFilePath = VaultFilePath,
+            MasterPasswordFilePath = MasterPasswordFilePath,
+            MasterPassword = "masterPassword",
+            VaultEncryptionService = encryptionService,
+            VaultFileService = fileService,
+            VaultPasswordGenerator = passwordGenerator
+        };
+
+        _vault = new Vault(vaultParams);
     }
 
     [TestMethod]

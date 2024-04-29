@@ -19,17 +19,14 @@ public class Vault : IVault
     private readonly IVaultFileService _vaultFileService;
     private readonly IVaultPasswordGenerator _vaultPasswordGenerator;
 
-    public Vault(string vaultFilePath, string masterPasswordFilePath, string masterPassword, IVaultEncryptionService
-            vaultEncryptionService,
-        IVaultFileService
-            vaultFileService, IVaultPasswordGenerator vaultPasswordGenerator)
+    public Vault(VaultParams vaultParams)
     {
-        _passwordEntryFilePath = vaultFilePath;
-        _masterPasswordFilePath = masterPasswordFilePath;
-        _masterPassword = masterPassword;
-        _vaultEncryptionService = vaultEncryptionService;
-        _vaultFileService = vaultFileService;
-        _vaultPasswordGenerator = vaultPasswordGenerator;
+        _passwordEntryFilePath = vaultParams.VaultFilePath;
+        _masterPasswordFilePath = vaultParams.MasterPasswordFilePath;
+        _masterPassword = vaultParams.MasterPassword;
+        _vaultEncryptionService = vaultParams.VaultEncryptionService;
+        _vaultFileService = vaultParams.VaultFileService;
+        _vaultPasswordGenerator = vaultParams.VaultPasswordGenerator;
         _passwordEntries = LoadPasswordEntries();
     }
 

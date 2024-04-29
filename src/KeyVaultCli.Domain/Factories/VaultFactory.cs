@@ -36,8 +36,18 @@ public class VaultFactory(
             return null;
         }
 
-        _vault = new Vault(VaultFilePath, MasterPasswordFilePath, masterPassword, vaultEncryptionService,
-            vaultFileService, vaultPasswordGenerator);
+        var vaultParams = new VaultParams
+        {
+            VaultFilePath = VaultFilePath,
+            MasterPasswordFilePath = MasterPasswordFilePath,
+            MasterPassword = masterPassword,
+            VaultEncryptionService = vaultEncryptionService,
+            VaultFileService = vaultFileService,
+            VaultPasswordGenerator = vaultPasswordGenerator
+        };
+
+        _vault = new Vault(vaultParams);
+
         var savedPassword = _vault.LoadMasterPassword();
         if (savedPassword == null)
         {
