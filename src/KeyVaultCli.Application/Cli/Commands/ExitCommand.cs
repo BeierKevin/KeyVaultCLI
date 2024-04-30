@@ -13,10 +13,7 @@ public class ExitCommand(IConsole consoleService) : ICommand
 
     public void Execute()
     {
-        if (consoleService.GetUserConfirmation(exitPrompt))
-        {
-            consoleService.WriteError(asciiExitingApplication);
-            Environment.Exit(0);
-        }
+        consoleService.WriteError(asciiExitingApplication);
+        Environment.Exit(0);
     }
 }
