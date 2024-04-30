@@ -34,5 +34,8 @@ public class VaultFactoryTests
 
         Assert.IsInstanceOfType(result, typeof(IVault),
             "Should not create a Vault instance if the master password is incorrect.");
+
+        var wrongResult = _vaultFactory.CreateVault("wrongPassword");
+        Assert.IsNull(wrongResult, "Should not create a Vault instance if the master password is incorrect.");
     }
 }

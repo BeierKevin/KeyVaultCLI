@@ -1,4 +1,5 @@
 using KeyVaultCli.Domain.Entities;
+using KeyVaultCli.Domain.Exceptions;
 using KeyVaultCli.Domain.UnitTests.Fakes;
 
 namespace KeyVaultCli.Domain.UnitTests.Entities;
@@ -36,6 +37,9 @@ public class VaultTests
         var result = _vault.UpdateMasterPassword("masterPassword", "newMasterPassword");
 
         Assert.IsTrue(result, "Master password should have been updated successfully.");
+
+        var oldPasswordWorks = _vault.UpdateMasterPassword("masterPassword", "someOtherPassword");
+        Assert.IsFalse(oldPasswordWorks, "Old master password should no longer work.");
     }
 
     [TestMethod]
@@ -64,11 +68,22 @@ public class VaultTests
         var result =
             _vault.UpdateAndSavePasswordEntry("testService", "testAccount", "newService", "newAccount", 10,
                 "newPassword");
-        var password = _vault.DecryptAndRetrievePassword("newService", "newAccount");
 
         Assert.IsTrue(result, "Password entry should have been updated successfully.");
+
+        var password = _vault.DecryptAndRetrievePassword("newService", "newAccount");
         Assert.AreEqual("newPassword", password, "Password should have been updated successfully.");
+
+        try
+        {
+            var oldPassword = _vault.DecryptAndRetrievePassword("testService", "testAccount");
+        }
+        catch (PasswordNotFoundException)
+        {
+            Assert.IsTrue(true, "Old password entry should no longer exist and thus throw exception.");
+        }
     }
+
 
     [TestMethod]
     public void TestDeleteAllPasswordEntries_Success()
@@ -105,5 +120,8 @@ public class VaultTests
             "Searched password entry should match the service name.");
         Assert.AreEqual("testService3", expectedResult2.First().ServiceName,
             "Searched password entry should match the service name.");
+
+        var nonExistentResult = _vault.SearchPasswordEntries("nonExistentService");
+        Assert.AreEqual(0, nonExistentResult.Count, "Search result for non-existent service should be an empty list.");
     }
 }
